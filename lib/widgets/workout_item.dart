@@ -30,7 +30,7 @@ class WorkoutItem extends StatelessWidget {
             SafeArea(
               child: Column(
                 children: [
-                  Text("workout 1"),
+                  Text(title),
                   Text("Enter description here"),
                 ],
               ),

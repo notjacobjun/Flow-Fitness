@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'categories_screen.dart';
 
 class HomeScreen extends StatelessWidget {
+  static const routeName = '/home';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Ab-workouts"),
+        title: Text("Interactive workout app"),
       ),
       drawer: Drawer(
         child: ListView(

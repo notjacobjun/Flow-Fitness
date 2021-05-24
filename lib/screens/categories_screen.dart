@@ -4,6 +4,8 @@ import 'package:interactive_workout_app/widgets/workout_item.dart';
 import '../workout_data.dart';
 
 class CategoriesScreen extends StatelessWidget {
+  static const routeName = '/category-screen';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
