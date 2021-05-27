@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
           '/': (ctx) => AuthenticationWrapper(),
           WelcomeScreen.routeName: (ctx) => WelcomeScreen(),
           CategoriesScreen.routeName: (ctx) => CategoriesScreen(),
-          HomeScreen.routeName: (ctx) => HomeScreen(),
+          HomeScreen.routeName: (ctx) => HomeScreen(ctx),
           LoginScreen.routeName: (ctx) => LoginScreen(),
           RegistrationScreen.routeName: (ctx) => RegistrationScreen(),
         },
@@ -56,7 +56,7 @@ class AuthenticationWrapper extends StatelessWidget {
     final firebaseUser = context.watch<User>();
     if (firebaseUser != null) {
       print("user is signed in");
-      return HomeScreen();
+      return HomeScreen(context);
     } else {
       print("User is not signed in");
       return WelcomeScreen();
