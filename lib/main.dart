@@ -55,10 +55,8 @@ class AuthenticationWrapper extends StatelessWidget {
     // checks if a user is already logged in
     final firebaseUser = context.watch<User>();
     if (firebaseUser != null) {
-      print("user is signed in");
       return HomeScreen(context);
     } else {
-      print("User is not signed in");
       return WelcomeScreen();
     }
   }

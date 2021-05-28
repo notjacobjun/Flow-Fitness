@@ -1,5 +1,6 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:interactive_workout_app/components/onboard/Welcome/rounded_button.dart';
 import 'package:interactive_workout_app/components/onboard/alternate_onboard_option.dart';
@@ -18,43 +19,42 @@ class LoginBody extends StatefulWidget {
 }
 
 class _LoginBodyState extends State<LoginBody> {
+  StreamSubscription<User> _listener;
   AuthenticationService authenticationService;
-// configure the formKey
   final _formKey = GlobalKey<FormState>();
+  final _passwordFocusNode = FocusNode();
+  var hideText = true;
   String _email, _password;
 
-  bool checkIfLoginValid(String username, String password) {
-    return false;
-  }
-
-// TODO dispose of this listener once the state of this class is inactive
-// (not using login page anymore)
   void checkUserStatus() {
-    FirebaseAuth.instance.authStateChanges().listen((User user) {
+    _listener = FirebaseAuth.instance.authStateChanges().listen((User user) {
       if (user == null) {
-        print('User is currently signed out!');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Invalid login info'),
+          ),
+        );
       } else {
-        print('User is signed in!');
         Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
       }
     });
   }
 
-  void login() {
+  Future<void> login() async {
     final formState = _formKey.currentState;
     if (formState.validate()) {
       // save the form items into the fields then use the fields for validation
       formState.save();
-      // TODO consider adding progress bar for this, because it could be a slow
-      // operation depending on network speed I think (not 100% sure)
-      authenticationService.signIn(email: _email, password: _password);
+      await authenticationService.signIn(email: _email, password: _password);
       checkUserStatus();
     }
   }
 
   @override
   void dispose() {
-    // TODO dispose of the listener above
+    if (_listener != null) {
+      _listener.cancel();
+    }
     super.dispose();
   }
 
@@ -77,6 +77,10 @@ class _LoginBodyState extends State<LoginBody> {
               RoundedInputField(
                 child: TextFormField(
                   cursorColor: Theme.of(context).accentColor,
+                  textInputAction: TextInputAction.next,
+                  onEditingComplete: () {
+                    FocusScope.of(context).requestFocus(_passwordFocusNode);
+                  },
                   // ignore: missing_return
                   validator: (input) {
                     // checks the email input according to HTML 5 email
@@ -87,6 +91,7 @@ class _LoginBodyState extends State<LoginBody> {
                     if (!emailValid) {
                       return "Please enter a valid email";
                     }
+                    return null;
                   },
                   onSaved: (input) => _email = input,
                   decoration: InputDecoration(
@@ -102,11 +107,12 @@ class _LoginBodyState extends State<LoginBody> {
               RoundedInputField(
                 child: TextFormField(
                   cursorColor: Theme.of(context).accentColor,
+                  focusNode: _passwordFocusNode,
+                  textInputAction: TextInputAction.done,
+                  onEditingComplete: login,
                   // ignore: missing_return
                   validator: (input) {
-                    if (input.length < 6) {
-                      return "Please provide a stronger password (at least 6 characters)";
-                    }
+                    return input.isEmpty ? "Please enter your password" : null;
                   },
                   onSaved: (input) => _password = input,
                   decoration: InputDecoration(
@@ -116,9 +122,16 @@ class _LoginBodyState extends State<LoginBody> {
                       color: Theme.of(context).accentColor,
                     ),
                     hintText: "Password*",
-                    suffixIcon: Icon(Icons.visibility),
+                    suffixIcon: IconButton(
+                      icon: Icon(Icons.visibility),
+                      onPressed: () {
+                        setState(() {
+                          hideText = !hideText;
+                        });
+                      },
+                    ),
                   ),
-                  obscureText: true,
+                  obscureText: hideText,
                 ),
               ),
               SizedBox(
