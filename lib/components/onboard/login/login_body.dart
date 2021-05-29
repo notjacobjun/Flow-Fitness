@@ -8,7 +8,7 @@ import 'package:interactive_workout_app/components/onboard/login/login_backgroun
 import 'package:interactive_workout_app/screens/home_screen.dart';
 import 'package:interactive_workout_app/screens/registration_screen.dart';
 import 'package:interactive_workout_app/services/authentication_service.dart';
-import 'package:interactive_workout_app/widgets/RoundedInputField.dart';
+import 'package:interactive_workout_app/widgets/rounded_input_field.dart';
 import 'package:provider/provider.dart';
 
 class LoginBody extends StatefulWidget {

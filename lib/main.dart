@@ -1,7 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:interactive_workout_app/screens/categories_screen.dart';
+import 'package:interactive_workout_app/screens/awards_screen.dart';
+import 'package:interactive_workout_app/screens/settings_screen.dart';
+import 'package:interactive_workout_app/screens/social_screen.dart';
+import 'package:interactive_workout_app/screens/workout_categories_screen.dart';
 import 'package:interactive_workout_app/screens/home_screen.dart';
 import 'package:interactive_workout_app/screens/login_screen.dart';
 import 'package:interactive_workout_app/screens/registration_screen.dart';
@@ -39,10 +42,13 @@ class MyApp extends StatelessWidget {
         routes: {
           '/': (ctx) => AuthenticationWrapper(),
           WelcomeScreen.routeName: (ctx) => WelcomeScreen(),
-          CategoriesScreen.routeName: (ctx) => CategoriesScreen(),
-          HomeScreen.routeName: (ctx) => HomeScreen(ctx),
+          WorkoutCategoriesScreen.routeName: (ctx) => WorkoutCategoriesScreen(),
+          HomeScreen.routeName: (ctx) => HomeScreen(),
           LoginScreen.routeName: (ctx) => LoginScreen(),
           RegistrationScreen.routeName: (ctx) => RegistrationScreen(),
+          AwardsScreen.routeName: (ctx) => AwardsScreen(),
+          SocialScreen.routeName: (ctx) => SocialScreen(),
+          SettingsScreen.routeName: (ctx) => SettingsScreen(),
         },
       ),
     );
@@ -55,7 +61,7 @@ class AuthenticationWrapper extends StatelessWidget {
     // checks if a user is already logged in
     final firebaseUser = context.watch<User>();
     if (firebaseUser != null) {
-      return HomeScreen(context);
+      return HomeScreen();
     } else {
       return WelcomeScreen();
     }

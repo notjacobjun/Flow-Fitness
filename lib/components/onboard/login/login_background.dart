@@ -9,12 +9,14 @@ class LoginBackground extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Container(
+      alignment: Alignment.center,
       height: size.height,
       width: size.width,
       // for the pictures on the welcome page later on
-      child: Stack(
-        alignment: Alignment.center,
-        children: [child],
+      child: SingleChildScrollView(
+        child: Stack(
+          children: [child],
+        ),
       ),
     );
   }

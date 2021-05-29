@@ -8,7 +8,7 @@ import 'package:interactive_workout_app/components/onboard/welcome/rounded_butto
 import 'package:interactive_workout_app/screens/home_screen.dart';
 import 'package:interactive_workout_app/screens/login_screen.dart';
 import 'package:interactive_workout_app/services/authentication_service.dart';
-import 'package:interactive_workout_app/widgets/RoundedInputField.dart';
+import 'package:interactive_workout_app/widgets/rounded_input_field.dart';
 import 'package:provider/provider.dart';
 
 import '../alternate_onboard_option.dart';
@@ -47,8 +47,6 @@ class _RegistrationBodyState extends State<RegistrationBody> {
     });
   }
 
-// TODO when the error messages pop up, the pixels in the app overflow
-// consider surrounding with container and then adding SingleScrollView
   Future<void> register() async {
     if (_formKey.currentState.validate()) {
       _saveForm();
@@ -88,7 +86,7 @@ class _RegistrationBodyState extends State<RegistrationBody> {
             RoundedInputField(
               child: TextFormField(
                 cursorColor: Theme.of(context).accentColor,
-                onFieldSubmitted: (_) {
+                onEditingComplete: () {
                   FocusScope.of(context).requestFocus(_passwordFocusNode);
                 },
                 onSaved: (input) => email = input,
@@ -115,6 +113,7 @@ class _RegistrationBodyState extends State<RegistrationBody> {
             ),
             RoundedInputField(
               child: TextFormField(
+                focusNode: _passwordFocusNode,
                 onFieldSubmitted: (_) => FocusScope.of(context)
                     .requestFocus(_confirmPasswordFocusNode),
                 // onSaved: (input) => password = input,

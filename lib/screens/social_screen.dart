@@ -2,29 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:interactive_workout_app/widgets/detail_drawer.dart';
 import 'package:interactive_workout_app/widgets/rounded_bottom_navigation_bar.dart';
 
-class HomeScreen extends StatefulWidget {
-  static const routeName = '/home';
-
+class SocialScreen extends StatefulWidget {
+  static const routeName = '/social';
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  SocialScreenState createState() => SocialScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  int _currentIndex = 0;
+class SocialScreenState extends State<SocialScreen> {
+  int _currentIndex = 3;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [],
-      ),
       bottomNavigationBar: RoundedBottomNavigationBar(
         index: _currentIndex,
       ),
       appBar: AppBar(
-        title: Text("Flow Fitness"),
+        title: Text("Social"),
       ),
       drawer: DetailDrawer(context),
+      body: Column(
+        children: [],
+      ),
     );
   }
 }
