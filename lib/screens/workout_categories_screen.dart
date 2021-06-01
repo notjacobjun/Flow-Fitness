@@ -20,7 +20,10 @@ class _WorkoutCategoriesScreenState extends State<WorkoutCategoriesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Workouts"),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        title: Text(
+          "Workouts",
+        ),
       ),
       drawer: DetailDrawer(context),
       bottomNavigationBar: RoundedBottomNavigationBar(
@@ -28,20 +31,21 @@ class _WorkoutCategoriesScreenState extends State<WorkoutCategoriesScreen> {
       ),
       body: GridView(
         padding: EdgeInsets.all(20),
-        // TODO consider replacing with data from DB instead
         children: WORKOUT_CATEGORIES
             .map(
               (workout) => WorkoutItem(
-                  title: workout.title,
-                  category: workout.category,
-                  color: workout.color),
+                title: workout.title,
+                category: workout.category,
+                color: workout.color,
+                image: workout.image,
+              ),
             )
             .toList(),
-        // TODO consider making more responsive
         gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+          mainAxisExtent: 400,
           maxCrossAxisExtent: 200,
-          crossAxisSpacing: 20,
-          mainAxisSpacing: 10,
+          crossAxisSpacing: 15,
+          mainAxisSpacing: 15,
         ),
       ),
     );
