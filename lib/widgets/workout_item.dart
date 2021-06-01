@@ -15,6 +15,10 @@ class WorkoutItem extends StatelessWidget {
   Widget build(BuildContext context) {
     print(this.color.toString());
     return Card(
+      elevation: 10,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.0),
+      ),
       child: InkWell(
         onTap: () => selectWorkout(context),
         child: Row(

@@ -35,8 +35,13 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flow Fitness',
         theme: ThemeData(
+          scaffoldBackgroundColor: Colors.white,
           primaryColor: Colors.orange.shade900,
           accentColor: Colors.black,
+          textTheme: TextTheme().apply(
+              bodyColor: Colors.white,
+              displayColor: Colors.white,
+              decorationColor: Colors.white),
           fontFamily: "Quicksand",
         ),
         routes: {

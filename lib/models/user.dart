@@ -1,5 +1,3 @@
-import 'package:flutter/foundation.dart';
-
 enum Fitness { Beginner, Intermediate, Advanced }
 
 class User {

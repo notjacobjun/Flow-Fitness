@@ -14,8 +14,30 @@ class LoginBackground extends StatelessWidget {
       width: size.width,
       // for the pictures on the welcome page later on
       child: SingleChildScrollView(
-        child: Stack(
-          children: [child],
+        child: Container(
+          // just for visualization
+          // color: Colors.black12,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Positioned(
+                right: 15,
+                child: Container(
+                  // just for visualization
+                  // color: Colors.black12,
+                  height: size.height * 0.65,
+                  width: size.width * 0.6,
+                  child: Image(
+                    image: AssetImage('assets/images/exercise.png'),
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ),
+              Positioned(
+                child: child,
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -7,6 +7,7 @@ import 'package:interactive_workout_app/screens/workout_categories_screen.dart';
 
 // TODO confiure to manage state properly because the current solution
 // might not be keeping track of the state of each screen
+// also sometimes the navigator doesn't switch
 // ignore: must_be_immutable
 class RoundedBottomNavigationBar extends StatefulWidget {
   var index;
@@ -41,7 +42,8 @@ class _RoundedBottomNavigationBarState
           topLeft: Radius.circular(30),
         ),
         child: BottomNavigationBar(
-          selectedItemColor: Theme.of(context).accentColor,
+          unselectedItemColor: Theme.of(context).accentColor,
+          selectedItemColor: Theme.of(context).primaryColor,
           type: BottomNavigationBarType.fixed,
           onTap: selectTab,
           currentIndex: widget.index,
