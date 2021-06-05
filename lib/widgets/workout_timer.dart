@@ -2,12 +2,16 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:interactive_workout_app/screens/rest_screen.dart';
+import 'package:interactive_workout_app/state_management_helpers/rest_screen_arguments.dart';
 
 class WorkoutTimer extends StatefulWidget {
   final int workoutDuration;
   final int prepDuration;
+  final int currentWorkoutIndex;
+  final String currentWorkoutTitle;
 
-  WorkoutTimer(this.workoutDuration, this.prepDuration);
+  WorkoutTimer(this.workoutDuration, this.prepDuration,
+      this.currentWorkoutIndex, this.currentWorkoutTitle);
 
   @override
   _WorkoutTimerState createState() => _WorkoutTimerState();
@@ -83,7 +87,10 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
 
   void handleTimeout() {
     // stop the timer and start the rest timer, unless there are no more workouts in queue
-    Navigator.of(context).pushReplacementNamed(RestScreen.routeName);
+    Navigator.of(context).pushReplacementNamed(RestScreen.routeName,
+        arguments: RestScreenArguments(
+            previousWorkoutIndex: widget.currentWorkoutIndex,
+            currentWorkoutCategoryTitle: widget.currentWorkoutTitle));
   }
 
   @override

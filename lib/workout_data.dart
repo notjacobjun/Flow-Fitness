@@ -32,7 +32,7 @@ var WORKOUT_DATA = [
       workoutDuration: 45,
       caloriesPerMinute: 15),
   Workout(
-      title: "Ab reaches",
+      title: "Sky reaches",
       imageUrl:
           "https://www.fitnessandpower.com/wp-content/uploads/2016/02/crunch-exercises.jpg",
       workoutDuration: 45,

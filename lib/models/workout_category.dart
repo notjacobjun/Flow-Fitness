@@ -30,7 +30,7 @@ class WorkoutCategory with ChangeNotifier {
         color: Colors.red,
         workouts: [
           WORKOUT_DATA.singleWhere((workout) => workout.title == "Ab crunches"),
-          WORKOUT_DATA.singleWhere((workout) => workout.title == "Ab reaches"),
+          WORKOUT_DATA.singleWhere((workout) => workout.title == "Sky reaches"),
           WORKOUT_DATA
               .singleWhere((workout) => workout.title == "Extended arm lifts"),
           WORKOUT_DATA.singleWhere((workout) => workout.title == "Heel lifts"),

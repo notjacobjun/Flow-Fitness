@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:interactive_workout_app/models/workout_category.dart';
 import 'package:interactive_workout_app/screens/workout_screen.dart';
+import 'package:interactive_workout_app/state_management_helpers/workout_screen_arguments.dart';
 import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
@@ -66,8 +67,10 @@ class _WorkoutCategoryItemState extends State<WorkoutCategoryItem> {
 
   Future<void> selectWorkout(BuildContext context) {
     // showAdaptiveDialog();
-    Navigator.of(context)
-        .pushNamed(WorkoutScreen.routeName, arguments: widget.title);
+    Navigator.of(context).pushNamed(WorkoutScreen.routeName,
+        arguments: WorkoutScreenArguments(
+            currentWorkoutCategoryTitle: widget.title,
+            upcomingWorkoutIndex: 0));
   }
 
   @override

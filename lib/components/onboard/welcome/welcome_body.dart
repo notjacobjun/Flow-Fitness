@@ -28,7 +28,6 @@ class WelcomeBody extends StatelessWidget {
             ),
             RoundedButton(
               message: "Register",
-              // TODO configure this to add a new user to the app
               function: () {
                 Navigator.of(context).pushNamed(RegistrationScreen.routeName);
               },
