@@ -31,8 +31,6 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     final upcomingWorkoutIndex = args.upcomingWorkoutIndex;
     const prepDuration = 5;
     Size size = MediaQuery.of(context).size;
-    // remove this print if not needed anymore
-    print(workoutTitle);
     final currentWorkoutCategory = Provider.of<WorkoutCategory>(context,
             listen: false)
         .categories
