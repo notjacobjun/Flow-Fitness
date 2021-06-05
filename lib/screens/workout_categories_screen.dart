@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:interactive_workout_app/models/workout_category.dart';
 import 'package:interactive_workout_app/widgets/detail_drawer.dart';
 import 'package:interactive_workout_app/widgets/rounded_bottom_navigation_bar.dart';
-import 'package:interactive_workout_app/widgets/workout_item.dart';
-
-import '../workout_data.dart';
+import 'package:interactive_workout_app/widgets/workout_category_item.dart';
+import 'package:provider/provider.dart';
 
 class WorkoutCategoriesScreen extends StatefulWidget {
   static const routeName = '/category-screen';
@@ -18,6 +18,8 @@ class _WorkoutCategoriesScreenState extends State<WorkoutCategoriesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final List<InnerWorkoutCategoryItem> workoutcategories =
+        Provider.of<WorkoutCategory>(context).categories;
     return Scaffold(
       appBar: AppBar(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
@@ -31,13 +33,11 @@ class _WorkoutCategoriesScreenState extends State<WorkoutCategoriesScreen> {
       ),
       body: GridView(
         padding: EdgeInsets.all(20),
-        children: WORKOUT_CATEGORIES
+        children: workoutcategories
             .map(
-              (workout) => WorkoutItem(
+              (workout) => WorkoutCategoryItem(
                 title: workout.title,
-                category: workout.category,
-                color: workout.color,
-                image: workout.image,
+                description: workout.description,
               ),
             )
             .toList(),

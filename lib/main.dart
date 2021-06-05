@@ -2,15 +2,19 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:interactive_workout_app/screens/awards_screen.dart';
-import 'package:interactive_workout_app/screens/settings_screen.dart';
-import 'package:interactive_workout_app/screens/social_screen.dart';
-import 'package:interactive_workout_app/screens/workout_categories_screen.dart';
 import 'package:interactive_workout_app/screens/home_screen.dart';
 import 'package:interactive_workout_app/screens/login_screen.dart';
 import 'package:interactive_workout_app/screens/registration_screen.dart';
+import 'package:interactive_workout_app/screens/rest_screen.dart';
+import 'package:interactive_workout_app/screens/settings_screen.dart';
+import 'package:interactive_workout_app/screens/social_screen.dart';
 import 'package:interactive_workout_app/screens/welcome_screen.dart';
+import 'package:interactive_workout_app/screens/workout_categories_screen.dart';
+import 'package:interactive_workout_app/screens/workout_screen.dart';
 import 'package:interactive_workout_app/services/authentication_service.dart';
 import 'package:provider/provider.dart';
+
+import 'models/workout_category.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,6 +35,10 @@ class MyApp extends StatelessWidget {
           create: (context) =>
               context.read<AuthenticationService>().authStateChanges,
         ),
+        ChangeNotifierProvider<WorkoutCategory>(
+          create: (_) => WorkoutCategory(),
+        )
+        // ChangeNotifierProvider<WorkoutCategory>(create: WorkoutCategory()),
       ],
       child: MaterialApp(
         title: 'Flow Fitness',
@@ -54,6 +62,8 @@ class MyApp extends StatelessWidget {
           AwardsScreen.routeName: (ctx) => AwardsScreen(),
           SocialScreen.routeName: (ctx) => SocialScreen(),
           SettingsScreen.routeName: (ctx) => SettingsScreen(),
+          WorkoutScreen.routeName: (ctx) => WorkoutScreen(),
+          RestScreen.routeName: (ctx) => RestScreen(),
         },
       ),
     );

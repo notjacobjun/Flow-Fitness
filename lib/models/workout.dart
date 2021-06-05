@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
-enum Category { Abdominal, Arm, Legs, Cardio, All }
+enum Difficulty { Easy, Medium, Hard, Impossible }
 
 class Workout {
   final String title;
-  final Category category;
-  final String description;
-  final Color color;
-  final String image;
+  final String imageUrl;
+  final Difficulty difficulty;
+  final int workoutDuration;
+  final double caloriesPerMinute;
 
-  const Workout(
+  Workout(
       {@required this.title,
-      @required this.category,
-      this.description,
-      this.image,
-      this.color = Colors.orange});
+      @required this.imageUrl,
+      @required this.workoutDuration,
+      @required this.caloriesPerMinute,
+      this.difficulty = Difficulty.Medium});
 }
