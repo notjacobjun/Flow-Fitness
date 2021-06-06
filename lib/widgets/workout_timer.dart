@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:interactive_workout_app/models/workout_category.dart';
 import 'package:interactive_workout_app/screens/rest_screen.dart';
 import 'package:interactive_workout_app/state_management_helpers/rest_screen_arguments.dart';
+import 'package:provider/provider.dart';
 
 class WorkoutTimer extends StatefulWidget {
   final int workoutDuration;
@@ -18,6 +20,8 @@ class WorkoutTimer extends StatefulWidget {
 }
 
 class _WorkoutTimerState extends State<WorkoutTimer> {
+  var prevDisabled;
+  var nextDisabled;
   var workoutPaused = false;
   var prepPaused = false;
   var isPrepTime = true;
@@ -133,6 +137,13 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
 
   @override
   Widget build(BuildContext context) {
+    prevDisabled = widget.currentWorkoutIndex == 0;
+    nextDisabled = widget.currentWorkoutIndex ==
+        Provider.of<WorkoutCategory>(context)
+                .findCategory(widget.currentWorkoutTitle)
+                .workouts
+                .length -
+            1;
     Size size = MediaQuery.of(context).size;
     return Container(
       child: Center(
@@ -190,14 +201,18 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
       children: [
         ClipOval(
           child: Material(
-            color: Theme.of(context).primaryColor, // Button color
+            color: prevDisabled
+                ? Colors.grey
+                : Theme.of(context).primaryColor, // Button color
             child: InkWell(
               splashColor: Colors.black26, // Splash color
               onTap: () {
-                setState(() {
-                  widget.currentWorkoutIndex -= 2;
-                  handleTimeout();
-                });
+                prevDisabled
+                    ? null
+                    : setState(() {
+                        widget.currentWorkoutIndex -= 2;
+                        handleTimeout();
+                      });
               },
               child: SizedBox(
                   width: 56,
@@ -251,7 +266,10 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
             child: InkWell(
               splashColor: Colors.black26, // Splash color
               onTap: () {
-                handleTimeout();
+                // TODO exit the workout
+                nextDisabled
+                    ? print("Exit the workout and show results page")
+                    : handleTimeout();
               },
               child: SizedBox(
                   width: 56,
