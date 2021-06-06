@@ -53,7 +53,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
           ),
           Image.network(currentWorkout.imageUrl),
           WorkoutTimer(currentWorkout.workoutDuration, prepDuration,
-              upcomingWorkoutIndex, workoutTitle),
+              upcomingWorkoutIndex, workoutTitle, currentWorkoutCategory),
           // PrevPauseForwardButtons(upcomingWorkoutIndex),
         ]),
       ),

@@ -3,17 +3,22 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:interactive_workout_app/models/workout_category.dart';
 import 'package:interactive_workout_app/screens/rest_screen.dart';
+import 'package:interactive_workout_app/screens/results_screen.dart';
 import 'package:interactive_workout_app/state_management_helpers/rest_screen_arguments.dart';
-import 'package:provider/provider.dart';
 
 class WorkoutTimer extends StatefulWidget {
   final int workoutDuration;
   final int prepDuration;
   var currentWorkoutIndex;
-  final String currentWorkoutTitle;
+  final String currentWorkoutCategoryTitle;
+  final InnerWorkoutCategoryItem currentWorkoutCategory;
 
-  WorkoutTimer(this.workoutDuration, this.prepDuration,
-      this.currentWorkoutIndex, this.currentWorkoutTitle);
+  WorkoutTimer(
+      this.workoutDuration,
+      this.prepDuration,
+      this.currentWorkoutIndex,
+      this.currentWorkoutCategoryTitle,
+      this.currentWorkoutCategory);
 
   @override
   _WorkoutTimerState createState() => _WorkoutTimerState();
@@ -128,22 +133,23 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
   }
 
   void handleTimeout() {
-    // stop the timer and start the rest timer, unless there are no more workouts in queue
-    Navigator.of(context).pushReplacementNamed(RestScreen.routeName,
-        arguments: RestScreenArguments(
-            previousWorkoutIndex: widget.currentWorkoutIndex + 1,
-            currentWorkoutCategoryTitle: widget.currentWorkoutTitle));
+    if (widget.currentWorkoutIndex >=
+        widget.currentWorkoutCategory.workouts.length - 1) {
+      Navigator.pushReplacementNamed(context, ResultsScreen.routeName,
+          arguments: widget.currentWorkoutCategory);
+    } else {
+      Navigator.of(context).pushReplacementNamed(RestScreen.routeName,
+          arguments: RestScreenArguments(
+              previousWorkoutIndex: widget.currentWorkoutIndex + 1,
+              currentWorkoutCategoryTitle: widget.currentWorkoutCategoryTitle));
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     prevDisabled = widget.currentWorkoutIndex == 0;
     nextDisabled = widget.currentWorkoutIndex ==
-        Provider.of<WorkoutCategory>(context)
-                .findCategory(widget.currentWorkoutTitle)
-                .workouts
-                .length -
-            1;
+        widget.currentWorkoutCategory.workouts.length - 1;
     Size size = MediaQuery.of(context).size;
     return Container(
       child: Center(
@@ -267,9 +273,9 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
               splashColor: Colors.black26, // Splash color
               onTap: () {
                 // TODO exit the workout
-                nextDisabled
-                    ? print("Exit the workout and show results page")
-                    : handleTimeout();
+                // nextDisabled
+                //     ? print("Exit the workout and show results page")
+                handleTimeout();
               },
               child: SizedBox(
                   width: 56,

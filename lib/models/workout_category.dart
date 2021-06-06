@@ -131,6 +131,10 @@ class WorkoutCategory with ChangeNotifier {
     return [..._categories];
   }
 
+  // List<InnerWorkoutCategoryItem> get workouts {
+  //   return this.workouts;
+  // }
+
   InnerWorkoutCategoryItem findCategory(String title) {
     return _categories.firstWhere((category) => category.title == title);
   }

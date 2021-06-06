@@ -6,6 +6,7 @@ import 'package:interactive_workout_app/screens/home_screen.dart';
 import 'package:interactive_workout_app/screens/login_screen.dart';
 import 'package:interactive_workout_app/screens/registration_screen.dart';
 import 'package:interactive_workout_app/screens/rest_screen.dart';
+import 'package:interactive_workout_app/screens/results_screen.dart';
 import 'package:interactive_workout_app/screens/settings_screen.dart';
 import 'package:interactive_workout_app/screens/social_screen.dart';
 import 'package:interactive_workout_app/screens/welcome_screen.dart';
@@ -66,6 +67,7 @@ class MyApp extends StatelessWidget {
           SettingsScreen.routeName: (ctx) => SettingsScreen(),
           WorkoutScreen.routeName: (ctx) => WorkoutScreen(),
           RestScreen.routeName: (ctx) => RestScreen(),
+          ResultsScreen.routeName: (ctx) => ResultsScreen(),
         },
       ),
     );

@@ -13,6 +13,7 @@ class RestScreen extends StatefulWidget {
 
 class _RestScreenState extends State<RestScreen> {
   final transitionTime = 30;
+
   @override
   Widget build(BuildContext context) {
     final args =
