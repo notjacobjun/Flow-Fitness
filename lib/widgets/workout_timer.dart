@@ -7,7 +7,7 @@ import 'package:interactive_workout_app/state_management_helpers/rest_screen_arg
 class WorkoutTimer extends StatefulWidget {
   final int workoutDuration;
   final int prepDuration;
-  final int currentWorkoutIndex;
+  var currentWorkoutIndex;
   final String currentWorkoutTitle;
 
   WorkoutTimer(this.workoutDuration, this.prepDuration,
@@ -18,6 +18,7 @@ class WorkoutTimer extends StatefulWidget {
 }
 
 class _WorkoutTimerState extends State<WorkoutTimer> {
+  var paused = false;
   var isPrepTime = true;
   int _workoutTime;
   int _prepTime;
@@ -41,6 +42,22 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
     _workoutTimer.cancel();
     _prepTimer.cancel();
     super.dispose();
+  }
+
+  void pauseTimer() {
+    if (_workoutTimer != null) {
+      setState(() {
+        paused = !paused;
+        _workoutTimer.cancel();
+      });
+    }
+  }
+
+  void unpauseTimer() {
+    setState(() {
+      paused = !paused;
+      startWorkoutTimer();
+    });
   }
 
   String _printDuration(Duration duration) {
@@ -99,6 +116,7 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
     return Container(
       child: Center(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          PrevPauseForwardButtons(context),
           isPrepTime
               ? Text(
                   "Get Ready!",
@@ -123,7 +141,7 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      color: Theme.of(context).indicatorColor,
                     ),
                   )
                 : Text(
@@ -133,7 +151,7 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      color: Theme.of(context).indicatorColor,
                     ),
                   ),
             backgroundColor: Theme.of(context).primaryColor,
@@ -141,6 +159,75 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
           ),
         ]),
       ),
+    );
+  }
+
+  // ignore: non_constant_identifier_names
+  Row PrevPauseForwardButtons(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        ClipOval(
+          child: Material(
+            color: Theme.of(context).primaryColor, // Button color
+            child: InkWell(
+              splashColor: Colors.black26, // Splash color
+              onTap: () {
+                setState(() {
+                  widget.currentWorkoutIndex--;
+                });
+              },
+              child: SizedBox(
+                  width: 56,
+                  height: 56,
+                  child: Icon(
+                    Icons.arrow_back,
+                    color: Theme.of(context).indicatorColor,
+                  )),
+            ),
+          ),
+        ),
+        ClipOval(
+          child: Material(
+            color: Theme.of(context).primaryColor, // Button color
+            child: InkWell(
+              splashColor: Colors.black26, // Splash color
+              onTap: () {
+                if (!paused) {
+                  pauseTimer();
+                } else {
+                  unpauseTimer();
+                }
+              },
+              child: SizedBox(
+                  width: 56,
+                  height: 56,
+                  child: Icon(
+                    paused ? Icons.play_arrow : Icons.pause,
+                    color: Theme.of(context).indicatorColor,
+                  )),
+            ),
+          ),
+        ),
+        ClipOval(
+          child: Material(
+            color: Theme.of(context).primaryColor, // Button color
+            child: InkWell(
+              splashColor: Colors.black26, // Splash color
+              onTap: () {
+                widget.currentWorkoutIndex++;
+              },
+              child: SizedBox(
+                  width: 56,
+                  height: 56,
+                  child: Icon(
+                    Icons.arrow_forward,
+                    color: Theme.of(context).indicatorColor,
+                  )),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

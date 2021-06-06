@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
+      // TODO double check that these providers aren't too high up in the widget tree
       providers: [
         Provider<AuthenticationService>(
           create: (_) => AuthenticationService(FirebaseAuth.instance),
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<WorkoutCategory>(
           create: (_) => WorkoutCategory(),
-        )
+        ),
         // ChangeNotifierProvider<WorkoutCategory>(create: WorkoutCategory()),
       ],
       child: MaterialApp(
@@ -46,6 +47,7 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: Colors.white,
           primaryColor: Colors.orange.shade900,
           accentColor: Colors.black,
+          indicatorColor: Colors.white,
           textTheme: TextTheme().apply(
               bodyColor: Colors.white,
               displayColor: Colors.white,

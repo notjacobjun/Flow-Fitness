@@ -6,7 +6,7 @@ import 'package:interactive_workout_app/state_management_helpers/workout_screen_
 
 class TransitionTimer extends StatefulWidget {
   final int transitionDuration;
-  final int nextWorkoutIndex;
+  var nextWorkoutIndex;
   final String workoutCategoryTitle;
 
   TransitionTimer(this.transitionDuration, this.nextWorkoutIndex,
@@ -17,6 +17,7 @@ class TransitionTimer extends StatefulWidget {
 }
 
 class _TransitionTimerState extends State<TransitionTimer> {
+  var paused = false;
   int _transitionTime;
   Duration transitionDuration;
   Timer _transitionTimer;
@@ -33,6 +34,22 @@ class _TransitionTimerState extends State<TransitionTimer> {
   void dispose() {
     _transitionTimer.cancel();
     super.dispose();
+  }
+
+  void pauseTimer() {
+    if (_transitionTimer != null) {
+      setState(() {
+        paused = !paused;
+        _transitionTimer.cancel();
+      });
+    }
+  }
+
+  void unpauseTimer() {
+    setState(() {
+      paused = !paused;
+      startTransitionTimer();
+    });
   }
 
   String _printDuration(Duration duration) {
@@ -72,6 +89,7 @@ class _TransitionTimerState extends State<TransitionTimer> {
     return Container(
       child: Center(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          PrevPauseForwardButtons(context),
           Text("Rest up!"),
           CircleAvatar(
             child: Text(
@@ -81,7 +99,7 @@ class _TransitionTimerState extends State<TransitionTimer> {
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: Colors.white,
+                color: Theme.of(context).indicatorColor,
               ),
             ),
             backgroundColor: Theme.of(context).primaryColor,
@@ -89,6 +107,74 @@ class _TransitionTimerState extends State<TransitionTimer> {
           ),
         ]),
       ),
+    );
+  }
+
+  Row PrevPauseForwardButtons(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        ClipOval(
+          child: Material(
+            color: Theme.of(context).primaryColor, // Button color
+            child: InkWell(
+              splashColor: Colors.black26, // Splash color
+              onTap: () {
+                setState(() {
+                  widget.nextWorkoutIndex--;
+                });
+              },
+              child: SizedBox(
+                  width: 56,
+                  height: 56,
+                  child: Icon(
+                    Icons.arrow_back,
+                    color: Theme.of(context).indicatorColor,
+                  )),
+            ),
+          ),
+        ),
+        ClipOval(
+          child: Material(
+            color: Theme.of(context).primaryColor, // Button color
+            child: InkWell(
+              splashColor: Colors.black26, // Splash color
+              onTap: () {
+                if (!paused) {
+                  pauseTimer();
+                } else {
+                  unpauseTimer();
+                }
+              },
+              child: SizedBox(
+                  width: 56,
+                  height: 56,
+                  child: Icon(
+                    paused ? Icons.play_arrow : Icons.pause,
+                    color: Theme.of(context).indicatorColor,
+                  )),
+            ),
+          ),
+        ),
+        ClipOval(
+          child: Material(
+            color: Theme.of(context).primaryColor, // Button color
+            child: InkWell(
+              splashColor: Colors.black26, // Splash color
+              onTap: () {
+                widget.nextWorkoutIndex++;
+              },
+              child: SizedBox(
+                  width: 56,
+                  height: 56,
+                  child: Icon(
+                    Icons.arrow_forward,
+                    color: Theme.of(context).indicatorColor,
+                  )),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
