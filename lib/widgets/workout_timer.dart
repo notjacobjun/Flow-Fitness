@@ -18,7 +18,8 @@ class WorkoutTimer extends StatefulWidget {
 }
 
 class _WorkoutTimerState extends State<WorkoutTimer> {
-  var paused = false;
+  var workoutPaused = false;
+  var prepPaused = false;
   var isPrepTime = true;
   int _workoutTime;
   int _prepTime;
@@ -39,24 +40,44 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
 
   @override
   void dispose() {
-    _workoutTimer.cancel();
-    _prepTimer.cancel();
+    if (_workoutTimer != null) {
+      _workoutTimer.cancel();
+    }
+    if (_prepTimer != null) {
+      _prepTimer.cancel();
+    }
     super.dispose();
   }
 
-  void pauseTimer() {
+  void pauseWorkoutTimer() {
     if (_workoutTimer != null) {
       setState(() {
-        paused = !paused;
+        workoutPaused = !workoutPaused;
         _workoutTimer.cancel();
       });
     }
   }
 
-  void unpauseTimer() {
+  void unpauseWorkoutTimer() {
     setState(() {
-      paused = !paused;
+      workoutPaused = !workoutPaused;
       startWorkoutTimer();
+    });
+  }
+
+  void pausePrepTimer() {
+    if (_prepTimer != null) {
+      setState(() {
+        prepPaused = !prepPaused;
+        _prepTimer.cancel();
+      });
+    }
+  }
+
+  void unpausePrepTimer() {
+    setState(() {
+      prepPaused = !prepPaused;
+      startPrepTimer();
     });
   }
 
@@ -175,6 +196,7 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
               onTap: () {
                 setState(() {
                   widget.currentWorkoutIndex--;
+                  handleTimeout();
                 });
               },
               child: SizedBox(
@@ -193,17 +215,31 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
             child: InkWell(
               splashColor: Colors.black26, // Splash color
               onTap: () {
-                if (!paused) {
-                  pauseTimer();
+                if (isPrepTime) {
+                  if (!prepPaused) {
+                    pausePrepTimer();
+                  } else {
+                    unpausePrepTimer();
+                  }
                 } else {
-                  unpauseTimer();
+                  if (!workoutPaused) {
+                    pauseWorkoutTimer();
+                  } else {
+                    unpauseWorkoutTimer();
+                  }
                 }
               },
               child: SizedBox(
                   width: 56,
                   height: 56,
                   child: Icon(
-                    paused ? Icons.play_arrow : Icons.pause,
+                    isPrepTime
+                        ? prepPaused
+                            ? Icons.play_arrow
+                            : Icons.pause
+                        : workoutPaused
+                            ? Icons.play_arrow
+                            : Icons.pause,
                     color: Theme.of(context).indicatorColor,
                   )),
             ),
@@ -216,6 +252,7 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
               splashColor: Colors.black26, // Splash color
               onTap: () {
                 widget.currentWorkoutIndex++;
+                handleTimeout();
               },
               child: SizedBox(
                   width: 56,

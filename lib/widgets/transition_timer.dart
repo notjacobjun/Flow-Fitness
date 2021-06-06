@@ -32,7 +32,9 @@ class _TransitionTimerState extends State<TransitionTimer> {
 
   @override
   void dispose() {
-    _transitionTimer.cancel();
+    if (_transitionTimer != null) {
+      _transitionTimer.cancel();
+    }
     super.dispose();
   }
 
@@ -121,7 +123,7 @@ class _TransitionTimerState extends State<TransitionTimer> {
               splashColor: Colors.black26, // Splash color
               onTap: () {
                 setState(() {
-                  widget.nextWorkoutIndex--;
+                  handleTimeout();
                 });
               },
               child: SizedBox(
@@ -162,7 +164,7 @@ class _TransitionTimerState extends State<TransitionTimer> {
             child: InkWell(
               splashColor: Colors.black26, // Splash color
               onTap: () {
-                widget.nextWorkoutIndex++;
+                handleTimeout();
               },
               child: SizedBox(
                   width: 56,
