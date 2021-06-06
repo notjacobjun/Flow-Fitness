@@ -2,7 +2,7 @@ import 'models/workout.dart';
 
 var WORKOUT_DATA = [
   Workout(
-      title: "Scissors kicks",
+      title: "Scissor kicks",
       imageUrl:
           "https://www.fitnessandpower.com/wp-content/uploads/2016/02/crunch-exercises.jpg",
       workoutDuration: 40,
@@ -91,6 +91,60 @@ var WORKOUT_DATA = [
           "https://www.fitnessandpower.com/wp-content/uploads/2016/02/crunch-exercises.jpg",
       workoutDuration: 30,
       caloriesPerMinute: 12),
+  Workout(
+      title: "Shoulder presses",
+      imageUrl:
+          "https://www.fitnessandpower.com/wp-content/uploads/2016/02/crunch-exercises.jpg",
+      workoutDuration: 50,
+      caloriesPerMinute: 12),
+  Workout(
+      title: "Side plank (right)",
+      imageUrl:
+          "https://www.fitnessandpower.com/wp-content/uploads/2016/02/crunch-exercises.jpg",
+      workoutDuration: 70,
+      caloriesPerMinute: 9),
+  Workout(
+      title: "Side plank (left)",
+      imageUrl:
+          "https://www.fitnessandpower.com/wp-content/uploads/2016/02/crunch-exercises.jpg",
+      workoutDuration: 70,
+      caloriesPerMinute: 9),
+  Workout(
+      title: "Bicep curls (right)",
+      imageUrl:
+          "https://www.fitnessandpower.com/wp-content/uploads/2016/02/crunch-exercises.jpg",
+      workoutDuration: 70,
+      caloriesPerMinute: 9),
+  Workout(
+      title: "Bicep curls (left)",
+      imageUrl:
+          "https://www.fitnessandpower.com/wp-content/uploads/2016/02/crunch-exercises.jpg",
+      workoutDuration: 70,
+      caloriesPerMinute: 9),
+  Workout(
+      title: "Chin ups",
+      imageUrl:
+          "https://www.fitnessandpower.com/wp-content/uploads/2016/02/crunch-exercises.jpg",
+      workoutDuration: 40,
+      caloriesPerMinute: 10),
+  Workout(
+      title: "Gentleman's curls",
+      imageUrl:
+          "https://www.fitnessandpower.com/wp-content/uploads/2016/02/crunch-exercises.jpg",
+      workoutDuration: 70,
+      caloriesPerMinute: 10),
+  Workout(
+      title: "Tricep dips",
+      imageUrl:
+          "https://www.fitnessandpower.com/wp-content/uploads/2016/02/crunch-exercises.jpg",
+      workoutDuration: 50,
+      caloriesPerMinute: 10),
+  Workout(
+      title: "Military jumping jacks",
+      imageUrl:
+          "https://www.fitnessandpower.com/wp-content/uploads/2016/02/crunch-exercises.jpg",
+      workoutDuration: 70,
+      caloriesPerMinute: 13),
 ];
 
 // TODO convert this into a Provider

@@ -17,7 +17,7 @@ class _RestScreenState extends State<RestScreen> {
   Widget build(BuildContext context) {
     final args =
         ModalRoute.of(context).settings.arguments as RestScreenArguments;
-    final nextWorkoutIndex = args.previousWorkoutIndex + 1;
+    final nextWorkoutIndex = args.previousWorkoutIndex;
     final currentWorkoutCategory =
         Provider.of<WorkoutCategory>(context, listen: false)
             .findCategory(args.currentWorkoutCategoryTitle);

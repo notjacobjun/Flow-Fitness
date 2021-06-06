@@ -127,7 +127,7 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
     // stop the timer and start the rest timer, unless there are no more workouts in queue
     Navigator.of(context).pushReplacementNamed(RestScreen.routeName,
         arguments: RestScreenArguments(
-            previousWorkoutIndex: widget.currentWorkoutIndex,
+            previousWorkoutIndex: widget.currentWorkoutIndex + 1,
             currentWorkoutCategoryTitle: widget.currentWorkoutTitle));
   }
 
@@ -195,7 +195,7 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
               splashColor: Colors.black26, // Splash color
               onTap: () {
                 setState(() {
-                  widget.currentWorkoutIndex--;
+                  widget.currentWorkoutIndex -= 2;
                   handleTimeout();
                 });
               },
@@ -251,7 +251,6 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
             child: InkWell(
               splashColor: Colors.black26, // Splash color
               onTap: () {
-                widget.currentWorkoutIndex++;
                 handleTimeout();
               },
               child: SizedBox(
