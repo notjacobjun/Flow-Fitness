@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:interactive_workout_app/models/workout.dart';
 import 'package:interactive_workout_app/providers/workout_category.dart';
 import 'package:interactive_workout_app/screens/workout_screen.dart';
 import 'package:interactive_workout_app/state_management_helpers/workout_screen_arguments.dart';
@@ -22,49 +23,66 @@ class WorkoutCategoryItem extends StatefulWidget {
 
 // TODO make the pictures more responsive (for tablets)
 class _WorkoutCategoryItemState extends State<WorkoutCategoryItem> {
-  // TODO configure the difficulty level adjustment and also allow for custom difficulty
-  Future<void> showAdaptiveDialog() async {
+  // TODO add custom difficulty
+  void adjustWorkoutTimes(
+      Difficulty difficulty, InnerWorkoutCategoryItem currentWorkoutCategory) {
+    if (difficulty == Difficulty.Easy) {
+      currentWorkoutCategory.workouts.forEach((workout) {
+        workout.workoutDuration -= 10;
+      });
+      // no logic needed for medium because the default is medium
+    } else if (difficulty == Difficulty.Hard) {
+      currentWorkoutCategory.workouts.forEach((workout) {
+        workout.workoutDuration += 10;
+      });
+    } else if (difficulty == Difficulty.Impossible) {
+      currentWorkoutCategory.workouts.forEach((workout) {
+        workout.workoutDuration += 20;
+      });
+    }
+  }
+
+  Future<void> showAdaptiveDialog(BuildContext context,
+      InnerWorkoutCategoryItem currentWorkoutCategory) async {
     var isiOS = (Theme.of(context).platform == TargetPlatform.iOS);
     if (isiOS) {
-      showCupertinoDialog(
-        barrierDismissible: true,
+      return showCupertinoDialog(
         context: context,
-        builder: (_) => CupertinoAlertDialog(
+        builder: (ctx) => CupertinoAlertDialog(
           title: Text("Difficulty"),
           content: Text("Choose the difficulty of the workout"),
           actions: [
             CupertinoDialogAction(
               child: Text("Easy"),
               onPressed: () {
-                print("easy");
+                Navigator.of(ctx).pop();
               },
             ),
             CupertinoDialogAction(
               child: Text("Medium"),
               onPressed: () {
-                print("Medium");
+                Navigator.of(ctx).pop();
               },
             ),
             CupertinoDialogAction(
               child: Text("Hard"),
               onPressed: () {
-                print("hard");
+                Navigator.of(ctx).pop();
               },
             ),
             CupertinoDialogAction(
               child: Text("Impossible"),
               onPressed: () {
-                print("Impossible");
+                Navigator.of(ctx).pop();
               },
             ),
           ],
         ),
       );
     } else {
-      showDialog(
-          barrierDismissible: true,
+      return showDialog(
           context: context,
-          builder: (_) => AlertDialog(
+          builder: (ctx) => AlertDialog(
                 title: Center(child: Text("Difficulty")),
                 content: Text("Choose the difficulty of the workout"),
                 actions: [
@@ -76,25 +94,25 @@ class _WorkoutCategoryItemState extends State<WorkoutCategoryItem> {
                       TextButton(
                         child: Text("Easy"),
                         onPressed: () {
-                          print("easy");
+                          Navigator.of(ctx).pop();
                         },
                       ),
                       TextButton(
                         child: Text("Medium"),
                         onPressed: () {
-                          print("Medium");
+                          Navigator.of(ctx).pop();
                         },
                       ),
                       TextButton(
                         child: Text("Hard"),
                         onPressed: () {
-                          print("hard");
+                          Navigator.of(ctx).pop();
                         },
                       ),
                       TextButton(
                         child: Text("Impossible"),
                         onPressed: () {
-                          print("Impossible");
+                          Navigator.of(ctx).pop();
                         },
                       ),
                     ],
@@ -104,10 +122,9 @@ class _WorkoutCategoryItemState extends State<WorkoutCategoryItem> {
     }
   }
 
-  void selectWorkout(BuildContext context) {
-    setState(() async {
-      await showAdaptiveDialog();
-    });
+  Future<void> selectWorkout(BuildContext context,
+      InnerWorkoutCategoryItem currentWorkoutCategory) async {
+    await showAdaptiveDialog(context, currentWorkoutCategory);
     Navigator.of(context).pushNamed(WorkoutScreen.routeName,
         arguments: WorkoutScreenArguments(
             currentWorkoutCategoryTitle: widget.title,
@@ -132,7 +149,7 @@ class _WorkoutCategoryItemState extends State<WorkoutCategoryItem> {
         borderRadius: BorderRadius.circular(15.0),
       ),
       child: InkWell(
-        onTap: () => selectWorkout(context),
+        onTap: () => selectWorkout(context, currentCategory),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [

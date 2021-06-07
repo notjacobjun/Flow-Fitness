@@ -89,7 +89,7 @@ var WORKOUT_DATA = [
       title: "Diamond pushups",
       imageUrl:
           "https://www.fitnessandpower.com/wp-content/uploads/2016/02/crunch-exercises.jpg",
-      workoutDuration: 30,
+      workoutDuration: 40,
       caloriesPerMinute: 12),
   Workout(
       title: "Shoulder presses",
@@ -101,13 +101,13 @@ var WORKOUT_DATA = [
       title: "Side plank (right)",
       imageUrl:
           "https://www.fitnessandpower.com/wp-content/uploads/2016/02/crunch-exercises.jpg",
-      workoutDuration: 70,
+      workoutDuration: 50,
       caloriesPerMinute: 9),
   Workout(
       title: "Side plank (left)",
       imageUrl:
           "https://www.fitnessandpower.com/wp-content/uploads/2016/02/crunch-exercises.jpg",
-      workoutDuration: 70,
+      workoutDuration: 50,
       caloriesPerMinute: 9),
   Workout(
       title: "Bicep curls (right)",
@@ -143,6 +143,6 @@ var WORKOUT_DATA = [
       title: "Military jumping jacks",
       imageUrl:
           "https://www.fitnessandpower.com/wp-content/uploads/2016/02/crunch-exercises.jpg",
-      workoutDuration: 70,
+      workoutDuration: 60,
       caloriesPerMinute: 13),
 ];

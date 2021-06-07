@@ -6,7 +6,7 @@ class Workout {
   final String title;
   final String imageUrl;
   final Difficulty difficulty;
-  final int workoutDuration;
+  var workoutDuration;
   final double caloriesPerMinute;
 
   Workout(
