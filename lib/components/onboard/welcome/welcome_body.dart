@@ -12,9 +12,13 @@ class WelcomeBody extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
+            Text(
               "Let's get started!",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).indicatorColor,
+                fontSize: 18,
+              ),
             ),
             SizedBox(
               height: 20,

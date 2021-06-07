@@ -15,7 +15,7 @@ import 'package:interactive_workout_app/screens/workout_screen.dart';
 import 'package:interactive_workout_app/services/authentication_service.dart';
 import 'package:provider/provider.dart';
 
-import 'models/workout_category.dart';
+import 'providers/workout_category.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

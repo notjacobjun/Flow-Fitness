@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:interactive_workout_app/models/workout_category.dart';
+import 'package:interactive_workout_app/providers/workout_category.dart';
 import 'package:interactive_workout_app/screens/workout_screen.dart';
 import 'package:interactive_workout_app/state_management_helpers/workout_screen_arguments.dart';
 import 'package:provider/provider.dart';
@@ -23,7 +23,7 @@ class WorkoutCategoryItem extends StatefulWidget {
 // TODO make the pictures more responsive (for tablets)
 class _WorkoutCategoryItemState extends State<WorkoutCategoryItem> {
   // TODO configure the difficulty level adjustment and also allow for custom difficulty
-  void showAdaptiveDialog() {
+  Future<void> showAdaptiveDialog() async {
     var isiOS = (Theme.of(context).platform == TargetPlatform.iOS);
     if (isiOS) {
       showCupertinoDialog(
@@ -61,12 +61,53 @@ class _WorkoutCategoryItemState extends State<WorkoutCategoryItem> {
         ),
       );
     } else {
-      showDialog(context: context, builder: (_) => AlertDialog());
+      showDialog(
+          barrierDismissible: true,
+          context: context,
+          builder: (_) => AlertDialog(
+                title: Center(child: Text("Difficulty")),
+                content: Text("Choose the difficulty of the workout"),
+                actions: [
+                  Column(
+                    // TODO find out how to align these actions
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextButton(
+                        child: Text("Easy"),
+                        onPressed: () {
+                          print("easy");
+                        },
+                      ),
+                      TextButton(
+                        child: Text("Medium"),
+                        onPressed: () {
+                          print("Medium");
+                        },
+                      ),
+                      TextButton(
+                        child: Text("Hard"),
+                        onPressed: () {
+                          print("hard");
+                        },
+                      ),
+                      TextButton(
+                        child: Text("Impossible"),
+                        onPressed: () {
+                          print("Impossible");
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ));
     }
   }
 
-  Future<void> selectWorkout(BuildContext context) {
-    // showAdaptiveDialog();
+  void selectWorkout(BuildContext context) {
+    setState(() async {
+      await showAdaptiveDialog();
+    });
     Navigator.of(context).pushNamed(WorkoutScreen.routeName,
         arguments: WorkoutScreenArguments(
             currentWorkoutCategoryTitle: widget.title,
@@ -77,8 +118,8 @@ class _WorkoutCategoryItemState extends State<WorkoutCategoryItem> {
 
   @override
   Widget build(BuildContext context) {
-    final currentCategory =
-        Provider.of<WorkoutCategory>(context).findCategory(widget.title);
+    final currentCategory = Provider.of<WorkoutCategory>(context, listen: false)
+        .findCategory(widget.title);
     if (currentCategory.description == null) {
       // TODO find another design rather than this
       widget.description = "Enter description";

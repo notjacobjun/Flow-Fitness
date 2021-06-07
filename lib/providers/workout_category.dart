@@ -138,4 +138,6 @@ class WorkoutCategory with ChangeNotifier {
   InnerWorkoutCategoryItem findCategory(String title) {
     return _categories.firstWhere((category) => category.title == title);
   }
+
+  void selectDifficulty() {}
 }

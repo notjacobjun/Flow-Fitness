@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:interactive_workout_app/models/workout_category.dart';
+import 'package:interactive_workout_app/providers/workout_category.dart';
 import 'package:interactive_workout_app/screens/rest_screen.dart';
 import 'package:interactive_workout_app/screens/results_screen.dart';
 import 'package:interactive_workout_app/state_management_helpers/rest_screen_arguments.dart';

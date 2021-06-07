@@ -19,7 +19,10 @@ class AlternateOnBoardOption extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text("Already have an Account?"),
+        Text(
+          "Already have an Account?",
+          style: TextStyle(color: Theme.of(context).indicatorColor),
+        ),
         SizedBox(
           width: size.width * 0.02,
         ),
@@ -29,7 +32,9 @@ class AlternateOnBoardOption extends StatelessWidget {
           },
           child: Text(
             buttonContent,
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).indicatorColor),
           ),
         )
       ],

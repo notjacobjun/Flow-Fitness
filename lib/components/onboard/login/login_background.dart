@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:glassmorphism/glassmorphism.dart';
 
 class LoginBackground extends StatelessWidget {
   final Widget child;
@@ -20,21 +21,37 @@ class LoginBackground extends StatelessWidget {
           child: Stack(
             alignment: Alignment.center,
             children: [
-              Positioned(
-                right: 15,
-                child: Container(
-                  // just for visualization
-                  // color: Colors.black12,
-                  height: size.height * 0.65,
-                  width: size.width * 0.6,
-                  child: Image(
-                    image: AssetImage('assets/images/exercise.png'),
-                    fit: BoxFit.contain,
-                  ),
-                ),
+              Image(
+                image: AssetImage('assets/images/login-background.jpg'),
+                fit: BoxFit.fill,
               ),
-              Positioned(
-                child: child,
+              GlassmorphicContainer(
+                height: size.height * 0.5,
+                width: size.width * 0.95,
+                child: Center(child: child),
+                borderRadius: 50,
+                blur: 200,
+                alignment: Alignment.center,
+                border: 0.65,
+                linearGradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      Color(0xFFffffff).withOpacity(0.1),
+                      Color(0xFFFFFFFF).withOpacity(0.05),
+                    ],
+                    stops: [
+                      0.1,
+                      1,
+                    ]),
+                borderGradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Color(0xFFffffff).withOpacity(0.5),
+                    Color((0xFFFFFFFF)).withOpacity(0.5),
+                  ],
+                ),
               ),
             ],
           ),

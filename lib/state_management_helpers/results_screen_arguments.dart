@@ -1,4 +1,4 @@
-import 'package:interactive_workout_app/models/workout_category.dart';
+import 'package:interactive_workout_app/providers/workout_category.dart';
 
 class ResultsScreenArguments {
   final InnerWorkoutCategoryItem currentWorkoutCategory;

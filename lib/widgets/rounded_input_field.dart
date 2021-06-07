@@ -13,7 +13,7 @@ class RoundedInputField extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       width: size.width * 0.8,
       decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor.withOpacity(.5),
+        color: Theme.of(context).primaryColor,
         borderRadius: BorderRadius.circular(30),
       ),
       child: child,

@@ -30,6 +30,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   provider: ^5.0.0
+  glassmorphism: ^2.0.1
 
 dev_dependencies:
   flutter_test:
@@ -53,6 +54,9 @@ flutter:
     - assets/images/full-body-workout-image.jpg
     - assets/images/cardio-image.jpg
     - assets/images/leg-workout-image.jpg
+    - assets/images/login-background.jpg
+    - assets/images/registration-background.jpg
+    - assets/images/welcome-background.jpg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

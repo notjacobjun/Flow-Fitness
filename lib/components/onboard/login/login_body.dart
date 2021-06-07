@@ -72,11 +72,15 @@ class _LoginBodyState extends State<LoginBody> {
             children: [
               Text(
                 "Flow Fitness",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).indicatorColor),
               ),
               RoundedInputField(
                 child: TextFormField(
-                  cursorColor: Theme.of(context).accentColor,
+                  style: TextStyle(color: Theme.of(context).indicatorColor),
+                  cursorColor: Theme.of(context).indicatorColor,
                   textInputAction: TextInputAction.next,
                   onEditingComplete: () {
                     FocusScope.of(context).requestFocus(_passwordFocusNode);
@@ -95,10 +99,12 @@ class _LoginBodyState extends State<LoginBody> {
                   },
                   onSaved: (input) => _email = input,
                   decoration: InputDecoration(
+                    hintStyle:
+                        TextStyle(color: Theme.of(context).indicatorColor),
                     border: InputBorder.none,
                     icon: Icon(
                       Icons.person,
-                      color: Theme.of(context).accentColor,
+                      color: Theme.of(context).indicatorColor,
                     ),
                     hintText: "Email*",
                   ),
@@ -106,7 +112,8 @@ class _LoginBodyState extends State<LoginBody> {
               ),
               RoundedInputField(
                 child: TextFormField(
-                  cursorColor: Theme.of(context).accentColor,
+                  style: TextStyle(color: Theme.of(context).indicatorColor),
+                  cursorColor: Theme.of(context).indicatorColor,
                   focusNode: _passwordFocusNode,
                   textInputAction: TextInputAction.done,
                   onEditingComplete: login,
@@ -119,11 +126,16 @@ class _LoginBodyState extends State<LoginBody> {
                     border: InputBorder.none,
                     icon: Icon(
                       Icons.password,
-                      color: Theme.of(context).accentColor,
+                      color: Theme.of(context).indicatorColor,
                     ),
+                    hintStyle:
+                        TextStyle(color: Theme.of(context).indicatorColor),
                     hintText: "Password*",
                     suffixIcon: IconButton(
-                      icon: Icon(Icons.visibility),
+                      icon: Icon(
+                        Icons.visibility,
+                        color: Theme.of(context).indicatorColor,
+                      ),
                       onPressed: () {
                         setState(() {
                           hideText = !hideText;

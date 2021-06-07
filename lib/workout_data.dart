@@ -146,18 +146,3 @@ var WORKOUT_DATA = [
       workoutDuration: 70,
       caloriesPerMinute: 13),
 ];
-
-// TODO convert this into a Provider
-// class Workouts with ChangeNotifier {
-//   List<Workout> workouts = [];
-//
-//   // check if this works
-//   Workouts(this.workouts) {
-//     workouts.addAll(WORKOUT_DATA);
-//     this.workouts = workouts;
-//   }
-//
-//   List<Workout> get workouts {
-//     return [...workouts];
-//   }
-// }

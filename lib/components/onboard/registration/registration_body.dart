@@ -78,14 +78,17 @@ class _RegistrationBodyState extends State<RegistrationBody> {
           children: [
             Text(
               "Welcome to Flow Fitness",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).indicatorColor),
             ),
             SizedBox(
               height: size.height * 0.08,
             ),
             RoundedInputField(
               child: TextFormField(
-                cursorColor: Theme.of(context).accentColor,
+                cursorColor: Theme.of(context).indicatorColor,
                 onEditingComplete: () {
                   FocusScope.of(context).requestFocus(_passwordFocusNode);
                 },
@@ -103,9 +106,10 @@ class _RegistrationBodyState extends State<RegistrationBody> {
                   return null;
                 },
                 decoration: InputDecoration(
+                  hintStyle: TextStyle(color: Theme.of(context).indicatorColor),
                   icon: Icon(
                     Icons.person,
-                    color: Theme.of(context).accentColor,
+                    color: Theme.of(context).indicatorColor,
                   ),
                   hintText: "Enter your email*",
                 ),
@@ -119,7 +123,7 @@ class _RegistrationBodyState extends State<RegistrationBody> {
                 // onSaved: (input) => password = input,
                 onChanged: (input) => password = input,
                 textInputAction: TextInputAction.next,
-                cursorColor: Theme.of(context).accentColor,
+                cursorColor: Theme.of(context).indicatorColor,
                 validator: (input) {
                   if (input.isEmpty) {
                     return "Please enter a password";
@@ -131,16 +135,20 @@ class _RegistrationBodyState extends State<RegistrationBody> {
                 decoration: InputDecoration(
                   icon: Icon(
                     Icons.password,
-                    color: Theme.of(context).accentColor,
+                    color: Theme.of(context).indicatorColor,
                   ),
                   suffixIcon: IconButton(
-                    icon: Icon(Icons.visibility),
+                    icon: Icon(
+                      Icons.visibility,
+                      color: Theme.of(context).indicatorColor,
+                    ),
                     onPressed: () {
                       setState(() {
                         hidePassword = !hidePassword;
                       });
                     },
                   ),
+                  hintStyle: TextStyle(color: Theme.of(context).indicatorColor),
                   hintText: "Enter your password*",
                 ),
                 obscureText: hidePassword,
@@ -158,7 +166,7 @@ class _RegistrationBodyState extends State<RegistrationBody> {
                 onEditingComplete: () {
                   setState(() {});
                 },
-                cursorColor: Theme.of(context).accentColor,
+                cursorColor: Theme.of(context).indicatorColor,
                 validator: (input) {
                   if (input != password) {
                     return "The passwords you entered do not match";
@@ -169,11 +177,15 @@ class _RegistrationBodyState extends State<RegistrationBody> {
                   border: InputBorder.none,
                   icon: Icon(
                     Icons.keyboard,
-                    color: Theme.of(context).accentColor,
+                    color: Theme.of(context).indicatorColor,
                   ),
+                  hintStyle: TextStyle(color: Theme.of(context).indicatorColor),
                   hintText: "Confirm your password*",
                   suffixIcon: IconButton(
-                    icon: Icon(Icons.visibility),
+                    icon: Icon(
+                      Icons.visibility,
+                      color: Theme.of(context).indicatorColor,
+                    ),
                     onPressed: () {
                       setState(() {
                         hideConfirmPassword = !hideConfirmPassword;
