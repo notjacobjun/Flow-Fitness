@@ -28,6 +28,10 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
         ModalRoute.of(context).settings.arguments as WorkoutScreenArguments;
     final workoutTitle = args.currentWorkoutCategoryTitle;
     var upcomingWorkoutIndex = args.upcomingWorkoutIndex;
+    final totalWorkoutTime = args == null ? 0 : args.totalWorkoutTime;
+    final totalCaloriesBurned = args.totalCaloriesBurned;
+    print(totalWorkoutTime);
+    print(totalCaloriesBurned);
     const prepDuration = 5;
     Size size = MediaQuery.of(context).size;
     final currentWorkoutCategory = Provider.of<WorkoutCategory>(context,
@@ -52,8 +56,14 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
           ),
           Image.network(currentWorkout.imageUrl),
-          WorkoutTimer(currentWorkout.workoutDuration, prepDuration,
-              upcomingWorkoutIndex, workoutTitle, currentWorkoutCategory),
+          WorkoutTimer(
+              currentWorkout.workoutDuration,
+              prepDuration,
+              upcomingWorkoutIndex,
+              workoutTitle,
+              currentWorkoutCategory,
+              totalWorkoutTime,
+              totalCaloriesBurned)
           // PrevPauseForwardButtons(upcomingWorkoutIndex),
         ]),
       ),

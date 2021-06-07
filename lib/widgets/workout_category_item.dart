@@ -70,7 +70,9 @@ class _WorkoutCategoryItemState extends State<WorkoutCategoryItem> {
     Navigator.of(context).pushNamed(WorkoutScreen.routeName,
         arguments: WorkoutScreenArguments(
             currentWorkoutCategoryTitle: widget.title,
-            upcomingWorkoutIndex: 0));
+            upcomingWorkoutIndex: 0,
+            totalWorkoutTime: 0,
+            totalCaloriesBurned: 0));
   }
 
   @override

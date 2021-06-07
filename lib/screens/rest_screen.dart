@@ -24,6 +24,8 @@ class _RestScreenState extends State<RestScreen> {
             .findCategory(args.currentWorkoutCategoryTitle);
     final nextWorkout =
         currentWorkoutCategory.workouts.elementAt(nextWorkoutIndex);
+    final totalWorkoutTime = args.totalWorkoutTime;
+    final totalCaloriesBurned = args.totalCaloriesBurned;
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -38,8 +40,12 @@ class _RestScreenState extends State<RestScreen> {
             children: [
               Text("Next workout: ${nextWorkout.title}"),
               Image.network(nextWorkout.imageUrl),
-              TransitionTimer(transitionTime, nextWorkoutIndex,
-                  args.currentWorkoutCategoryTitle),
+              TransitionTimer(
+                  transitionTime,
+                  nextWorkoutIndex,
+                  args.currentWorkoutCategoryTitle,
+                  totalWorkoutTime,
+                  totalCaloriesBurned),
             ],
           ),
         ),

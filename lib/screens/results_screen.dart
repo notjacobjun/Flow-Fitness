@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:interactive_workout_app/components/onboard/welcome/rounded_button.dart';
-import 'package:interactive_workout_app/models/workout_category.dart';
 import 'package:interactive_workout_app/screens/home_screen.dart';
+import 'package:interactive_workout_app/state_management_helpers/results_screen_arguments.dart';
 
 class ResultsScreen extends StatelessWidget {
   static const routeName = '/results';
@@ -12,12 +12,12 @@ class ResultsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double calorieSum = 0;
+    var calorieSum;
     final args =
-        ModalRoute.of(context).settings.arguments as InnerWorkoutCategoryItem;
-    args.workouts.forEach((workout) {
-      calorieSum += (workout.caloriesPerMinute * 2);
-    });
+        ModalRoute.of(context).settings.arguments as ResultsScreenArguments;
+    final currentWorkoutCategory = args.currentWorkoutCategory;
+    final totalWorkoutTime = args.totalWorkoutTime;
+    calorieSum = args.totalCaloriesBurned;
     return Scaffold(
       appBar: AppBar(title: Text("Results")),
       body: Center(
@@ -25,7 +25,7 @@ class ResultsScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Text(
-                "Congratulations on completing the ${args.title}. You burned: ${calorieSum} calories!"),
+                "You exercised for ${totalWorkoutTime} seconds and burned: ${calorieSum.toStringAsPrecision(2)} calories!"),
             RoundedButton(
               message: "Finish",
               color: Theme.of(context).primaryColor,

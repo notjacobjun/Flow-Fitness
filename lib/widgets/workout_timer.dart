@@ -5,6 +5,7 @@ import 'package:interactive_workout_app/models/workout_category.dart';
 import 'package:interactive_workout_app/screens/rest_screen.dart';
 import 'package:interactive_workout_app/screens/results_screen.dart';
 import 'package:interactive_workout_app/state_management_helpers/rest_screen_arguments.dart';
+import 'package:interactive_workout_app/state_management_helpers/results_screen_arguments.dart';
 
 class WorkoutTimer extends StatefulWidget {
   final int workoutDuration;
@@ -12,13 +13,18 @@ class WorkoutTimer extends StatefulWidget {
   var currentWorkoutIndex;
   final String currentWorkoutCategoryTitle;
   final InnerWorkoutCategoryItem currentWorkoutCategory;
+  var totalWorkoutTime;
+  var totalCaloriesBurned;
 
   WorkoutTimer(
-      this.workoutDuration,
-      this.prepDuration,
-      this.currentWorkoutIndex,
-      this.currentWorkoutCategoryTitle,
-      this.currentWorkoutCategory);
+    this.workoutDuration,
+    this.prepDuration,
+    this.currentWorkoutIndex,
+    this.currentWorkoutCategoryTitle,
+    this.currentWorkoutCategory,
+    this.totalWorkoutTime,
+    this.totalCaloriesBurned,
+  );
 
   @override
   _WorkoutTimerState createState() => _WorkoutTimerState();
@@ -30,8 +36,10 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
   var workoutPaused = false;
   var prepPaused = false;
   var isPrepTime = true;
-  int _workoutTime;
-  int _prepTime;
+  var _workoutTime;
+  var totalCaloriesBurned;
+  var _prepTime;
+  var totalTime;
   Duration prepDuration;
   Duration workoutDuration;
   Timer _workoutTimer;
@@ -43,6 +51,8 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
     _prepTime = widget.prepDuration;
     workoutDuration = Duration(seconds: widget.workoutDuration);
     prepDuration = Duration(seconds: widget.prepDuration);
+    totalTime = widget.totalWorkoutTime;
+    totalCaloriesBurned = widget.totalCaloriesBurned;
     startPrepTimer();
     super.initState();
   }
@@ -125,8 +135,14 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
         });
       } else {
         setState(() {
+          totalTime++;
+          totalCaloriesBurned += (widget.currentWorkoutCategory.workouts
+                  .elementAt(widget.currentWorkoutIndex)
+                  .caloriesPerMinute) /
+              60;
           _workoutTime--;
           workoutDuration = Duration(seconds: _workoutTime);
+          print(totalCaloriesBurned);
         });
       }
     });
@@ -135,13 +151,21 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
   void handleTimeout() {
     if (widget.currentWorkoutIndex >=
         widget.currentWorkoutCategory.workouts.length - 1) {
-      Navigator.pushReplacementNamed(context, ResultsScreen.routeName,
-          arguments: widget.currentWorkoutCategory);
+      Navigator.pushReplacementNamed(
+        context,
+        ResultsScreen.routeName,
+        arguments: ResultsScreenArguments(
+            currentWorkoutCategory: widget.currentWorkoutCategory,
+            totalWorkoutTime: widget.totalWorkoutTime,
+            totalCaloriesBurned: totalCaloriesBurned),
+      );
     } else {
       Navigator.of(context).pushReplacementNamed(RestScreen.routeName,
           arguments: RestScreenArguments(
               previousWorkoutIndex: widget.currentWorkoutIndex + 1,
-              currentWorkoutCategoryTitle: widget.currentWorkoutCategoryTitle));
+              currentWorkoutCategoryTitle: widget.currentWorkoutCategoryTitle,
+              totalWorkoutTime: totalTime,
+              totalCaloriesBurned: totalCaloriesBurned));
     }
   }
 

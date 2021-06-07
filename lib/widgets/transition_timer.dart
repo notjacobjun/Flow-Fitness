@@ -8,9 +8,15 @@ class TransitionTimer extends StatefulWidget {
   final int transitionDuration;
   var nextWorkoutIndex;
   final String workoutCategoryTitle;
+  final int totalWorkoutTime;
+  final double totalCaloriesBurned;
 
-  TransitionTimer(this.transitionDuration, this.nextWorkoutIndex,
-      this.workoutCategoryTitle);
+  TransitionTimer(
+      this.transitionDuration,
+      this.nextWorkoutIndex,
+      this.workoutCategoryTitle,
+      this.totalWorkoutTime,
+      this.totalCaloriesBurned);
 
   @override
   _TransitionTimerState createState() => _TransitionTimerState();
@@ -82,7 +88,9 @@ class _TransitionTimerState extends State<TransitionTimer> {
     Navigator.pushReplacementNamed(context, WorkoutScreen.routeName,
         arguments: WorkoutScreenArguments(
             currentWorkoutCategoryTitle: widget.workoutCategoryTitle,
-            upcomingWorkoutIndex: widget.nextWorkoutIndex));
+            upcomingWorkoutIndex: widget.nextWorkoutIndex,
+            totalWorkoutTime: widget.totalWorkoutTime,
+            totalCaloriesBurned: widget.totalCaloriesBurned));
   }
 
   @override
