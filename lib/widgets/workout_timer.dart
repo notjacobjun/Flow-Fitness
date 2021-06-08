@@ -171,6 +171,7 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
 
   @override
   Widget build(BuildContext context) {
+    // final currentWorkoutCategory = widget.currentWorkoutCategory;
     prevDisabled = widget.currentWorkoutIndex == 0;
     nextDisabled = widget.currentWorkoutIndex ==
         widget.currentWorkoutCategory.workouts.length - 1;

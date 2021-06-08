@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:interactive_workout_app/providers/workout_category.dart';
 import 'package:interactive_workout_app/screens/workout_screen.dart';
 import 'package:interactive_workout_app/state_management_helpers/workout_screen_arguments.dart';
 
@@ -8,15 +9,17 @@ class TransitionTimer extends StatefulWidget {
   final int transitionDuration;
   var nextWorkoutIndex;
   final String workoutCategoryTitle;
+  final InnerWorkoutCategoryItem currentWorkoutCategory;
   final int totalWorkoutTime;
   final double totalCaloriesBurned;
 
   TransitionTimer(
-      this.transitionDuration,
+      {this.transitionDuration,
       this.nextWorkoutIndex,
       this.workoutCategoryTitle,
+      this.currentWorkoutCategory,
       this.totalWorkoutTime,
-      this.totalCaloriesBurned);
+      this.totalCaloriesBurned});
 
   @override
   _TransitionTimerState createState() => _TransitionTimerState();
@@ -88,6 +91,7 @@ class _TransitionTimerState extends State<TransitionTimer> {
     Navigator.pushReplacementNamed(context, WorkoutScreen.routeName,
         arguments: WorkoutScreenArguments(
             currentWorkoutCategoryTitle: widget.workoutCategoryTitle,
+            currentWorkoutCategory: widget.currentWorkoutCategory,
             upcomingWorkoutIndex: widget.nextWorkoutIndex,
             totalWorkoutTime: widget.totalWorkoutTime,
             totalCaloriesBurned: widget.totalCaloriesBurned));

@@ -55,24 +55,29 @@ class _WorkoutCategoryItemState extends State<WorkoutCategoryItem> {
             CupertinoDialogAction(
               child: Text("Easy"),
               onPressed: () {
+                adjustWorkoutTimes(Difficulty.Easy, currentWorkoutCategory);
                 Navigator.of(ctx).pop();
               },
             ),
             CupertinoDialogAction(
               child: Text("Medium"),
               onPressed: () {
+                adjustWorkoutTimes(Difficulty.Medium, currentWorkoutCategory);
                 Navigator.of(ctx).pop();
               },
             ),
             CupertinoDialogAction(
               child: Text("Hard"),
               onPressed: () {
+                adjustWorkoutTimes(Difficulty.Hard, currentWorkoutCategory);
                 Navigator.of(ctx).pop();
               },
             ),
             CupertinoDialogAction(
               child: Text("Impossible"),
               onPressed: () {
+                adjustWorkoutTimes(
+                    Difficulty.Impossible, currentWorkoutCategory);
                 Navigator.of(ctx).pop();
               },
             ),
@@ -81,44 +86,51 @@ class _WorkoutCategoryItemState extends State<WorkoutCategoryItem> {
       );
     } else {
       return showDialog(
-          context: context,
-          builder: (ctx) => AlertDialog(
-                title: Center(child: Text("Difficulty")),
-                content: Text("Choose the difficulty of the workout"),
-                actions: [
-                  Column(
-                    // TODO find out how to align these actions
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      TextButton(
-                        child: Text("Easy"),
-                        onPressed: () {
-                          Navigator.of(ctx).pop();
-                        },
-                      ),
-                      TextButton(
-                        child: Text("Medium"),
-                        onPressed: () {
-                          Navigator.of(ctx).pop();
-                        },
-                      ),
-                      TextButton(
-                        child: Text("Hard"),
-                        onPressed: () {
-                          Navigator.of(ctx).pop();
-                        },
-                      ),
-                      TextButton(
-                        child: Text("Impossible"),
-                        onPressed: () {
-                          Navigator.of(ctx).pop();
-                        },
-                      ),
-                    ],
-                  ),
-                ],
-              ));
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Center(child: Text("Difficulty")),
+          content: Text("Choose the difficulty of the workout"),
+          actions: [
+            Column(
+              // TODO find out how to align these actions
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextButton(
+                  child: Text("Easy"),
+                  onPressed: () {
+                    adjustWorkoutTimes(Difficulty.Easy, currentWorkoutCategory);
+                    Navigator.of(ctx).pop();
+                  },
+                ),
+                TextButton(
+                  child: Text("Medium"),
+                  onPressed: () {
+                    adjustWorkoutTimes(
+                        Difficulty.Medium, currentWorkoutCategory);
+                    Navigator.of(ctx).pop();
+                  },
+                ),
+                TextButton(
+                  child: Text("Hard"),
+                  onPressed: () {
+                    adjustWorkoutTimes(Difficulty.Hard, currentWorkoutCategory);
+                    Navigator.of(ctx).pop();
+                  },
+                ),
+                TextButton(
+                  child: Text("Impossible"),
+                  onPressed: () {
+                    adjustWorkoutTimes(
+                        Difficulty.Impossible, currentWorkoutCategory);
+                    Navigator.of(ctx).pop();
+                  },
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
     }
   }
 
@@ -130,6 +142,7 @@ class _WorkoutCategoryItemState extends State<WorkoutCategoryItem> {
             currentWorkoutCategoryTitle: widget.title,
             upcomingWorkoutIndex: 0,
             totalWorkoutTime: 0,
+            currentWorkoutCategory: currentWorkoutCategory,
             totalCaloriesBurned: 0));
   }
 

@@ -139,5 +139,15 @@ class WorkoutCategory with ChangeNotifier {
     return _categories.firstWhere((category) => category.title == title);
   }
 
-  void selectDifficulty() {}
+  void resetWorkoutTimes(InnerWorkoutCategoryItem currentWorkout) {
+    currentWorkout.workouts.forEach((workout) {
+      print(WORKOUT_DATA
+          .firstWhere(
+              (workoutDataTest) => workoutDataTest.title == workout.title)
+          .workoutDuration);
+      workout.workoutDuration = CONSTANT_WORKOUT_DATA
+          .firstWhere((workoutData) => workoutData.title == workout.title)
+          .workoutDuration;
+    });
+  }
 }

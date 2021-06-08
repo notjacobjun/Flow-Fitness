@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:interactive_workout_app/providers/workout_category.dart';
 import 'package:interactive_workout_app/state_management_helpers/workout_screen_arguments.dart';
@@ -34,10 +35,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     print(totalCaloriesBurned);
     const prepDuration = 5;
     Size size = MediaQuery.of(context).size;
-    final currentWorkoutCategory = Provider.of<WorkoutCategory>(context,
-            listen: false)
-        .categories
-        .firstWhere((workoutCategory) => workoutCategory.title == workoutTitle);
+    final currentWorkoutCategory = args.currentWorkoutCategory;
     final currentWorkout =
         currentWorkoutCategory.workouts.elementAt(upcomingWorkoutIndex);
 
@@ -45,7 +43,36 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
       appBar: AppBar(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         title: Text(workoutTitle),
-        backwardsCompatibility: true,
+        leading: IconButton(
+          icon: Icon(Theme.of(context).platform == TargetPlatform.iOS
+              ? Icons.arrow_back_ios
+              : Icons.arrow_back),
+          onPressed: () {
+            print("run");
+            Provider.of<WorkoutCategory>(context, listen: false)
+                .resetWorkoutTimes(currentWorkoutCategory);
+            Navigator.of(context).pop();
+            // var isPop;
+            // isPop = showOkCancelAlertDialog(
+            //     context: context,
+            //     title: "Confirm",
+            //     okLabel: "Exit",
+            //     useRootNavigator: true,
+            //     cancelLabel: "Stay",
+            //     onWillPop: () {
+            //       isPop = OkCancelResult.cancel;
+            //       return Future.value(false);
+            //     },
+            //     message:
+            //         "Are you sure that you want to exit already? (You won't get any rewards)");
+            // print(isPop);
+            // if (isPop == OkCancelResult.cancel) {
+            //   Provider.of<WorkoutCategory>(context)
+            //       .resetWorkoutTimes(currentWorkoutCategory);
+            //   Navigator.of(context).pop();
+            // }
+          },
+        ),
       ),
       body: Container(
         width: size.width,
