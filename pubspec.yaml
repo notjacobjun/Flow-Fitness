@@ -32,6 +32,7 @@ dependencies:
   provider: ^5.0.0
   glassmorphism: ^2.0.1
   adaptive_dialog: ^1.0.0
+  confirm_dialog: ^1.0.0
 
 dev_dependencies:
   flutter_test:

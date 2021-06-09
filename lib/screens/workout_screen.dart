@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:confirm_dialog/confirm_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:interactive_workout_app/providers/workout_category.dart';
 import 'package:interactive_workout_app/state_management_helpers/workout_screen_arguments.dart';
@@ -47,11 +47,33 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
           icon: Icon(Theme.of(context).platform == TargetPlatform.iOS
               ? Icons.arrow_back_ios
               : Icons.arrow_back),
-          onPressed: () {
-            print("run");
-            Provider.of<WorkoutCategory>(context, listen: false)
-                .resetWorkoutTimes(currentWorkoutCategory);
-            Navigator.of(context).pop();
+          onPressed: () async {
+            if (await confirm(
+              context,
+              title: Text('Confirm'),
+              content: Text('Would you like to remove?'),
+              textOK: Text('Yes'),
+              textCancel: Text('No'),
+            )) {
+              Provider.of<WorkoutCategory>(context, listen: false)
+                  .resetWorkoutTimes(currentWorkoutCategory);
+              return Navigator.of(context).pop();
+            }
+            return print('pressedCancel');
+            // final choice = showDialog(
+            //   context: context,
+            //   builder: (_) => CustomDialogBox(
+            //     title: "Confirm",
+            //     descriptions:
+            //         "Are you sure that you want to exit this workout early",
+            //     positiveText: "Yes",
+            //     negativeText: "No",
+            //   ),
+            // );
+            // if (choice) {
+            // }
+
+            // Navigator.of(context).pop();
             // var isPop;
             // isPop = showOkCancelAlertDialog(
             //     context: context,
