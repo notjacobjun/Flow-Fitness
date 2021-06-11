@@ -1,4 +1,4 @@
-import 'package:confirm_dialog/confirm_dialog.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:interactive_workout_app/providers/workout_category.dart';
 import 'package:interactive_workout_app/state_management_helpers/workout_screen_arguments.dart';
@@ -12,16 +12,65 @@ class WorkoutScreen extends StatefulWidget {
 }
 
 class _WorkoutScreenState extends State<WorkoutScreen> {
-  // Widget showWorkout(Workout workout) {
-  //   Duration duration = Duration(seconds: workout.workoutDuration);
-  //   if (workout.difficulty == Difficulty.Easy) {
-  //     duration = Duration(seconds: workout.workoutDuration - 10);
-  //   } else if (workout.difficulty == Difficulty.Hard) {
-  //     duration = Duration(seconds: workout.workoutDuration + 10);
-  //   } else if (workout.difficulty == Difficulty.Impossible) {
-  //     duration = Duration(seconds: workout.workoutDuration + 20);
-  //   }
-  // }
+  var backPressed = false;
+
+  Future<void> showAdaptiveDialog(BuildContext context,
+      InnerWorkoutCategoryItem currentWorkoutCategory) async {
+    var isiOS = (Theme.of(context).platform == TargetPlatform.iOS);
+    if (isiOS) {
+      return showCupertinoDialog(
+        context: context,
+        builder: (ctx) => CupertinoAlertDialog(
+          title: Text("Confirmation"),
+          content: Text(
+              "Are you sure that you want to exit this workout early? (Your burned calories won't be recorded)"),
+          actions: [
+            CupertinoDialogAction(
+              child: Text("Yes", style: TextStyle(fontWeight: FontWeight.bold)),
+              onPressed: () {
+                Provider.of<WorkoutCategory>(context, listen: false)
+                    .resetWorkoutTimes(currentWorkoutCategory);
+                Navigator.of(ctx).pop();
+                Navigator.of(ctx).pop();
+              },
+            ),
+            CupertinoDialogAction(
+              child: Text("No"),
+              onPressed: () {
+                Navigator.of(ctx).pop();
+              },
+            ),
+          ],
+        ),
+      );
+    } else {
+      return showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text("Confirmation"),
+          content: Text(
+              "Are you sure that you want to exit this workout early? (Your burned calories won't be recorded)"),
+          actions: [
+            TextButton(
+              child: Text("Yes", style: TextStyle(fontWeight: FontWeight.bold)),
+              onPressed: () {
+                Provider.of<WorkoutCategory>(context, listen: false)
+                    .resetWorkoutTimes(currentWorkoutCategory);
+                Navigator.of(ctx).pop();
+                Navigator.of(ctx).pop();
+              },
+            ),
+            TextButton(
+              child: Text("No"),
+              onPressed: () {
+                Navigator.of(ctx).pop();
+              },
+            ),
+          ],
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,51 +97,21 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
               ? Icons.arrow_back_ios
               : Icons.arrow_back),
           onPressed: () async {
-            if (await confirm(
-              context,
-              title: Text('Confirm'),
-              content: Text('Would you like to remove?'),
-              textOK: Text('Yes'),
-              textCancel: Text('No'),
-            )) {
-              Provider.of<WorkoutCategory>(context, listen: false)
-                  .resetWorkoutTimes(currentWorkoutCategory);
-              return Navigator.of(context).pop();
-            }
-            return print('pressedCancel');
-            // final choice = showDialog(
-            //   context: context,
-            //   builder: (_) => CustomDialogBox(
-            //     title: "Confirm",
-            //     descriptions:
-            //         "Are you sure that you want to exit this workout early",
-            //     positiveText: "Yes",
-            //     negativeText: "No",
-            //   ),
-            // );
-            // if (choice) {
-            // }
-
-            // Navigator.of(context).pop();
-            // var isPop;
-            // isPop = showOkCancelAlertDialog(
-            //     context: context,
-            //     title: "Confirm",
-            //     okLabel: "Exit",
-            //     useRootNavigator: true,
-            //     cancelLabel: "Stay",
-            //     onWillPop: () {
-            //       isPop = OkCancelResult.cancel;
-            //       return Future.value(false);
-            //     },
-            //     message:
-            //         "Are you sure that you want to exit already? (You won't get any rewards)");
-            // print(isPop);
-            // if (isPop == OkCancelResult.cancel) {
-            //   Provider.of<WorkoutCategory>(context)
+            // TODO configure so that we pause the prepare timer and the workout if we think about leaving the app
+            showAdaptiveDialog(context, currentWorkoutCategory);
+            // if (await confirm(
+            //   context,
+            //   title: Text('Confirm'),
+            //   content: Text(
+            //       'Are you sure that you want to leave this workout early? (you won\'t gain any rewards)'),
+            //   textOK: Text('Yes'),
+            //   textCancel: Text('No'),
+            // )) {
+            //   Provider.of<WorkoutCategory>(context, listen: false)
             //       .resetWorkoutTimes(currentWorkoutCategory);
-            //   Navigator.of(context).pop();
+            //   return Navigator.of(context).pop();
             // }
+            // return print('pressedCancel');
           },
         ),
       ),

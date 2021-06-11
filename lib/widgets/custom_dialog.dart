@@ -1,27 +1,36 @@
+import 'dart:ui';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CustomDialogBox extends StatefulWidget {
-  final String title;
-  final String descriptions;
-  final String positiveText;
-  final String negativeText;
-  final Function onPositiveAction;
+  final String title, descriptions, text;
+  final Image img;
 
-  CustomDialogBox(
-      {this.title,
-      this.descriptions,
-      this.positiveText,
-      this.negativeText,
-      this.onPositiveAction});
+  const CustomDialogBox(
+      {Key key, this.title, this.descriptions, this.text, this.img})
+      : super(key: key);
 
   @override
   _CustomDialogBoxState createState() => _CustomDialogBoxState();
 }
 
 class _CustomDialogBoxState extends State<CustomDialogBox> {
-  contentBox(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      elevation: 0,
+      backgroundColor: Colors.transparent,
+      child: contentBox(context),
+    );
+  }
+
+  contentBox(context) {
     return Stack(
-      children: [
+      children: <Widget>[
         Container(
           padding: EdgeInsets.only(left: 20, top: 65, right: 20, bottom: 20),
           margin: EdgeInsets.only(top: 45),
@@ -45,7 +54,7 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
               ),
               Text(
                 widget.descriptions,
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                style: TextStyle(fontSize: 14),
                 textAlign: TextAlign.center,
               ),
               SizedBox(
@@ -53,24 +62,12 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
               ),
               Align(
                 alignment: Alignment.bottomRight,
-                child: TextButton(
-                  child: Text(
-                    widget.negativeText,
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  onPressed: () {
-                    Navigator.of(context).pop(false);
-                  },
-                ),
-              ),
-              Align(
-                alignment: Alignment.bottomRight,
-                child: TextButton(
+                child: FlatButton(
                     onPressed: () {
-                      Navigator.of(context).pop(true);
+                      Navigator.of(context).pop();
                     },
                     child: Text(
-                      widget.positiveText,
+                      widget.text,
                       style: TextStyle(fontSize: 18),
                     )),
               ),
@@ -79,29 +76,16 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
         ),
         Positioned(
           left: 20,
-          top: 20,
           right: 20,
           child: CircleAvatar(
             backgroundColor: Colors.transparent,
             radius: 45,
             child: ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(45)),
-                child: Image.asset("assets/images/exercise.png")),
+                child: Image.asset("assets/model.jpeg")),
           ),
         ),
       ],
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-      elevation: 0,
-      backgroundColor: Colors.transparent,
-      child: contentBox(context),
     );
   }
 }
