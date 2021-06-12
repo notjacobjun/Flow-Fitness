@@ -23,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       appBar: AppBar(
         title: Text("Flow Fitness"),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       ),
       drawer: DetailDrawer(context),
     );

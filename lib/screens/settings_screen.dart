@@ -20,6 +20,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
       appBar: AppBar(
         title: Text("Settings"),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       ),
       drawer: DetailDrawer(context),
       body: Column(

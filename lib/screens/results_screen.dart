@@ -17,7 +17,9 @@ class ResultsScreen extends StatelessWidget {
         ModalRoute.of(context).settings.arguments as ResultsScreenArguments;
     final currentWorkoutCategory = args.currentWorkoutCategory;
     final totalWorkoutTime = args.totalWorkoutTime;
+    // convert the calories into a 2 precision double
     calorieSum = args.totalCaloriesBurned;
+    calorieSum = num.parse(calorieSum.toStringAsPrecision(2));
     return Scaffold(
       appBar: AppBar(title: Text("Results")),
       body: Center(
@@ -25,7 +27,7 @@ class ResultsScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Text(
-                "You exercised for ${totalWorkoutTime} seconds and burned: ${calorieSum.toStringAsPrecision(2)} calories!"),
+                "You exercised for $totalWorkoutTime seconds and burned: $calorieSum calories!"),
             RoundedButton(
               message: "Finish",
               color: Theme.of(context).primaryColor,

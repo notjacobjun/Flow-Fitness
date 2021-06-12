@@ -19,6 +19,7 @@ class SocialScreenState extends State<SocialScreen> {
       ),
       appBar: AppBar(
         title: Text("Social"),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       ),
       drawer: DetailDrawer(context),
       body: Column(

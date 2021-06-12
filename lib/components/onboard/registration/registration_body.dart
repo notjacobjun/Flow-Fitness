@@ -20,12 +20,13 @@ class RegistrationBody extends StatefulWidget {
 
 class _RegistrationBodyState extends State<RegistrationBody> {
   final _formKey = GlobalKey<FormState>();
+  final _userNameFocusNode = FocusNode();
   final _passwordFocusNode = FocusNode();
   final _confirmPasswordFocusNode = FocusNode();
   var hidePassword = true;
   var hideConfirmPassword = true;
   AuthenticationService authenticationService;
-  String email, password, confirmPassword;
+  String email, name, password, confirmPassword;
   StreamSubscription<User> _listener;
 
   void _saveForm() {
@@ -50,7 +51,8 @@ class _RegistrationBodyState extends State<RegistrationBody> {
   Future<void> register() async {
     if (_formKey.currentState.validate()) {
       _saveForm();
-      await authenticationService.signUp(email: email, password: password);
+      await authenticationService.signUp(
+          name: name, email: email, password: password);
       checkUserStatus();
     }
   }
@@ -60,6 +62,7 @@ class _RegistrationBodyState extends State<RegistrationBody> {
     if (_listener != null) {
       _listener.cancel();
     }
+    _userNameFocusNode.dispose();
     _passwordFocusNode.dispose();
     _confirmPasswordFocusNode.dispose();
     super.dispose();
@@ -89,8 +92,9 @@ class _RegistrationBodyState extends State<RegistrationBody> {
             RoundedInputField(
               child: TextFormField(
                 cursorColor: Theme.of(context).indicatorColor,
+                style: TextStyle(color: Theme.of(context).indicatorColor),
                 onEditingComplete: () {
-                  FocusScope.of(context).requestFocus(_passwordFocusNode);
+                  FocusScope.of(context).requestFocus(_userNameFocusNode);
                 },
                 onSaved: (input) => email = input,
                 textInputAction: TextInputAction.next,
@@ -117,7 +121,34 @@ class _RegistrationBodyState extends State<RegistrationBody> {
             ),
             RoundedInputField(
               child: TextFormField(
+                focusNode: _userNameFocusNode,
+                style: TextStyle(color: Theme.of(context).indicatorColor),
+                cursorColor: Theme.of(context).indicatorColor,
+                onEditingComplete: () {
+                  FocusScope.of(context).requestFocus(_passwordFocusNode);
+                },
+                onSaved: (input) => name = input,
+                textInputAction: TextInputAction.next,
+                validator: (input) {
+                  if (input == null) {
+                    return "Please enter a username";
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(
+                  hintStyle: TextStyle(color: Theme.of(context).indicatorColor),
+                  icon: Icon(
+                    Icons.person,
+                    color: Theme.of(context).indicatorColor,
+                  ),
+                  hintText: "Enter a username*",
+                ),
+              ),
+            ),
+            RoundedInputField(
+              child: TextFormField(
                 focusNode: _passwordFocusNode,
+                style: TextStyle(color: Theme.of(context).indicatorColor),
                 onFieldSubmitted: (_) => FocusScope.of(context)
                     .requestFocus(_confirmPasswordFocusNode),
                 // onSaved: (input) => password = input,
@@ -157,6 +188,7 @@ class _RegistrationBodyState extends State<RegistrationBody> {
             RoundedInputField(
               child: TextFormField(
                 focusNode: _confirmPasswordFocusNode,
+                style: TextStyle(color: Theme.of(context).indicatorColor),
                 onSaved: (input) => confirmPassword = input,
                 textInputAction: TextInputAction.done,
                 onFieldSubmitted: (_) {

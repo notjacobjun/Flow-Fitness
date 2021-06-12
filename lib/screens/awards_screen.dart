@@ -20,6 +20,7 @@ class _AwardsScreenState extends State<AwardsScreen> {
       ),
       appBar: AppBar(
         title: Text("Awards"),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       ),
       drawer: DetailDrawer(context),
       body: Column(

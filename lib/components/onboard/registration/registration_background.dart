@@ -25,7 +25,7 @@ class RegistrationBackground extends StatelessWidget {
               )),
           GlassmorphicContainer(
             child: Center(child: child),
-            height: size.height * 0.5,
+            height: size.height * 0.65,
             width: size.width * 0.95,
             borderRadius: 50,
             blur: 200,
