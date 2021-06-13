@@ -16,6 +16,7 @@ class AuthenticationService {
     try {
       await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
+      print(_firebaseAuth.currentUser.uid);
       return "Signed in";
     } on FirebaseAuthException catch (e) {
       print(e.message);
@@ -28,7 +29,10 @@ class AuthenticationService {
       await _firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
       final fireStoreInstance = FirebaseFirestore.instance;
-      fireStoreInstance.collection("users").add({
+      fireStoreInstance
+          .collection("users")
+          .doc(_firebaseAuth.currentUser.uid)
+          .set({
         "name": name,
         "email": email,
         "caloriesBurned": 0,
