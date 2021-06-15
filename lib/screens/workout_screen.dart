@@ -88,52 +88,57 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     final currentWorkout =
         currentWorkoutCategory.workouts.elementAt(upcomingWorkoutIndex);
 
-    return Scaffold(
-      appBar: AppBar(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        title: Text(workoutTitle),
-        leading: IconButton(
-          icon: Icon(Theme.of(context).platform == TargetPlatform.iOS
-              ? Icons.arrow_back_ios
-              : Icons.arrow_back),
-          onPressed: () async {
-            // TODO configure so that we pause the prepare timer and the workout if we think about leaving the app
-            showAdaptiveDialog(context, currentWorkoutCategory);
-            // if (await confirm(
-            //   context,
-            //   title: Text('Confirm'),
-            //   content: Text(
-            //       'Are you sure that you want to leave this workout early? (you won\'t gain any rewards)'),
-            //   textOK: Text('Yes'),
-            //   textCancel: Text('No'),
-            // )) {
-            //   Provider.of<WorkoutCategory>(context, listen: false)
-            //       .resetWorkoutTimes(currentWorkoutCategory);
-            //   return Navigator.of(context).pop();
-            // }
-            // return print('pressedCancel');
-          },
-        ),
-      ),
-      body: Container(
-        width: size.width,
-        child:
-            Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-          Text(
-            currentWorkout.title,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        appBar: AppBar(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          title: Text(workoutTitle),
+          leading: IconButton(
+            icon: Icon(Theme.of(context).platform == TargetPlatform.iOS
+                ? Icons.arrow_back_ios
+                : Icons.arrow_back),
+            onPressed: () async {
+              // TODO configure so that we pause the prepare timer and the workout if we think about leaving the app
+              showAdaptiveDialog(context, currentWorkoutCategory);
+              // if (await confirm(
+              //   context,
+              //   title: Text('Confirm'),
+              //   content: Text(
+              //       'Are you sure that you want to leave this workout early? (you won\'t gain any rewards)'),
+              //   textOK: Text('Yes'),
+              //   textCancel: Text('No'),
+              // )) {
+              //   Provider.of<WorkoutCategory>(context, listen: false)
+              //       .resetWorkoutTimes(currentWorkoutCategory);
+              //   return Navigator.of(context).pop();
+              // }
+              // return print('pressedCancel');
+            },
           ),
-          Image.network(currentWorkout.imageUrl),
-          WorkoutTimer(
-              currentWorkout.workoutDuration,
-              prepDuration,
-              upcomingWorkoutIndex,
-              workoutTitle,
-              currentWorkoutCategory,
-              totalWorkoutTime,
-              totalCaloriesBurned)
-          // PrevPauseForwardButtons(upcomingWorkoutIndex),
-        ]),
+        ),
+        body: Container(
+          width: size.width,
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(
+                  currentWorkout.title,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                ),
+                Image.network(currentWorkout.imageUrl),
+                WorkoutTimer(
+                    currentWorkout.workoutDuration,
+                    prepDuration,
+                    upcomingWorkoutIndex,
+                    workoutTitle,
+                    currentWorkoutCategory,
+                    totalWorkoutTime,
+                    totalCaloriesBurned)
+                // PrevPauseForwardButtons(upcomingWorkoutIndex),
+              ]),
+        ),
       ),
     );
   }

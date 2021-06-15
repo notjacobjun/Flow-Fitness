@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:interactive_workout_app/screens/awards_screen.dart';
 import 'package:interactive_workout_app/screens/home_screen.dart';
 import 'package:interactive_workout_app/screens/login_screen.dart';
+import 'package:interactive_workout_app/screens/no_guild_screen.dart';
 import 'package:interactive_workout_app/screens/registration_screen.dart';
 import 'package:interactive_workout_app/screens/rest_screen.dart';
 import 'package:interactive_workout_app/screens/results_screen.dart';
@@ -68,6 +69,7 @@ class MyApp extends StatelessWidget {
           WorkoutScreen.routeName: (ctx) => WorkoutScreen(),
           RestScreen.routeName: (ctx) => RestScreen(),
           ResultsScreen.routeName: (ctx) => ResultsScreen(),
+          NoGuildScreen.routeName: (ctx) => NoGuildScreen(),
         },
       ),
     );

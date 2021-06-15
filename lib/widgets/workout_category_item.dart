@@ -87,6 +87,7 @@ class _WorkoutCategoryItemState extends State<WorkoutCategoryItem> {
     } else {
       return showDialog(
         context: context,
+        barrierDismissible: false,
         builder: (ctx) => AlertDialog(
           title: Center(child: Text("Difficulty")),
           content: Text("Choose the difficulty of the workout"),

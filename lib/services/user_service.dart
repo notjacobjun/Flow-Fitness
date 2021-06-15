@@ -13,6 +13,24 @@ class UserService {
     return res.floor();
   }
 
+  Future<String> getGuild() {
+    try {
+      final User currentUser = _firebaseAuth.currentUser;
+      final String currentUID = currentUser.uid;
+      final fireStoreInstance = FirebaseFirestore.instance;
+      var guild;
+      fireStoreInstance
+          .collection("users")
+          .doc(currentUID)
+          .get()
+          .then((value) => guild = value.data()["guild"]);
+      return guild;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
   Future<String> getUserName() async {
     try {
       final User currentUser = _firebaseAuth.currentUser;
@@ -30,6 +48,7 @@ class UserService {
       return name;
     } catch (e) {
       print(e);
+      return null;
     }
   }
 
