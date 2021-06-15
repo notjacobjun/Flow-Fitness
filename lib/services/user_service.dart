@@ -13,6 +13,26 @@ class UserService {
     return res.floor();
   }
 
+  Future<String> getUserName() async {
+    try {
+      final User currentUser = _firebaseAuth.currentUser;
+      final String currentUID = currentUser.uid;
+      final fireStoreInstance = FirebaseFirestore.instance;
+      var name;
+      // note that we have to await here or else we will get null values
+      await fireStoreInstance
+          .collection("users")
+          .doc(currentUID)
+          .get()
+          .then((value) {
+        name = value.data()["name"];
+      });
+      return name;
+    } catch (e) {
+      print(e);
+    }
+  }
+
   Future<void> updateUsersDB(double caloriesBurned) async {
     try {
       final User currentUser = _firebaseAuth.currentUser;
