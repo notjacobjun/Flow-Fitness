@@ -18,13 +18,14 @@ class SocialScreenState extends State<SocialScreen> {
     // this is used to prevent the setState call during the build method
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (userService.getGuild() == null) {
-        Navigator.of(context).pushReplacementNamed(NoGuildScreen.routeName);
+        Navigator.of(context).pushNamed(NoGuildScreen.routeName);
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     checkForGuild();
     return Scaffold(
       bottomNavigationBar: RoundedBottomNavigationBar(
@@ -35,8 +36,13 @@ class SocialScreenState extends State<SocialScreen> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       ),
       drawer: DetailDrawer(context),
-      body: Column(
-        children: [],
+      // TODO this might be superfluous
+      body: Container(
+        height: size.height,
+        width: size.width,
+        child: Column(
+          children: [],
+        ),
       ),
     );
   }
