@@ -46,24 +46,70 @@ class GuildDetailScreen extends StatelessWidget {
             borderRadius: BorderRadius.circular(25),
             child: Container(
               color: Theme.of(context).primaryColor,
-              height: size.height * 0.49,
+              // TODO see if there is a need to change this later on
+              height: size.height * 0.5385,
               width: size.width,
-              child: Column(
-                children: [
-                  Text(
-                    "here",
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: guildService.getMemberCount(guildId),
-                      itemBuilder: (context, index) => ListTile(
-                          // TODO add leading here to build member layout for each member
-                          ),
-                    ),
-                  ),
-                ],
-              ),
+              child: FutureBuilder<QuerySnapshot>(
+                  // Pass `Future<QuerySnapshot>` to future
+                  future: guildService.getMembers(guildId),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      // convert the Future<QuerySnapshot> into a List<membersnapshot>
+                      final List<DocumentSnapshot> members = snapshot.data.docs;
+                      // TODO change to listView builder b/c we could have a large number of members
+                      return ListView(
+                          // this is used to prevent unbounded vertical space for this ListView within a Column
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          children: members
+                              .map((doc) => GestureDetector(
+                                    onTap: () {
+                                      print("tapped");
+                                      // go to the guild detail page
+                                    },
+                                    child: Card(
+                                      elevation: 10,
+                                      color:
+                                          Theme.of(context).primaryColorLight,
+                                      child: ListTile(
+                                        title: Text(
+                                          doc['name'],
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              color: Theme.of(context)
+                                                  .indicatorColor,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        subtitle: Column(
+                                          children: [
+                                            Text(
+                                              doc['profilePicture'],
+                                              style: TextStyle(
+                                                  fontStyle: FontStyle.italic,
+                                                  color: Theme.of(context)
+                                                      .indicatorColor,
+                                                  fontSize: 16),
+                                            ),
+                                            Text(
+                                              "Calories burned: " +
+                                                  doc['caloriesBurned']
+                                                      .toString(),
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontStyle: FontStyle.italic,
+                                                  color: Theme.of(context)
+                                                      .indicatorColor),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ))
+                              .toList());
+                    }
+                    // only return here if there is an error
+                    return Text("There is an error");
+                  }),
             ),
           ),
         ],

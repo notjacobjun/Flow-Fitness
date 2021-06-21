@@ -17,21 +17,13 @@ class GuildService {
     return doc;
   }
 
-  List getMembers(String guildId) {
-    List<dynamic> members;
-    _firebaseFirestore
+  Future<QuerySnapshot> getMembers(String guildId) async {
+    final members = _firebaseFirestore
         .collection("guilds")
         .doc(guildId)
         .collection("members")
-        .get()
-        .then((querySnapshot) {
-      querySnapshot.docs.forEach((member) {
-        print(member.id);
-        members.add(member);
-        print(member.runtimeType);
-      });
-      return members;
-    });
+        .get();
+    return members;
   }
 
   int getMemberCount(String id) {
