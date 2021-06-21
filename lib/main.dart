@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:interactive_workout_app/screens/awards_screen.dart';
+import 'package:interactive_workout_app/screens/guild_detail_screen.dart';
 import 'package:interactive_workout_app/screens/home_screen.dart';
 import 'package:interactive_workout_app/screens/login_screen.dart';
 import 'package:interactive_workout_app/screens/no_guild_screen.dart';
@@ -71,6 +72,7 @@ class MyApp extends StatelessWidget {
           RestScreen.routeName: (ctx) => RestScreen(),
           ResultsScreen.routeName: (ctx) => ResultsScreen(),
           NoGuildScreen.routeName: (ctx) => NoGuildScreen(),
+          GuildDetailScreen.routeName: (ctx) => GuildDetailScreen(),
         },
       ),
     );

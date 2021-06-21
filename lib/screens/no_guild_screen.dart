@@ -1,9 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:interactive_workout_app/screens/guild_detail_screen.dart';
 import 'package:interactive_workout_app/services/guild_service.dart';
+import 'package:interactive_workout_app/state_management_helpers/guild_detail_screen_arguments.dart';
 
 class NoGuildScreen extends StatelessWidget {
   static const routeName = "/no-guild";
+
+  void navigateToGuild(String id, BuildContext context) {
+    Navigator.of(context).pushNamed(GuildDetailScreen.routeName,
+        arguments: GuildDetailScreenArguments(id));
+  }
 
   Future<QuerySnapshot> getRecommendedGuilds() {
     final GuildService guildService = GuildService();
@@ -54,6 +61,7 @@ class NoGuildScreen extends StatelessWidget {
                             children: documents
                                 .map((doc) => GestureDetector(
                                       onTap: () {
+                                        navigateToGuild(doc.id, context);
                                         // go to the guild detail page
                                       },
                                       child: Card(
