@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "243096057917",
+    "project_id": "flow-fitness-5ebd2",
+    "storage_bucket": "flow-fitness-5ebd2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:243096057917:android:e55ea03cfd1ac32128d254",
+        "android_client_info": {
+          "package_name": "com.example.interactive_workout_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "243096057917-7lc5ndknubbos7v3esqv9p7g9c58fdvo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABMMBZKWB8z-GesWHJoTnd319c8oH8DbM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "243096057917-7lc5ndknubbos7v3esqv9p7g9c58fdvo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
