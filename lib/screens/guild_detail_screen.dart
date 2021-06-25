@@ -1,26 +1,54 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:interactive_workout_app/services/guild_service.dart';
 import 'package:interactive_workout_app/state_management_helpers/guild_detail_screen_arguments.dart';
+import 'package:interactive_workout_app/widgets/custom_dialog_box.dart';
 
-class GuildDetailScreen extends StatelessWidget {
+class GuildDetailScreen extends StatefulWidget {
   static const routeName = "guild-detail";
+
+  @override
+  _GuildDetailScreenState createState() => _GuildDetailScreenState();
+}
+
+class _GuildDetailScreenState extends State<GuildDetailScreen> {
+  final GuildService guildService = GuildService();
+  final User currentUser = FirebaseAuth.instance.currentUser;
+
+  void showProfilePage(
+      {BuildContext context,
+      String title,
+      String description,
+      String image,
+      int caloriesBurned}) {
+    showDialog(
+        context: context,
+        builder: (ctx) {
+          return CustomDialogBox(
+            title: title,
+            descriptions: description,
+            text: "Add to Friend list",
+            img: Image.network(image),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final args =
         ModalRoute.of(context).settings.arguments as GuildDetailScreenArguments;
-    final GuildService guildService = GuildService();
     final String guildId = args.guildId;
     final Future<DocumentSnapshot> guild = guildService.getGuild(guildId);
     return Scaffold(
       appBar: AppBar(
-        title: FutureBuilder(
+        title: FutureBuilder<DocumentSnapshot>(
           future: guild,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return Text("something");
+              return Text(snapshot.data['name']);
             } else if (!snapshot.hasData) {
               return Text("The guild name hasn't been configured yet");
             } else {
@@ -33,13 +61,24 @@ class GuildDetailScreen extends StatelessWidget {
         children: [
           FittedBox(
             fit: BoxFit.contain,
-            child: CachedNetworkImage(
-              height: size.height * 0.35,
-              width: size.width,
-              imageUrl:
-                  "https://github.githubassets.com/images/modules/open_graph/github-mark.png",
-              placeholder: (context, url) => new CircularProgressIndicator(),
-              errorWidget: (context, url, error) => new Icon(Icons.error),
+            child: FutureBuilder<DocumentSnapshot>(
+              future: guild,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return CachedNetworkImage(
+                    height: size.height * 0.35,
+                    width: size.width,
+                    imageUrl: snapshot.data['image'],
+                    placeholder: (context, url) =>
+                        new CircularProgressIndicator(),
+                    errorWidget: (context, url, error) => new Icon(Icons.error),
+                  );
+                } else if (!snapshot.hasData) {
+                  return Text("The guild name hasn't been configured yet");
+                } else {
+                  return CircularProgressIndicator();
+                }
+              },
             ),
           ),
           ClipRRect(
@@ -54,58 +93,115 @@ class GuildDetailScreen extends StatelessWidget {
                   future: guildService.getMembers(guildId),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-                      // convert the Future<QuerySnapshot> into a List<membersnapshot>
-                      final List<DocumentSnapshot> members = snapshot.data.docs;
+                      // convert the Future<QuerySnapshot> into a List<DocumentSnapshot>
+                      List<DocumentSnapshot> members = snapshot.data.docs;
                       // TODO change to listView builder b/c we could have a large number of members
-                      return ListView(
-                          // this is used to prevent unbounded vertical space for this ListView within a Column
-                          scrollDirection: Axis.vertical,
-                          shrinkWrap: true,
-                          children: members
-                              .map((doc) => GestureDetector(
-                                    onTap: () {
-                                      print("tapped");
-                                      // go to the guild detail page
-                                    },
-                                    child: Card(
-                                      elevation: 10,
-                                      color:
-                                          Theme.of(context).primaryColorLight,
-                                      child: ListTile(
-                                        title: Text(
-                                          doc['name'],
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              color: Theme.of(context)
-                                                  .indicatorColor,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        subtitle: Column(
-                                          children: [
-                                            Text(
-                                              doc['profilePicture'],
-                                              style: TextStyle(
-                                                  fontStyle: FontStyle.italic,
-                                                  color: Theme.of(context)
-                                                      .indicatorColor,
-                                                  fontSize: 16),
+                      return Column(
+                        children: [
+                          ListView(
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              children: members
+                                  .map((doc) => GestureDetector(
+                                        onTap: () {
+                                          showProfilePage(
+                                              context: context,
+                                              title: doc["name"],
+                                              description: doc["description"],
+                                              image: doc["profilePicture"],
+                                              caloriesBurned:
+                                                  doc["caloriesBurned"]);
+                                        },
+                                        child: Card(
+                                          elevation: 10,
+                                          color: Theme.of(context)
+                                              .primaryColorLight,
+                                          child: ListTile(
+                                            title: Row(
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(4.0),
+                                                  child: CircleAvatar(
+                                                    backgroundColor:
+                                                        Colors.transparent,
+                                                    child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              25),
+                                                      child: CachedNetworkImage(
+                                                        imageUrl: doc[
+                                                            'profilePicture'],
+                                                        fit: BoxFit.fill,
+                                                        placeholder: (context,
+                                                                url) =>
+                                                            new CircularProgressIndicator(),
+                                                        errorWidget: (context,
+                                                                url, error) =>
+                                                            new Icon(
+                                                                Icons.error),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Text(
+                                                  doc['name'],
+                                                  style: TextStyle(
+                                                      fontSize: 20,
+                                                      color: Theme.of(context)
+                                                          .indicatorColor,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ],
                                             ),
-                                            Text(
-                                              "Calories burned: " +
-                                                  doc['caloriesBurned']
-                                                      .toString(),
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontStyle: FontStyle.italic,
-                                                  color: Theme.of(context)
-                                                      .indicatorColor),
-                                            )
-                                          ],
+                                            subtitle: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  "Level: " +
+                                                      doc['level'].toString(),
+                                                  style: TextStyle(
+                                                      fontStyle:
+                                                          FontStyle.italic,
+                                                      color: Theme.of(context)
+                                                          .indicatorColor,
+                                                      fontSize: 16),
+                                                ),
+                                                SizedBox(
+                                                  width: size.width * 0.1,
+                                                ),
+                                                Text(
+                                                  "Calories burned: " +
+                                                      doc['caloriesBurned']
+                                                          .toString(),
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      fontStyle:
+                                                          FontStyle.italic,
+                                                      color: Theme.of(context)
+                                                          .indicatorColor),
+                                                )
+                                              ],
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                  ))
-                              .toList());
+                                      ))
+                                  .toList()),
+                          TextButton(
+                              child: Text("Join Guild"),
+                              onPressed: () async {
+                                try {
+                                  await guildService.addMember(
+                                      context, currentUser, guildId);
+                                } catch (e) {
+                                  print(e);
+                                }
+                                setState(() {});
+                              }),
+                        ],
+                      );
                     }
                     // only return here if there is an error
                     return Text("There is an error");

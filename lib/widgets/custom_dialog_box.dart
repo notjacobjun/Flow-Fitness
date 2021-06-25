@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:interactive_workout_app/constants.dart';
 
 class CustomDialogBox extends StatefulWidget {
   final String title, descriptions, text;
@@ -20,7 +21,7 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
   Widget build(BuildContext context) {
     return Dialog(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(Constants.padding),
       ),
       elevation: 0,
       backgroundColor: Colors.transparent,
@@ -32,12 +33,16 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
     return Stack(
       children: <Widget>[
         Container(
-          padding: EdgeInsets.only(left: 20, top: 65, right: 20, bottom: 20),
-          margin: EdgeInsets.only(top: 45),
+          padding: EdgeInsets.only(
+              left: Constants.padding,
+              top: Constants.avatarRadius + Constants.padding,
+              right: Constants.padding,
+              bottom: Constants.padding),
+          margin: EdgeInsets.only(top: Constants.avatarRadius),
           decoration: BoxDecoration(
               shape: BoxShape.rectangle,
               color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(Constants.padding),
               boxShadow: [
                 BoxShadow(
                     color: Colors.black, offset: Offset(0, 10), blurRadius: 10),
@@ -62,7 +67,7 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
               ),
               Align(
                 alignment: Alignment.bottomRight,
-                child: FlatButton(
+                child: TextButton(
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
@@ -81,8 +86,9 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
             backgroundColor: Colors.transparent,
             radius: 45,
             child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(45)),
-                child: Image.asset("assets/model.jpeg")),
+              borderRadius: BorderRadius.all(Radius.circular(45)),
+              child: widget.img,
+            ),
           ),
         ),
       ],

@@ -34,7 +34,6 @@ dependencies:
   adaptive_dialog: ^1.0.0
   confirm_dialog: ^1.0.0
   cloud_firestore: ^2.2.2
-  http: ^0.13.3
   cached_network_image: ^3.0.0
 
 dev_dependencies:

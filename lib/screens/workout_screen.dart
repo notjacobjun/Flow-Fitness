@@ -14,8 +14,8 @@ class WorkoutScreen extends StatefulWidget {
 class _WorkoutScreenState extends State<WorkoutScreen> {
   var backPressed = false;
 
-  Future<void> showAdaptiveDialog(BuildContext context,
-      InnerWorkoutCategoryItem currentWorkoutCategory) async {
+  Future<void> showAdaptiveDialog(
+      BuildContext context, InnerWorkoutCategoryItem currentWorkoutCategory) {
     var isiOS = (Theme.of(context).platform == TargetPlatform.iOS);
     if (isiOS) {
       return showCupertinoDialog(
