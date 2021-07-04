@@ -40,11 +40,6 @@ class GuildService {
     var userDescription;
     var userCaloriesBurned;
     var userProfilePicture;
-    if (userInformation.docs.length > 1) {
-      print(
-          "something went wrong in adding a user to the guild (got too many users should only get the currently logged in user)");
-      print("note that this might mean that we have duplicate users stored");
-    }
     userInformation.docs.forEach((element) {
       userName = element.data()['name'];
       if (userName == null) {
@@ -70,8 +65,6 @@ class GuildService {
     });
     final currentUser =
         await _firebaseFirestore.collection("users").doc(user.uid).get();
-    print(currentUser.data()['guild']);
-    print(guildId);
     if (currentUser.data()['guild'] == guildId) {
       ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("You are already in this guild")));

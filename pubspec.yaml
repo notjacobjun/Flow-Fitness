@@ -31,10 +31,13 @@ dependencies:
   cupertino_icons: ^1.0.2
   provider: ^5.0.0
   glassmorphism: ^2.0.1
+  # consider getting rid of whichiever dialog dependency you are not using
   adaptive_dialog: ^1.0.0
   confirm_dialog: ^1.0.0
   cloud_firestore: ^2.2.2
   cached_network_image: ^3.0.0
+  mockito: ^5.0.10
+  build_runner: ^2.0.5
 
 dev_dependencies:
   flutter_test:

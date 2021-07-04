@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:interactive_workout_app/components/onboard/welcome/rounded_button.dart';
 import 'package:interactive_workout_app/services/guild_service.dart';
 import 'package:interactive_workout_app/state_management_helpers/guild_detail_screen_arguments.dart';
 import 'package:interactive_workout_app/widgets/custom_dialog_box.dart';
@@ -189,9 +190,10 @@ class _GuildDetailScreenState extends State<GuildDetailScreen> {
                                         ),
                                       ))
                                   .toList()),
-                          TextButton(
-                              child: Text("Join Guild"),
-                              onPressed: () async {
+                          RoundedButton(
+                              message: "Join Guild",
+                              color: Colors.black,
+                              function: () async {
                                 try {
                                   await guildService.addMember(
                                       context, currentUser, guildId);
