@@ -59,7 +59,7 @@ class UserService {
       final fireStoreInstance = FirebaseFirestore.instance;
       var previousCaloriesBurned;
       var currentLevel;
-      // note that we have to await here or else we will get null values
+      // fetching the user data from cloud firestore asynchronously
       await fireStoreInstance
           .collection("users")
           .doc(currentUID)

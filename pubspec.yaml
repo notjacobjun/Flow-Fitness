@@ -38,6 +38,9 @@ dependencies:
   cached_network_image: ^3.0.0
   mockito: ^5.0.10
   build_runner: ^2.0.5
+  flutter_svg: ^0.22.0
+  fake_cloud_firestore: ^1.1.2
+  firebase_auth_mocks: ^0.7.1
 
 dev_dependencies:
   flutter_test:

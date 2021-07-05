@@ -183,12 +183,12 @@ class _WorkoutCategoryItemState extends State<WorkoutCategoryItem> {
             currentCategory.image != null
                 ? ClipRRect(
                     borderRadius: BorderRadius.circular(15),
-                    child: (Image.asset(
+                    child: Image.asset(
                       currentCategory.image,
                       height: size.height * 0.25,
                       width: size.width * 0.38,
                       fit: BoxFit.contain,
-                    )),
+                    ),
                   )
                 : Text("no image"),
           ],
