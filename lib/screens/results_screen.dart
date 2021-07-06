@@ -4,6 +4,7 @@ import 'package:interactive_workout_app/providers/workout_category.dart';
 import 'package:interactive_workout_app/screens/home_screen.dart';
 import 'package:interactive_workout_app/services/user_service.dart';
 import 'package:interactive_workout_app/state_management_helpers/results_screen_arguments.dart';
+import 'package:interactive_workout_app/widgets/rounded_app_bar.dart';
 import 'package:provider/provider.dart';
 
 class ResultsScreen extends StatelessWidget {
@@ -26,7 +27,9 @@ class ResultsScreen extends StatelessWidget {
     calorieSum = args.totalCaloriesBurned;
     calorieSum = num.parse(calorieSum.toStringAsPrecision(2)).toDouble();
     return Scaffold(
-      appBar: AppBar(title: Text("Results")),
+      appBar: RoundedAppBar(
+        text: Text("Results"),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

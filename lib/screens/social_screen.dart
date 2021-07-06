@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:interactive_workout_app/screens/no_guild_screen.dart';
 import 'package:interactive_workout_app/services/user_service.dart';
 import 'package:interactive_workout_app/widgets/detail_drawer.dart';
@@ -41,7 +42,9 @@ class SocialScreenState extends State<SocialScreen> {
         height: size.height,
         width: size.width,
         child: Column(
-          children: [],
+          children: [
+            SvgPicture.asset("assets/images/chat.svg"),
+          ],
         ),
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:glassmorphism/glassmorphism.dart';
 import 'package:interactive_workout_app/models/workout.dart';
 import 'package:interactive_workout_app/providers/workout_category.dart';
 import 'package:interactive_workout_app/screens/workout_screen.dart';
@@ -192,11 +193,38 @@ class _WorkoutCategoryItemState extends State<WorkoutCategoryItem> {
             currentCategory.image != null
                 ? ClipRRect(
                     borderRadius: BorderRadius.circular(15),
-                    child: Image.asset(
-                      currentCategory.image,
-                      height: size.height * 0.25,
-                      width: size.width * 0.38,
-                      fit: BoxFit.contain,
+                    child: GlassmorphicContainer(
+                      borderRadius: 30,
+                      height: size.height * 0.22,
+                      width: size.width * 0.40,
+                      blur: 200,
+                      alignment: Alignment.center,
+                      border: 0.65,
+                      linearGradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            Color(0xFFffffff).withOpacity(0.1),
+                            Color(0xFFFFFFFF).withOpacity(0.05),
+                          ],
+                          stops: [
+                            0.1,
+                            1,
+                          ]),
+                      borderGradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          Color(0xFFffffff).withOpacity(0.5),
+                          Color((0xFFFFFFFF)).withOpacity(0.5),
+                        ],
+                      ),
+                      child: Image.asset(
+                        currentCategory.image,
+                        height: size.height * 0.25,
+                        width: size.width * 0.38,
+                        fit: BoxFit.contain,
+                      ),
                     ),
                   )
                 : Text("no image"),

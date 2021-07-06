@@ -60,15 +60,16 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/exercise.png
-    - assets/images/full-body-workout-image.jpg
-    - assets/images/cardio-image.jpg
-    - assets/images/leg-workout-image.jpg
+    - assets/images/cardio.png
+    - assets/images/full_body_workout.png
+    - assets/images/leg_workout.png
     - assets/images/login-background.jpg
     - assets/images/registration-background.jpg
     - assets/images/welcome-background.jpg
     - assets/images/arm_workout.png
-    - assets/images/Chat_PNG.png
     - assets/images/ab_workout.png
+    - assets/images/chat.png
+    - assets/images/chat.svg
 
     - assets/sounds/countdown.wav
   #   - images/a_dot_ham.jpeg

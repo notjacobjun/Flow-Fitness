@@ -83,7 +83,7 @@ class WorkoutCategory with ChangeNotifier {
         title: "Full body",
         category: TargetMuscles.All,
         color: Colors.deepPurple,
-        image: "assets/images/full-body-workout-image.jpg",
+        image: "assets/images/full_body_workout.png",
         workouts: [
           WORKOUT_DATA.singleWhere((workout) => workout.title == "Pushups"),
           WORKOUT_DATA.singleWhere((workout) => workout.title == "Pushups"),
@@ -113,12 +113,12 @@ class WorkoutCategory with ChangeNotifier {
         title: "Cardio at home",
         category: TargetMuscles.Legs,
         color: Colors.amber,
-        image: "assets/images/cardio-image.jpg"),
+        image: "assets/images/cardio.png"),
     InnerWorkoutCategoryItem(
         title: "Leg workout",
         category: TargetMuscles.Legs,
         color: Colors.amber,
-        image: "assets/images/leg-workout-image.jpg"),
+        image: "assets/images/leg_workout.png"),
     InnerWorkoutCategoryItem(
         title: "Test", category: TargetMuscles.All, color: Colors.deepPurple),
     InnerWorkoutCategoryItem(
