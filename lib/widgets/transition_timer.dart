@@ -104,7 +104,10 @@ class _TransitionTimerState extends State<TransitionTimer> {
       child: Center(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           PrevPauseForwardButtons(context),
-          Text("Rest up!"),
+          Text(
+            "Rest up!",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+          ),
           CircleAvatar(
             child: Text(
               transitionDuration == null

@@ -82,17 +82,16 @@ class _RegistrationBodyState extends State<RegistrationBody> {
             Text(
               "Welcome to Flow Fitness",
               style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).indicatorColor),
+                  fontSize: 24, color: Theme.of(context).indicatorColor),
             ),
             SizedBox(
-              height: size.height * 0.08,
+              height: size.height * 0.05,
             ),
             RoundedInputField(
+              color: Colors.white,
               child: TextFormField(
-                cursorColor: Theme.of(context).indicatorColor,
-                style: TextStyle(color: Theme.of(context).indicatorColor),
+                cursorColor: Theme.of(context).accentColor,
+                style: TextStyle(color: Theme.of(context).accentColor),
                 onEditingComplete: () {
                   FocusScope.of(context).requestFocus(_userNameFocusNode);
                 },
@@ -110,20 +109,21 @@ class _RegistrationBodyState extends State<RegistrationBody> {
                   return null;
                 },
                 decoration: InputDecoration(
-                  hintStyle: TextStyle(color: Theme.of(context).indicatorColor),
+                  hintStyle: TextStyle(color: Theme.of(context).accentColor),
                   icon: Icon(
                     Icons.person,
-                    color: Theme.of(context).indicatorColor,
+                    color: Theme.of(context).accentColor,
                   ),
                   hintText: "Enter your email*",
                 ),
               ),
             ),
             RoundedInputField(
+              color: Colors.white,
               child: TextFormField(
                 focusNode: _userNameFocusNode,
-                style: TextStyle(color: Theme.of(context).indicatorColor),
-                cursorColor: Theme.of(context).indicatorColor,
+                style: TextStyle(color: Theme.of(context).accentColor),
+                cursorColor: Theme.of(context).accentColor,
                 onEditingComplete: () {
                   FocusScope.of(context).requestFocus(_passwordFocusNode);
                 },
@@ -136,25 +136,26 @@ class _RegistrationBodyState extends State<RegistrationBody> {
                   return null;
                 },
                 decoration: InputDecoration(
-                  hintStyle: TextStyle(color: Theme.of(context).indicatorColor),
+                  hintStyle: TextStyle(color: Theme.of(context).accentColor),
                   icon: Icon(
                     Icons.person,
-                    color: Theme.of(context).indicatorColor,
+                    color: Theme.of(context).accentColor,
                   ),
                   hintText: "Enter a username*",
                 ),
               ),
             ),
             RoundedInputField(
+              color: Colors.white,
               child: TextFormField(
                 focusNode: _passwordFocusNode,
-                style: TextStyle(color: Theme.of(context).indicatorColor),
+                style: TextStyle(color: Theme.of(context).accentColor),
                 onFieldSubmitted: (_) => FocusScope.of(context)
                     .requestFocus(_confirmPasswordFocusNode),
                 // onSaved: (input) => password = input,
                 onChanged: (input) => password = input,
                 textInputAction: TextInputAction.next,
-                cursorColor: Theme.of(context).indicatorColor,
+                cursorColor: Theme.of(context).accentColor,
                 validator: (input) {
                   if (input.isEmpty) {
                     return "Please enter a password";
@@ -166,12 +167,12 @@ class _RegistrationBodyState extends State<RegistrationBody> {
                 decoration: InputDecoration(
                   icon: Icon(
                     Icons.password,
-                    color: Theme.of(context).indicatorColor,
+                    color: Theme.of(context).accentColor,
                   ),
                   suffixIcon: IconButton(
                     icon: Icon(
                       Icons.visibility,
-                      color: Theme.of(context).indicatorColor,
+                      color: Theme.of(context).accentColor,
                     ),
                     onPressed: () {
                       setState(() {
@@ -179,16 +180,17 @@ class _RegistrationBodyState extends State<RegistrationBody> {
                       });
                     },
                   ),
-                  hintStyle: TextStyle(color: Theme.of(context).indicatorColor),
+                  hintStyle: TextStyle(color: Theme.of(context).accentColor),
                   hintText: "Enter your password*",
                 ),
                 obscureText: hidePassword,
               ),
             ),
             RoundedInputField(
+              color: Colors.white,
               child: TextFormField(
                 focusNode: _confirmPasswordFocusNode,
-                style: TextStyle(color: Theme.of(context).indicatorColor),
+                style: TextStyle(color: Theme.of(context).accentColor),
                 onSaved: (input) => confirmPassword = input,
                 textInputAction: TextInputAction.done,
                 onFieldSubmitted: (_) {
@@ -198,7 +200,7 @@ class _RegistrationBodyState extends State<RegistrationBody> {
                 onEditingComplete: () {
                   setState(() {});
                 },
-                cursorColor: Theme.of(context).indicatorColor,
+                cursorColor: Theme.of(context).accentColor,
                 validator: (input) {
                   if (input != password) {
                     return "The passwords you entered do not match";
@@ -209,14 +211,14 @@ class _RegistrationBodyState extends State<RegistrationBody> {
                   border: InputBorder.none,
                   icon: Icon(
                     Icons.keyboard,
-                    color: Theme.of(context).indicatorColor,
+                    color: Theme.of(context).accentColor,
                   ),
-                  hintStyle: TextStyle(color: Theme.of(context).indicatorColor),
+                  hintStyle: TextStyle(color: Theme.of(context).accentColor),
                   hintText: "Confirm your password*",
                   suffixIcon: IconButton(
                     icon: Icon(
                       Icons.visibility,
-                      color: Theme.of(context).indicatorColor,
+                      color: Theme.of(context).accentColor,
                     ),
                     onPressed: () {
                       setState(() {
@@ -230,7 +232,7 @@ class _RegistrationBodyState extends State<RegistrationBody> {
             ),
             RoundedButton(
               message: "Register",
-              color: Theme.of(context).primaryColor,
+              color: Colors.black,
               function: register,
             ),
             AlternateOnBoardOption(

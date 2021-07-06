@@ -6,6 +6,7 @@ import 'package:interactive_workout_app/screens/rest_screen.dart';
 import 'package:interactive_workout_app/screens/results_screen.dart';
 import 'package:interactive_workout_app/state_management_helpers/rest_screen_arguments.dart';
 import 'package:interactive_workout_app/state_management_helpers/results_screen_arguments.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class WorkoutTimer extends StatefulWidget {
   final int workoutDuration;
@@ -44,6 +45,8 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
   Duration workoutDuration;
   Timer _workoutTimer;
   Timer _prepTimer;
+  AudioPlayer audioPlayer = AudioPlayer(mode: PlayerMode.LOW_LATENCY);
+  bool playingSound = false;
 
   @override
   void initState() {
@@ -70,6 +73,13 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
 
   void pauseWorkoutTimer() {
     if (_workoutTimer != null) {
+      if (playingSound) {
+        audioPlayer.pause();
+        playingSound = !playingSound;
+      } else {
+        audioPlayer.resume();
+        playingSound = !playingSound;
+      }
       setState(() {
         workoutPaused = !workoutPaused;
         _workoutTimer.cancel();
@@ -111,6 +121,7 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
     const oneSec = const Duration(seconds: 1);
     _prepTimer = new Timer.periodic(oneSec, (timer) {
       if (_prepTime == 0) {
+        // TODO add a start sound here
         setState(() {
           timer.cancel();
           isPrepTime = false;
@@ -128,6 +139,11 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
   void startWorkoutTimer() {
     const oneSec = const Duration(seconds: 1);
     _workoutTimer = new Timer.periodic(oneSec, (timer) {
+      if (_workoutTime == 5) {
+        print("sound should be playing");
+        playingSound = true;
+        audioPlayer.play("assets/sounds/countdown.wav", isLocal: true);
+      }
       if (_workoutTime == 0) {
         setState(() {
           timer.cancel();

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:interactive_workout_app/widgets/detail_drawer.dart';
+import 'package:interactive_workout_app/widgets/rounded_app_bar.dart';
 import 'package:interactive_workout_app/widgets/rounded_bottom_navigation_bar.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -18,9 +19,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
       bottomNavigationBar: RoundedBottomNavigationBar(
         index: _currentIndex,
       ),
-      appBar: AppBar(
-        title: Text("Settings"),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      appBar: RoundedAppBar(
+        text: Text("Settings"),
       ),
       drawer: DetailDrawer(context),
       body: Column(

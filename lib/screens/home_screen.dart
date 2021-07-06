@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:interactive_workout_app/services/user_service.dart';
 import 'package:interactive_workout_app/widgets/detail_drawer.dart';
+import 'package:interactive_workout_app/widgets/rounded_app_bar.dart';
 import 'package:interactive_workout_app/widgets/rounded_bottom_navigation_bar.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -21,9 +23,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final Widget svg = SvgPicture.asset("assets/images/ab_workout.svg");
     Size size = MediaQuery.of(context).size;
-    // final currentUserName = getUserName().toString();
-    // print(currentUserName);
     return Scaffold(
       body: Column(
         children: [
@@ -54,15 +55,19 @@ class _HomeScreenState extends State<HomeScreen> {
                     );
                   }),
             ],
-          )
+          ),
+          Container(
+            child: Image.asset("assets/images/ab_workout.png"),
+            height: size.height * 0.65,
+            width: size.width,
+          ),
         ],
       ),
       bottomNavigationBar: RoundedBottomNavigationBar(
         index: _currentIndex,
       ),
-      appBar: AppBar(
-        title: Text("Flow Fitness"),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      appBar: RoundedAppBar(
+        text: Text("Flow Fitness"),
       ),
       drawer: DetailDrawer(context),
     );

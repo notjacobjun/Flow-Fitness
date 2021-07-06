@@ -27,9 +27,9 @@ class WorkoutCategory with ChangeNotifier {
     InnerWorkoutCategoryItem(
       title: "14-Minute Abs",
       category: TargetMuscles.Abdominal,
-      color: Colors.red,
-      description: "Quick ab workout, no equipment necessary",
-      image: 'assets/images/ab-workout-image.jpg',
+      color: Color(0xFFff7e5f),
+      description: "Quick ab workout with no equipment necessary",
+      image: 'assets/images/ab_workout.png',
       workouts: [
         WORKOUT_DATA.singleWhere((workout) => workout.title == "Ab crunches"),
         WORKOUT_DATA.singleWhere((workout) => workout.title == "Sky reaches"),
@@ -49,9 +49,9 @@ class WorkoutCategory with ChangeNotifier {
     InnerWorkoutCategoryItem(
         title: "Quick arms",
         category: TargetMuscles.Arm,
-        color: Colors.grey,
+        color: Colors.blue.shade100,
         description: "Quick 20 min workout for the upper body",
-        image: "assets/images/arm-workout-image.jpg",
+        image: "assets/images/arm_workout.png",
         workouts: [
           WORKOUT_DATA
               .singleWhere((workout) => workout.title == "Bicep curls (right)"),

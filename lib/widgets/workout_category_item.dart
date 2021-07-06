@@ -156,11 +156,19 @@ class _WorkoutCategoryItemState extends State<WorkoutCategoryItem> {
       widget.description = "Enter description";
     }
     Size size = MediaQuery.of(context).size;
-    return Card(
-      color: currentCategory.color,
-      elevation: 10,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15.0),
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            const Color(0xFFffafbd),
+            const Color(0xFFffc3a0),
+          ],
+          begin: const FractionalOffset(0.0, 0.0),
+          end: const FractionalOffset(1.0, 0.0),
+          stops: [0.0, 1.0],
+          tileMode: TileMode.clamp,
+        ),
+        borderRadius: BorderRadius.circular(15),
       ),
       child: InkWell(
         onTap: () => selectWorkout(context, currentCategory),
@@ -171,13 +179,14 @@ class _WorkoutCategoryItemState extends State<WorkoutCategoryItem> {
               padding: EdgeInsets.all(5),
             ),
             Text(widget.title,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                style: TextStyle(
+                    fontSize: 18, color: Theme.of(context).accentColor)),
             Text(
               widget.description,
               style: TextStyle(
                 fontSize: 14,
                 fontStyle: FontStyle.italic,
-                fontWeight: FontWeight.bold,
+                color: Theme.of(context).accentColor,
               ),
             ),
             currentCategory.image != null

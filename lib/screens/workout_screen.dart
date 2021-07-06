@@ -95,6 +95,13 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           title: Text(workoutTitle),
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Color(0xFFff9966), Color(0xFFff5e62)],
+              ),
+            ),
+          ),
           leading: IconButton(
             icon: Icon(Theme.of(context).platform == TargetPlatform.iOS
                 ? Icons.arrow_back_ios
@@ -125,7 +132,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
               children: [
                 Text(
                   currentWorkout.title,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  style: TextStyle(fontSize: 18),
                 ),
                 Image.network(currentWorkout.imageUrl),
                 WorkoutTimer(

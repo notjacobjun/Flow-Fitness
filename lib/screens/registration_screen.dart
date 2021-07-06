@@ -8,6 +8,13 @@ class RegistrationScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Registration"),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.blueGrey.shade600, Colors.blue.shade900],
+            ),
+          ),
+        ),
       ),
       body: RegistrationBody(),
     );

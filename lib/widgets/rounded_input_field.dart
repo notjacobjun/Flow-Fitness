@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class RoundedInputField extends StatelessWidget {
   final Widget child;
+  final Color color;
 
-  RoundedInputField({this.child});
+  RoundedInputField({this.child, this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +14,7 @@ class RoundedInputField extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       width: size.width * 0.8,
       decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor,
+        color: (color != null ? color : Theme.of(context).primaryColor),
         borderRadius: BorderRadius.circular(30),
       ),
       child: child,

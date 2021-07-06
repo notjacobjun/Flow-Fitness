@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:interactive_workout_app/screens/guild_detail_screen.dart';
 import 'package:interactive_workout_app/services/guild_service.dart';
 import 'package:interactive_workout_app/state_management_helpers/guild_detail_screen_arguments.dart';
+import 'package:interactive_workout_app/widgets/rounded_app_bar.dart';
 
 class NoGuildScreen extends StatelessWidget {
   static const routeName = "/no-guild";
@@ -21,10 +22,8 @@ class NoGuildScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-        appBar: AppBar(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-          title: Text("Join a guild!"),
+        appBar: RoundedAppBar(
+          text: Text("Join a guild"),
         ),
         body: SizedBox(
           height: size.height,
@@ -64,10 +63,17 @@ class NoGuildScreen extends StatelessWidget {
                                         navigateToGuild(doc.id, context);
                                         // go to the guild detail page
                                       },
-                                      child: Card(
-                                        elevation: 10,
-                                        color:
-                                            Theme.of(context).primaryColorLight,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          gradient: LinearGradient(
+                                            begin: Alignment.centerLeft,
+                                            end: Alignment.centerRight,
+                                            colors: [
+                                              Colors.purple,
+                                              Colors.blue
+                                            ],
+                                          ),
+                                        ),
                                         child: ListTile(
                                           title: Text(
                                             doc['name'],

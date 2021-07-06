@@ -8,6 +8,13 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Login"),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.red, Colors.orange],
+            ),
+          ),
+        ),
       ),
       body: LoginBody(),
     );

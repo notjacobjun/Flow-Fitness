@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:interactive_workout_app/providers/workout_category.dart';
 import 'package:interactive_workout_app/state_management_helpers/rest_screen_arguments.dart';
+import 'package:interactive_workout_app/widgets/rounded_app_bar.dart';
 import 'package:interactive_workout_app/widgets/transition_timer.dart';
 import 'package:provider/provider.dart';
 
@@ -28,8 +29,8 @@ class _RestScreenState extends State<RestScreen> {
     final totalCaloriesBurned = args.totalCaloriesBurned;
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Rest"),
+      appBar: RoundedAppBar(
+        text: Text("Rest"),
       ),
       body: Container(
         height: size.height,
@@ -38,7 +39,10 @@ class _RestScreenState extends State<RestScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Text("Next workout: ${nextWorkout.title}"),
+              Text(
+                "Next workout: ${nextWorkout.title}",
+                style: TextStyle(fontSize: 18),
+              ),
               Image.network(nextWorkout.imageUrl),
               TransitionTimer(
                   transitionDuration: transitionTime,

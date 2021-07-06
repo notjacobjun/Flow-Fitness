@@ -6,6 +6,7 @@ import 'package:interactive_workout_app/components/onboard/welcome/rounded_butto
 import 'package:interactive_workout_app/services/guild_service.dart';
 import 'package:interactive_workout_app/state_management_helpers/guild_detail_screen_arguments.dart';
 import 'package:interactive_workout_app/widgets/custom_dialog_box.dart';
+import 'package:interactive_workout_app/widgets/rounded_app_bar.dart';
 
 class GuildDetailScreen extends StatefulWidget {
   static const routeName = "guild-detail";
@@ -43,20 +44,21 @@ class _GuildDetailScreenState extends State<GuildDetailScreen> {
         ModalRoute.of(context).settings.arguments as GuildDetailScreenArguments;
     final String guildId = args.guildId;
     final Future<DocumentSnapshot> guild = guildService.getGuild(guildId);
+    var title = FutureBuilder<DocumentSnapshot>(
+      future: guild,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return Text(snapshot.data['name']);
+        } else if (!snapshot.hasData) {
+          return Text("The guild name hasn't been configured yet");
+        } else {
+          return CircularProgressIndicator();
+        }
+      },
+    );
     return Scaffold(
-      appBar: AppBar(
-        title: FutureBuilder<DocumentSnapshot>(
-          future: guild,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return Text(snapshot.data['name']);
-            } else if (!snapshot.hasData) {
-              return Text("The guild name hasn't been configured yet");
-            } else {
-              return CircularProgressIndicator();
-            }
-          },
-        ),
+      appBar: RoundedAppBar(
+        text: title,
       ),
       body: Column(
         children: [

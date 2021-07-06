@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:interactive_workout_app/providers/workout_category.dart';
 import 'package:interactive_workout_app/widgets/detail_drawer.dart';
+import 'package:interactive_workout_app/widgets/rounded_app_bar.dart';
 import 'package:interactive_workout_app/widgets/rounded_bottom_navigation_bar.dart';
 import 'package:interactive_workout_app/widgets/workout_category_item.dart';
 import 'package:provider/provider.dart';
@@ -21,12 +22,7 @@ class _WorkoutCategoriesScreenState extends State<WorkoutCategoriesScreen> {
     final List<InnerWorkoutCategoryItem> workoutcategories =
         Provider.of<WorkoutCategory>(context).categories;
     return Scaffold(
-      appBar: AppBar(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        title: Text(
-          "Workouts",
-        ),
-      ),
+      appBar: RoundedAppBar(text: Text("Workouts")),
       drawer: DetailDrawer(context),
       bottomNavigationBar: RoundedBottomNavigationBar(
         index: _currentIndex,
