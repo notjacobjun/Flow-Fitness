@@ -3,7 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:interactive_workout_app/components/onboard/welcome/rounded_button.dart';
+import 'package:interactive_workout_app/screens/no_guild_screen.dart';
 import 'package:interactive_workout_app/services/guild_service.dart';
+import 'package:interactive_workout_app/services/user_service.dart';
 import 'package:interactive_workout_app/state_management_helpers/guild_detail_screen_arguments.dart';
 import 'package:interactive_workout_app/widgets/custom_dialog_box.dart';
 import 'package:interactive_workout_app/widgets/rounded_app_bar.dart';
@@ -18,6 +20,17 @@ class GuildDetailScreen extends StatefulWidget {
 class _GuildDetailScreenState extends State<GuildDetailScreen> {
   final GuildService guildService = GuildService();
   final User currentUser = FirebaseAuth.instance.currentUser;
+  final UserService userService = UserService();
+
+  Future<void> checkForGuild() async {
+    final guild = await userService.getGuild();
+    // this is used to prevent the setState call during the build method
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (guild == null) {
+        Navigator.of(context).pushNamed(NoGuildScreen.routeName);
+      }
+    });
+  }
 
   void showProfilePage(
       {BuildContext context,

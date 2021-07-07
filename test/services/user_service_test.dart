@@ -32,10 +32,15 @@ void main() {
       // adding this is causing error
       "test": "test",
     });
+    await mockFirebaseFireStore.collection('guilds').add({
+      // TODO add a guild
+      "": "test",
+    });
     // set the field data for the user in the users collection
     await mockFirebaseFireStore.collection('users').doc('test').set({
       'caloriesBurned': 0,
       'level': 1,
+      // 'guild': ''
     });
   });
 
@@ -44,6 +49,13 @@ void main() {
     final result = mockUserService.nextLevel(3);
     // assert
     expect(result, 51);
+  });
+
+  test('should return the guild when the user is a member of a guild',
+      () async {
+    // arrange
+    // act
+    // assert
   });
 
   test('should level up the user to level 4 when a new user burns 51 calories',

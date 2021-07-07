@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:interactive_workout_app/screens/awards_screen.dart';
+import 'package:interactive_workout_app/screens/guild_detail_screen.dart';
 import 'package:interactive_workout_app/screens/home_screen.dart';
+import 'package:interactive_workout_app/screens/no_guild_screen.dart';
 import 'package:interactive_workout_app/screens/settings_screen.dart';
-import 'package:interactive_workout_app/screens/social_screen.dart';
 import 'package:interactive_workout_app/screens/workout_categories_screen.dart';
+import 'package:interactive_workout_app/services/user_service.dart';
+import 'package:interactive_workout_app/state_management_helpers/guild_detail_screen_arguments.dart';
 
 // TODO confiure to manage state properly because the current solution
 // might not be keeping track of the state of each screen
@@ -20,6 +23,8 @@ class RoundedBottomNavigationBar extends StatefulWidget {
 
 class _RoundedBottomNavigationBarState
     extends State<RoundedBottomNavigationBar> {
+  final UserService userService = UserService();
+
   void selectTab(int selectedIndex) {
     setState(() {
       widget.index = selectedIndex;
@@ -87,10 +92,17 @@ class _RoundedBottomNavigationBarState
             BottomNavigationBarItem(
               icon: IconButton(
                 icon: Icon(Icons.chat_sharp),
-                onPressed: () {
+                onPressed: () async {
                   if (widget.index != 3) {
-                    Navigator.of(context)
-                        .pushReplacementNamed(SocialScreen.routeName);
+                    final guild = await userService.getGuild();
+                    if (guild != null) {
+                      Navigator.of(context).pushNamed(
+                          GuildDetailScreen.routeName,
+                          arguments: GuildDetailScreenArguments(guild));
+                    } else {
+                      Navigator.of(context)
+                          .pushReplacementNamed(NoGuildScreen.routeName);
+                    }
                   }
                 },
               ),

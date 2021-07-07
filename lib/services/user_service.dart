@@ -13,13 +13,13 @@ class UserService {
     return res.floor();
   }
 
-  Future<String> getGuild() {
+  Future<String> getGuild() async {
     try {
       final User currentUser = _firebaseAuth.currentUser;
       final String currentUID = currentUser.uid;
       final fireStoreInstance = FirebaseFirestore.instance;
       var guild;
-      fireStoreInstance
+      await fireStoreInstance
           .collection("users")
           .doc(currentUID)
           .get()

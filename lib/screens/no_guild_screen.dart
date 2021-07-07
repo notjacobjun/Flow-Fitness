@@ -4,10 +4,17 @@ import 'package:interactive_workout_app/screens/guild_detail_screen.dart';
 import 'package:interactive_workout_app/services/guild_service.dart';
 import 'package:interactive_workout_app/state_management_helpers/guild_detail_screen_arguments.dart';
 import 'package:interactive_workout_app/widgets/rounded_app_bar.dart';
+import 'package:interactive_workout_app/widgets/rounded_bottom_navigation_bar.dart';
 
-class NoGuildScreen extends StatelessWidget {
+class NoGuildScreen extends StatefulWidget {
   static const routeName = "/no-guild";
 
+  @override
+  _NoGuildScreenState createState() => _NoGuildScreenState();
+}
+
+class _NoGuildScreenState extends State<NoGuildScreen> {
+  final _currentIndex = 3;
   void navigateToGuild(String id, BuildContext context) {
     Navigator.of(context).pushNamed(GuildDetailScreen.routeName,
         arguments: GuildDetailScreenArguments(id));
@@ -24,6 +31,9 @@ class NoGuildScreen extends StatelessWidget {
     return Scaffold(
         appBar: RoundedAppBar(
           text: Text("Join a guild"),
+        ),
+        bottomNavigationBar: RoundedBottomNavigationBar(
+          index: _currentIndex,
         ),
         body: SizedBox(
           height: size.height,
