@@ -42,6 +42,7 @@ dependencies:
   fake_cloud_firestore: ^1.1.2
   firebase_auth_mocks: ^0.7.1
   audioplayers: ^0.19.1
+  vibration: ^1.7.3
 
 dev_dependencies:
   flutter_test:

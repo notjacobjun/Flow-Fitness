@@ -15,7 +15,6 @@ class WelcomeBody extends StatelessWidget {
             Text(
               "Let's get started!",
               style: TextStyle(
-                fontWeight: FontWeight.bold,
                 color: Theme.of(context).indicatorColor,
                 fontSize: 18,
               ),

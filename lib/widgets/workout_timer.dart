@@ -7,6 +7,7 @@ import 'package:interactive_workout_app/screens/results_screen.dart';
 import 'package:interactive_workout_app/state_management_helpers/rest_screen_arguments.dart';
 import 'package:interactive_workout_app/state_management_helpers/results_screen_arguments.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:vibration/vibration.dart';
 
 class WorkoutTimer extends StatefulWidget {
   final int workoutDuration;
@@ -45,7 +46,8 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
   Duration workoutDuration;
   Timer _workoutTimer;
   Timer _prepTimer;
-  AudioPlayer audioPlayer = AudioPlayer(mode: PlayerMode.LOW_LATENCY);
+  static AudioPlayer audioPlayer =
+      new AudioPlayer(mode: PlayerMode.LOW_LATENCY);
   bool playingSound = false;
 
   @override
@@ -71,13 +73,17 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
     super.dispose();
   }
 
-  void pauseWorkoutTimer() {
+  void playCountdown() async {
+    await audioPlayer.play("assets/sounds/countdown.wav", isLocal: true);
+  }
+
+  Future<void> pauseWorkoutTimer() async {
     if (_workoutTimer != null) {
       if (playingSound) {
-        audioPlayer.pause();
+        await audioPlayer.pause();
         playingSound = !playingSound;
       } else {
-        audioPlayer.resume();
+        await audioPlayer.resume();
         playingSound = !playingSound;
       }
       setState(() {
@@ -119,9 +125,12 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
 
   void startPrepTimer() {
     const oneSec = const Duration(seconds: 1);
-    _prepTimer = new Timer.periodic(oneSec, (timer) {
+    _prepTimer = new Timer.periodic(oneSec, (timer) async {
       if (_prepTime == 0) {
-        // TODO add a start sound here
+        // TODO add a start sound here if the vibrator is off
+        if (await Vibration.hasVibrator()) {
+          Vibration.vibrate(duration: 200);
+        }
         setState(() {
           timer.cancel();
           isPrepTime = false;
@@ -142,7 +151,7 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
       if (_workoutTime == 5) {
         print("sound should be playing");
         playingSound = true;
-        audioPlayer.play("assets/sounds/countdown.wav", isLocal: true);
+        playCountdown();
       }
       if (_workoutTime == 0) {
         setState(() {
