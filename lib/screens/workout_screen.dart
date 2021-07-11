@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:interactive_workout_app/providers/workout_category.dart';
@@ -13,10 +14,16 @@ class WorkoutScreen extends StatefulWidget {
 
 class _WorkoutScreenState extends State<WorkoutScreen> {
   var backPressed = false;
+  final AudioCache cache = new AudioCache();
+
+  Future<AudioPlayer> playAlertSound() async {
+    await cache.play("sounds/alert.mp3");
+  }
 
   Future<void> showAdaptiveDialog(
       BuildContext context, InnerWorkoutCategoryItem currentWorkoutCategory) {
     var isiOS = (Theme.of(context).platform == TargetPlatform.iOS);
+    playAlertSound();
     if (isiOS) {
       return showCupertinoDialog(
         context: context,
@@ -107,7 +114,6 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                 ? Icons.arrow_back_ios
                 : Icons.arrow_back),
             onPressed: () async {
-              // TODO configure so that we pause the prepare timer and the workout if we think about leaving the app
               showAdaptiveDialog(context, currentWorkoutCategory);
               // if (await confirm(
               //   context,

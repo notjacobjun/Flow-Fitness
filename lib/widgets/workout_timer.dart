@@ -10,6 +10,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:vibration/vibration.dart';
 
 class WorkoutTimer extends StatefulWidget {
+  static final GlobalKey<_WorkoutTimerState> globalKey = GlobalKey();
   final int workoutDuration;
   final int prepDuration;
   var currentWorkoutIndex;
@@ -26,7 +27,7 @@ class WorkoutTimer extends StatefulWidget {
     this.currentWorkoutCategory,
     this.totalWorkoutTime,
     this.totalCaloriesBurned,
-  );
+  ) : super(key: globalKey);
 
   @override
   _WorkoutTimerState createState() => _WorkoutTimerState();
@@ -46,9 +47,9 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
   Duration workoutDuration;
   Timer _workoutTimer;
   Timer _prepTimer;
-  static AudioPlayer audioPlayer =
-      new AudioPlayer(mode: PlayerMode.LOW_LATENCY);
-  bool playingSound = false;
+  AudioCache cache = new AudioCache();
+  AudioPlayer countdownTimerAudioPlayer;
+  bool playingCountdownSound = false;
 
   @override
   void initState() {
@@ -73,18 +74,28 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
     super.dispose();
   }
 
-  void playCountdown() async {
-    await audioPlayer.play("assets/sounds/countdown.wav", isLocal: true);
+  Future<AudioPlayer> playCountdownSound() async {
+    return await cache.play("sounds/countdown.wav",
+        mode: PlayerMode.LOW_LATENCY);
+  }
+
+  Future<AudioPlayer> playStartSound() async {
+    return cache.play("sounds/start.mp3");
+  }
+
+  Future<AudioPlayer> playPauseSound() async {
+    return cache.play("sounds/pause.mp3");
   }
 
   Future<void> pauseWorkoutTimer() async {
+    playPauseSound();
     if (_workoutTimer != null) {
-      if (playingSound) {
-        await audioPlayer.pause();
-        playingSound = !playingSound;
-      } else {
-        await audioPlayer.resume();
-        playingSound = !playingSound;
+      if (playingCountdownSound) {
+        if (countdownTimerAudioPlayer != null) {
+          int result = await countdownTimerAudioPlayer.pause();
+          print("pausing result: $result");
+          playingCountdownSound = !playingCountdownSound;
+        }
       }
       setState(() {
         workoutPaused = !workoutPaused;
@@ -93,7 +104,15 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
     }
   }
 
-  void unpauseWorkoutTimer() {
+  Future<void> unpauseWorkoutTimer() async {
+    playStartSound();
+    if (!playingCountdownSound) {
+      if (countdownTimerAudioPlayer != null) {
+        int result = await countdownTimerAudioPlayer.resume();
+        print("resume result: $result");
+        playingCountdownSound = true;
+      }
+    }
     setState(() {
       workoutPaused = !workoutPaused;
       startWorkoutTimer();
@@ -101,6 +120,7 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
   }
 
   void pausePrepTimer() {
+    playPauseSound();
     if (_prepTimer != null) {
       setState(() {
         prepPaused = !prepPaused;
@@ -110,6 +130,7 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
   }
 
   void unpausePrepTimer() {
+    playStartSound();
     setState(() {
       prepPaused = !prepPaused;
       startPrepTimer();
@@ -124,13 +145,15 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
   }
 
   void startPrepTimer() {
+    playStartSound();
     const oneSec = const Duration(seconds: 1);
     _prepTimer = new Timer.periodic(oneSec, (timer) async {
       if (_prepTime == 0) {
-        // TODO add a start sound here if the vibrator is off
+        // TODO add condition here to check if the user prefers vibrations off
         if (await Vibration.hasVibrator()) {
           Vibration.vibrate(duration: 200);
         }
+        playStartSound();
         setState(() {
           timer.cancel();
           isPrepTime = false;
@@ -147,17 +170,17 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
 
   void startWorkoutTimer() {
     const oneSec = const Duration(seconds: 1);
-    _workoutTimer = new Timer.periodic(oneSec, (timer) {
-      if (_workoutTime == 5) {
-        print("sound should be playing");
-        playingSound = true;
-        playCountdown();
+    _workoutTimer = new Timer.periodic(oneSec, (timer) async {
+      if (_workoutTime == 4) {
+        playingCountdownSound = true;
+        countdownTimerAudioPlayer = await playCountdownSound();
       }
       if (_workoutTime == 0) {
         setState(() {
           timer.cancel();
           handleTimeout();
         });
+        playingCountdownSound = false;
       } else {
         setState(() {
           totalTime++;

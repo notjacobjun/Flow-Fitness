@@ -73,6 +73,10 @@ flutter:
     - assets/images/chat.svg
 
     - assets/sounds/countdown.wav
+    - assets/sounds/start.mp3
+    - assets/sounds/social_notification.mp3
+    - assets/sounds/alert.mp3
+    - assets/sounds/pause.mp3
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
