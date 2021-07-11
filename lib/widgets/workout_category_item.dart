@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:interactive_workout_app/models/workout.dart';
@@ -159,16 +160,102 @@ class _WorkoutCategoryItemState extends State<WorkoutCategoryItem> {
     Size size = MediaQuery.of(context).size;
     return Container(
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            const Color(0xFFffafbd),
-            const Color(0xFFffc3a0),
-          ],
-          begin: const FractionalOffset(0.0, 0.0),
-          end: const FractionalOffset(1.0, 0.0),
-          stops: [0.0, 1.0],
-          tileMode: TileMode.clamp,
-        ),
+        gradient: currentCategory.category == TargetMuscles.Abdominal
+            ? LinearGradient(
+                colors: [
+                  // currently using Roseanna gradient color
+                  const Color(0xFFffafbd),
+                  const Color(0xFFffc3a0),
+                  // Piglet gradient color
+                  // const Color(0xFFee9ca7),
+                  // const Color(0xFFffdde1),
+                  // a lost memory (kinda customized to be lighter)
+                  // const Color(0xFFff6262),
+                  // const Color(0xFFffb88c),
+                  // Notification from ex
+                  // const Color(0xFFf9acd9),
+                  // const Color(0xFF9e8fb2),
+                  // Juicy Orange
+                  // const Color(0xFFFF8008),
+                  // const Color(0xFFFFC837),
+                ],
+                begin: const FractionalOffset(0.0, 0.0),
+                end: const FractionalOffset(1.0, 0.0),
+                stops: [0.0, 1.0],
+                tileMode: TileMode.clamp,
+              )
+            : currentCategory.category == TargetMuscles.Arm
+                ? LinearGradient(
+                    colors: [
+                      // currently using Roseanna gradient color
+                      // const Color(0xFFffafbd),
+                      // const Color(0xFFffc3a0),
+                      // Piglet gradient color
+                      // const Color(0xFFee9ca7),
+                      // const Color(0xFFffdde1),
+                      // a lost memory (kinda customized to be lighter)
+                      const Color(0xFFff6262),
+                      const Color(0xFFffb88c),
+                      // Notification from ex
+                      // const Color(0xFFf9acd9),
+                      // const Color(0xFF9e8fb2),
+                      // Juicy Orange
+                      // const Color(0xFFFF8008),
+                      // const Color(0xFFFFC837),
+                    ],
+                    begin: const FractionalOffset(0.0, 0.0),
+                    end: const FractionalOffset(1.0, 0.0),
+                    stops: [0.0, 1.0],
+                    tileMode: TileMode.clamp,
+                  )
+                : currentCategory.category == TargetMuscles.Legs
+                    ? LinearGradient(
+                        colors: [
+                          // currently using Roseanna gradient color
+                          // const Color(0xFFffafbd),
+                          // const Color(0xFFffc3a0),
+                          // Piglet gradient color
+                          // const Color(0xFFee9ca7),
+                          // const Color(0xFFffdde1),
+                          // a lost memory (kinda customized to be lighter)
+                          // const Color(0xFFff6262),
+                          // const Color(0xFFffb88c),
+                          // Notification from ex
+                          const Color(0xFFf9acd9),
+                          const Color(0xFF9e8fb2),
+                          // Juicy Orange
+                          // const Color(0xFFFF8008),
+                          // const Color(0xFFFFC837),
+                        ],
+                        begin: const FractionalOffset(0.0, 0.0),
+                        end: const FractionalOffset(1.0, 0.0),
+                        stops: [0.0, 1.0],
+                        tileMode: TileMode.clamp,
+                      )
+                    // Configuration for full-body workouts
+                    : LinearGradient(
+                        colors: [
+                          // currently using Roseanna gradient color
+                          // const Color(0xFFffafbd),
+                          // const Color(0xFFffc3a0),
+                          // Piglet gradient color
+                          // const Color(0xFFee9ca7),
+                          // const Color(0xFFffdde1),
+                          // a lost memory (kinda customized to be lighter)
+                          // const Color(0xFFff6262),
+                          // const Color(0xFFffb88c),
+                          // Notification from ex
+                          // const Color(0xFFf9acd9),
+                          // const Color(0xFF9e8fb2),
+                          // Juicy Orange
+                          const Color(0xFFFF8008),
+                          const Color(0xFFFFC837),
+                        ],
+                        begin: const FractionalOffset(0.0, 0.0),
+                        end: const FractionalOffset(1.0, 0.0),
+                        stops: [0.0, 1.0],
+                        tileMode: TileMode.clamp,
+                      ),
         borderRadius: BorderRadius.circular(15),
       ),
       child: InkWell(
