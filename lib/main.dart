@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:interactive_workout_app/core/errors/expetions.dart';
 import 'package:interactive_workout_app/screens/awards_screen.dart';
 import 'package:interactive_workout_app/screens/guild_detail_screen.dart';
 import 'package:interactive_workout_app/screens/home_screen.dart';
@@ -16,6 +18,7 @@ import 'package:interactive_workout_app/screens/workout_screen.dart';
 import 'package:interactive_workout_app/services/authentication_service.dart';
 import 'package:provider/provider.dart';
 
+import 'features/workout/data/models/fitness_update_model.dart';
 import 'providers/workout_category.dart';
 
 Future<void> main() async {
@@ -28,10 +31,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      // TODO double check that these providers aren't too high up in the widget tree
       providers: [
         Provider<AuthenticationService>(
           create: (_) => AuthenticationService(FirebaseAuth.instance),
+        ),
+        StreamProvider<List<FitnessUpdateModel>>(
+          create: (_) => streamOfFitnessUpdates(),
+          initialData: [],
+          catchError: (_, error) {
+            print(
+                "error in the stream provider of fitness updates from Firestore: " +
+                    error.toString());
+            return [];
+          },
         ),
         StreamProvider(
           initialData: null,
@@ -74,6 +86,26 @@ class MyApp extends StatelessWidget {
         },
       ),
     );
+  }
+
+  // TODO make sure that this fits into the overall architecture of the app
+  Stream<List<FitnessUpdateModel>> streamOfFitnessUpdates() {
+    // goes into firestore and retrieves the fitness updates for the current user
+    var ref = FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser.uid)
+        .collection('fitnessUpdates');
+    if (ref.snapshots() == null) {
+      print("Firestore returned null for user fitness updates");
+    }
+    ref.snapshots().forEach((element) {
+      element.docs.forEach((doc) {
+        print("updates from main.dart: " + doc.data().toString());
+      });
+    });
+    return ref.snapshots().map((list) => list.docs
+        .map((doc) => FitnessUpdateModel.fromMap(doc.data(), doc.id))
+        .toList());
   }
 }
 

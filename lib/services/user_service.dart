@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class UserService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  // final List<FitnessUpdate> recentUpdates;
 
   int nextLevel(int level) {
     final exponent = 1.5;
@@ -81,4 +82,36 @@ class UserService {
       print("An error happened when updating the user's information");
     }
   }
+
+  // List<Map<String, Object>> get recentCalorieBurnData {
+  //   // generates the week days for the past 7 days based on the index values
+  //   // and the current date
+  //   return List.generate(7, (index) {
+  //     final weekDay = DateTime.now().subtract(
+  //       Duration(days: index),
+  //     );
+  //     var totalSum = 0.0;
+
+  //     for (var i = 0; i < recentTransactions.length; i++) {
+  //       if (recentTransactions[i].date.day == weekDay.day &&
+  //           recentTransactions[i].date.month == weekDay.month &&
+  //           recentTransactions[i].date.year == weekDay.year) {
+  //         totalSum += recentTransactions[i].amount;
+  //       }
+  //     }
+  //     print(DateFormat.E().format(weekDay));
+  //     print(totalSum);
+
+  //     return {
+  //       "day": DateFormat.E().format(weekDay).substring(0, 1),
+  //       "amount": totalSum
+  //     };
+  //   }).reversed.toList();
+  // }
+
+  // double get totalSpending {
+  //   return groupedTransactionValues.fold(0.0, (sum, item) {
+  //     return sum + item['amount'];
+  //   });
+  // }
 }
