@@ -1,38 +1,37 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:http/http.dart' as http;
-import 'package:flutter/foundation.dart';
 import 'package:interactive_workout_app/features/workout/data/models/fitness_update_model.dart';
-import 'package:interactive_workout_app/features/workout/domain/entities/fitness_update.dart';
 
 abstract class FitnessUpdateRemoteDataSource {
-  /// this method should get all the fitness updates associated with the
-  /// currently logged in user and return ServerError if otherwise
-  Future<List<FitnessUpdate>> getAllFitnessUpdates();
+  /// This method gets the fitness updates for the currently logged in user and
+  /// return the updates in the form of a Stream<List<FitnessUpdateModel>> it
+  /// throws ServerError if otherwise
+  Stream<List<FitnessUpdateModel>> getAllFitnessUpdates();
 }
 
 class FitnessUpdateRemoteDataSourceImpl
     implements FitnessUpdateRemoteDataSource {
-  final http.Client client;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final User currentUser = FirebaseAuth.instance.currentUser;
 
-  FitnessUpdateRemoteDataSourceImpl({@required this.client});
-
   @override
-  Future<List<FitnessUpdate>> getAllFitnessUpdates() {
-    firestore
-        .collection("users")
-        .doc(currentUser.uid)
-        .collection("fitnessUpdates")
-        .get()
-        .then((querySnapshot) {
-      final updates = querySnapshot.docs.map((result) {
-        // retrieving the data from firestore and converting it into a FitnessModelUpdate
-        // then the map method adds this FitnessModelUpdate into the List updates
-        FitnessUpdateModel.fromFirestore(result);
+  Stream<List<FitnessUpdateModel>> getAllFitnessUpdates() {
+    // goes into firestore and retrieves the fitness updates for the current user
+    var ref = FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser.uid)
+        .collection('fitnessUpdates');
+    if (ref.snapshots() == null) {
+      print("Firestore returned null for user fitness updates");
+    }
+    ref.snapshots().forEach((element) {
+      element.docs.forEach((doc) {
+        print("updates from FitnessUpdateRemoteDataSource.dart: " +
+            doc.data().toString());
       });
-      return updates;
     });
+    return ref.snapshots().map((list) => list.docs
+        .map((doc) => FitnessUpdateModel.fromMap(doc.data(), doc.id))
+        .toList());
   }
 }

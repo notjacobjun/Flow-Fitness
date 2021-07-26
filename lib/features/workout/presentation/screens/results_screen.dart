@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:interactive_workout_app/components/onboard/welcome/rounded_button.dart';
-import 'package:interactive_workout_app/providers/workout_category.dart';
-import 'package:interactive_workout_app/screens/home_screen.dart';
+import 'package:interactive_workout_app/features/workout/presentation/screens/home_screen.dart';
+import 'package:interactive_workout_app/features/workout/presentation/provider/workout_category.dart';
 import 'package:interactive_workout_app/services/user_service.dart';
 import 'package:interactive_workout_app/state_management_helpers/results_screen_arguments.dart';
 import 'package:interactive_workout_app/widgets/rounded_app_bar.dart';

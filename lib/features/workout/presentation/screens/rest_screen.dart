@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:interactive_workout_app/providers/workout_category.dart';
+import 'package:interactive_workout_app/features/workout/presentation/provider/workout_category.dart';
 import 'package:interactive_workout_app/state_management_helpers/rest_screen_arguments.dart';
 import 'package:interactive_workout_app/widgets/rounded_app_bar.dart';
 import 'package:interactive_workout_app/widgets/transition_timer.dart';

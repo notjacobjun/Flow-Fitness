@@ -15,10 +15,11 @@ class FitnessUpdateRepositoryImpl implements FitnessUpdateRepository {
       {@required this.networkInfo, @required this.remoteDataSource});
 
   @override
-  Future<Either<Failure, List<FitnessUpdate>>> getAllFitnessUpdates() async {
+  Future<Either<Failure, Stream<List<FitnessUpdate>>>>
+      getAllFitnessUpdates() async {
     if (await networkInfo.isConnected) {
       try {
-        final fitnessUpdates = await remoteDataSource.getAllFitnessUpdates();
+        final fitnessUpdates = remoteDataSource.getAllFitnessUpdates();
         return Right(fitnessUpdates);
       } on ServerException {
         return Left(ServerFailure());
@@ -38,8 +39,9 @@ class FitnessUpdateRepositoryImpl implements FitnessUpdateRepository {
   Future<Either<Failure, List<FitnessUpdate>>> getRecentFitnessUpdates() async {
     if (await networkInfo.isConnected) {
       try {
-        // fetch the updates from firestore
-        final fitnessUpdates = await remoteDataSource.getAllFitnessUpdates();
+        // we are converting into list so that we don't have break logic
+        // for this overall method
+        final fitnessUpdates = remoteDataSource.getAllFitnessUpdates() as List;
         // parse through the updates and only return the updates within the past 7 days.
         List<FitnessUpdate> recentFitnessUpdates;
         fitnessUpdates.forEach((element) {

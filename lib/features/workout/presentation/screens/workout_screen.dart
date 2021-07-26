@@ -1,7 +1,7 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:interactive_workout_app/providers/workout_category.dart';
+import 'package:interactive_workout_app/features/workout/presentation/provider/workout_category.dart';
 import 'package:interactive_workout_app/state_management_helpers/workout_screen_arguments.dart';
 import 'package:interactive_workout_app/widgets/workout_timer.dart';
 import 'package:provider/provider.dart';

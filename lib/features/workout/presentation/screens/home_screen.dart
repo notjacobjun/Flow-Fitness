@@ -1,15 +1,6 @@
-import 'dart:io';
-
-import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:flutter/material.dart';
 import 'package:glassmorphism/glassmorphism.dart';
-import 'package:http/http.dart';
-import 'package:interactive_workout_app/core/network/network_info.dart';
-import 'package:interactive_workout_app/features/workout/data/dataSources/fitness_update_remote_data_source.dart';
 import 'package:interactive_workout_app/features/workout/data/models/fitness_update_model.dart';
-import 'package:interactive_workout_app/features/workout/data/repositories/fitness_update_repository_impl.dart';
-import 'package:interactive_workout_app/features/workout/domain/entities/fitness_update.dart';
-import 'package:interactive_workout_app/features/workout/domain/repositories/fitness_update_repository.dart';
 import 'package:interactive_workout_app/services/user_service.dart';
 import 'package:interactive_workout_app/widgets/detail_drawer.dart';
 import 'package:interactive_workout_app/widgets/rounded_app_bar.dart';

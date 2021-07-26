@@ -42,8 +42,7 @@ void main() {
     mockCollectionReference = MockCollectionReference();
     mockDocumentReference = MockDocumentReference();
     mockDocumentSnapshot = MockDocumentSnapshot();
-    remoteDataSourceImpl =
-        FitnessUpdateRemoteDataSourceImpl(client: mockHttpClient);
+    remoteDataSourceImpl = FitnessUpdateRemoteDataSourceImpl();
   });
 
   void setUpMocksForFirestore() {

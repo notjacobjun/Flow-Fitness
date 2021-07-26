@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:interactive_workout_app/screens/awards_screen.dart';
-import 'package:interactive_workout_app/screens/home_screen.dart';
-import 'package:interactive_workout_app/screens/settings_screen.dart';
-import 'package:interactive_workout_app/screens/workout_categories_screen.dart';
+import 'package:interactive_workout_app/features/workout/presentation/screens/awards_screen.dart';
+import 'package:interactive_workout_app/features/workout/presentation/screens/home_screen.dart';
+import 'package:interactive_workout_app/features/workout/presentation/screens/settings_screen.dart';
+import 'package:interactive_workout_app/features/workout/presentation/screens/workout_categories_screen.dart';
 
 class Destination {
   final Widget screen;

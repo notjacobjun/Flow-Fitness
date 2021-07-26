@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:interactive_workout_app/screens/awards_screen.dart';
-import 'package:interactive_workout_app/screens/guild_detail_screen.dart';
-import 'package:interactive_workout_app/screens/home_screen.dart';
-import 'package:interactive_workout_app/screens/no_guild_screen.dart';
-import 'package:interactive_workout_app/screens/settings_screen.dart';
-import 'package:interactive_workout_app/screens/workout_categories_screen.dart';
+import 'package:interactive_workout_app/features/social/presentation/screens/guild_detail_screen.dart';
+import 'package:interactive_workout_app/features/social/presentation/screens/no_guild_screen.dart';
+import 'package:interactive_workout_app/features/workout/presentation/screens/awards_screen.dart';
+import 'package:interactive_workout_app/features/workout/presentation/screens/home_screen.dart';
+import 'package:interactive_workout_app/features/workout/presentation/screens/settings_screen.dart';
+import 'package:interactive_workout_app/features/workout/presentation/screens/workout_categories_screen.dart';
 import 'package:interactive_workout_app/services/user_service.dart';
 import 'package:interactive_workout_app/state_management_helpers/guild_detail_screen_arguments.dart';
 

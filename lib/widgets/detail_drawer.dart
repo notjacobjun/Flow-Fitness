@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:interactive_workout_app/components/onboard/welcome/rounded_button.dart';
-import 'package:interactive_workout_app/screens/login_screen.dart';
+import 'package:interactive_workout_app/features/workout/presentation/screens/login_screen.dart';
 
 class DetailDrawer extends StatelessWidget {
   final BuildContext context;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:interactive_workout_app/models/workout.dart';
 
-import '../workout_data.dart';
+import '../../../../workout_data.dart';
 
 enum TargetMuscles { Abdominal, Arm, Legs, All }
 

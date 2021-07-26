@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:interactive_workout_app/screens/guild_detail_screen.dart';
+import 'package:interactive_workout_app/features/social/presentation/screens/guild_detail_screen.dart';
 import 'package:interactive_workout_app/services/guild_service.dart';
 import 'package:interactive_workout_app/state_management_helpers/guild_detail_screen_arguments.dart';
 import 'package:interactive_workout_app/widgets/rounded_app_bar.dart';

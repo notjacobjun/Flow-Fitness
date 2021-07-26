@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:interactive_workout_app/components/onboard/welcome/rounded_button.dart';
-import 'package:interactive_workout_app/screens/no_guild_screen.dart';
+import 'package:interactive_workout_app/features/social/presentation/screens/no_guild_screen.dart';
 import 'package:interactive_workout_app/services/guild_service.dart';
 import 'package:interactive_workout_app/services/user_service.dart';
 import 'package:interactive_workout_app/state_management_helpers/guild_detail_screen_arguments.dart';
