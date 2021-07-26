@@ -14,6 +14,7 @@ import 'package:interactive_workout_app/services/user_service.dart';
 import 'package:interactive_workout_app/widgets/detail_drawer.dart';
 import 'package:interactive_workout_app/widgets/rounded_app_bar.dart';
 import 'package:interactive_workout_app/widgets/rounded_bottom_navigation_bar.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 
@@ -86,60 +87,117 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Padding(
+              padding: EdgeInsets.all(10),
+              child: Text(
+                "Recent Workouts",
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
           Expanded(
             child: Consumer<List<FitnessUpdateModel>>(
               builder: (context, updates, child) {
                 return updates.isNotEmpty
                     ? ListView.builder(
+                        padding: EdgeInsets.all(7.0),
                         itemCount: updates.length,
                         itemBuilder: (context, index) {
                           return Container(
                             height: size.height * 0.09,
                             width: size.width,
                             child: Card(
+                              key: Key(updates[index].id),
+                              elevation: 4,
+                              borderOnForeground: true,
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  CircleAvatar(
-                                    radius: 15,
+                                  Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: CircleAvatar(
+                                      radius: 11,
+                                      backgroundColor: updates[index]
+                                                  .caloriesBurned >=
+                                              200
+                                          ? Colors.red.shade400
+                                          : updates[index].caloriesBurned >= 100
+                                              ? Colors.orange.shade400
+                                              : Colors.green.shade400,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: size.width * 0.06,
                                   ),
                                   Column(
                                     children: [
-                                      Text(updates[index].workoutTitle),
+                                      Padding(
+                                        padding: const EdgeInsets.all(4.0),
+                                        child: Text(
+                                          updates[index].workoutTitle,
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text(
-                                            updates[index].dateTime.toString(),
+                                          Padding(
+                                            padding: const EdgeInsets.all(4.0),
+                                            child: Text(
+                                              DateFormat('yyyy-MM-dd').format(
+                                                  updates[index].dateTime),
+                                            ),
                                           ),
-                                          Text(
-                                            updates[index]
-                                                .caloriesBurned
-                                                .toStringAsPrecision(2),
+                                          Icon(
+                                            Icons.circle,
+                                            size: 7,
+                                            color:
+                                                Theme.of(context).shadowColor,
                                           ),
-                                          Text(
-                                            updates[index]
-                                                .totalWorkoutTime
-                                                .toStringAsPrecision(2),
-                                          )
+                                          Padding(
+                                            padding: const EdgeInsets.all(4.0),
+                                            child: Text(
+                                              updates[index]
+                                                      .caloriesBurned
+                                                      .toStringAsPrecision(2) +
+                                                  " Calories",
+                                            ),
+                                          ),
+                                          Icon(
+                                            Icons.circle,
+                                            size: 7,
+                                            color:
+                                                Theme.of(context).shadowColor,
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(4.0),
+                                            child: Text(
+                                              updates[index]
+                                                      .totalWorkoutTime
+                                                      .toStringAsPrecision(2) +
+                                                  " Minutes",
+                                            ),
+                                          ),
                                         ],
                                       ),
                                     ],
                                   )
                                 ],
                               ),
-                              key: Key(updates[index].id),
-                              elevation: 5,
-                              borderOnForeground: true,
                             ),
                           );
                         })
                     : Padding(
                         padding: const EdgeInsets.all(20.0),
-                        child:
-                            Text("Looks like there aren't any fitness updates"),
+                        child: Text(
+                            "Looks like you haven't worked out in the past 7 days"),
                       );
               },
             ),
