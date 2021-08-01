@@ -90,17 +90,17 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           Expanded(
             child: Consumer<List<FitnessUpdateModel>>(
-              builder: (context, updates, child) {
-                return updates.isNotEmpty
+              builder: (context, updateList, child) {
+                return updateList.isNotEmpty
                     ? ListView.builder(
                         padding: EdgeInsets.all(7.0),
-                        itemCount: updates.length,
+                        itemCount: updateList.length,
                         itemBuilder: (context, index) {
                           return Container(
                             height: size.height * 0.09,
                             width: size.width,
                             child: Card(
-                              key: Key(updates[index].id),
+                              key: Key(updateList[index].id),
                               elevation: 4,
                               borderOnForeground: true,
                               child: Row(
@@ -111,11 +111,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                     padding: const EdgeInsets.all(4.0),
                                     child: CircleAvatar(
                                       radius: 11,
-                                      backgroundColor: updates[index]
+                                      backgroundColor: updateList[index]
                                                   .caloriesBurned >=
                                               200
                                           ? Colors.red.shade400
-                                          : updates[index].caloriesBurned >= 100
+                                          : updateList[index].caloriesBurned >=
+                                                  100
                                               ? Colors.orange.shade400
                                               : Colors.green.shade400,
                                     ),
@@ -128,7 +129,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       Padding(
                                         padding: const EdgeInsets.all(4.0),
                                         child: Text(
-                                          updates[index].workoutTitle,
+                                          updateList[index].workoutTitle,
                                           style: TextStyle(
                                             fontSize: 18,
                                             fontWeight: FontWeight.bold,
@@ -143,7 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             padding: const EdgeInsets.all(4.0),
                                             child: Text(
                                               DateFormat('yyyy-MM-dd').format(
-                                                  updates[index].dateTime),
+                                                  updateList[index].dateTime),
                                             ),
                                           ),
                                           Icon(
@@ -155,7 +156,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           Padding(
                                             padding: const EdgeInsets.all(4.0),
                                             child: Text(
-                                              updates[index]
+                                              updateList[index]
                                                       .caloriesBurned
                                                       .toStringAsPrecision(2) +
                                                   " Calories",
@@ -170,7 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           Padding(
                                             padding: const EdgeInsets.all(4.0),
                                             child: Text(
-                                              updates[index]
+                                              updateList[index]
                                                       .totalWorkoutTime
                                                       .toStringAsPrecision(2) +
                                                   " Minutes",

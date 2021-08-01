@@ -19,25 +19,30 @@ import 'features/workout/presentation/screens/welcome_screen.dart';
 import 'features/workout/presentation/screens/workout_categories_screen.dart';
 import 'features/workout/presentation/screens/workout_screen.dart';
 import 'features/workout/presentation/provider/workout_category.dart';
+import 'injection_container.dart' as di;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  // TODO check to see if we have to await this call since we are using the
+  // created dependencies later in the code
+  await di.init();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var updates = [];
-    FitnessUpdateList fitnessUpdateList = FitnessUpdateList(updates);
     return MultiProvider(
       providers: [
         Provider<AuthenticationService>(
           create: (_) => AuthenticationService(FirebaseAuth.instance),
         ),
+        // ChangeNotifierProvider<FitnessUpdateList>(
+        //     // getting the FitnessUpdateProvider from injection container
+        //     create: (_) => di.sl<FitnessUpdateList>()),
         StreamProvider<List<FitnessUpdateModel>>(
-          create: (_) => fitnessUpdateList.streamOfFitnessUpdates(),
+          create: (_) => di.sl<FitnessUpdateList>().streamOfFitnessUpdates(),
           initialData: [],
           catchError: (_, error) {
             print(

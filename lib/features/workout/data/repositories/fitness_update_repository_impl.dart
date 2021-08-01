@@ -67,8 +67,5 @@ class FitnessUpdateRepositoryImpl implements FitnessUpdateRepository {
 
   @override
   Future<Either<Failure, FitnessUpdate>> saveFitnessUpdate(
-      FitnessUpdate fitnessUpdate) {
-    // TODO: implement saveFitnessUpdate
-    throw UnimplementedError();
-  }
+      FitnessUpdate fitnessUpdate) {}
 }
