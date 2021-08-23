@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:interactive_workout_app/features/workout/data/models/fitness_update_model.dart';
 import 'package:interactive_workout_app/features/workout/domain/entities/fitness_update.dart';
@@ -49,6 +50,25 @@ void main() {
         "dateTime": "2021-07-16 21:51:53.092",
       };
       expect(result, expectedMap);
+    });
+  });
+
+  group("fromMap", () {
+    test('should return FitnessUpdateModel that was transformed from an object',
+        () async {
+      // act
+      var testObject = {
+        "workoutTitle": "test fitness update model workout",
+        "totalWorkoutTime": 20,
+        "caloriesBurned": 40.22,
+        // converted to Timestamp to replicate Firestore's actual return type
+        "dateTime": Timestamp(1626980400, 0)
+      };
+      FitnessUpdateModel result =
+          FitnessUpdateModel.fromMap(testObject, "test fitness update");
+      // assert
+      // TODO WHY IS THIS EXPECT STATEMENT NOT WORKING!!!!!!!!!
+      expect(result, mockFitnessUpdateModel);
     });
   });
 }

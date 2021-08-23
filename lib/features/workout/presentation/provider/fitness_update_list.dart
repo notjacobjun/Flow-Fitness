@@ -38,10 +38,10 @@ class FitnessUpdateList extends ChangeNotifier {
   //   _updates = getAllFitnessUpdates.call(NoParams());
   // }
 
+  // TODO reconfigure this to use the useCase instead
+  // Also this method might be causing the problem with home screen
   Stream<List<FitnessUpdateModel>> streamOfFitnessUpdates() {
     final remoteDataSource = sl<FitnessUpdateRemoteDataSource>();
     return remoteDataSource.getAllFitnessUpdates();
   }
-
-  Future<void> addFitnessUpdate() {}
 }

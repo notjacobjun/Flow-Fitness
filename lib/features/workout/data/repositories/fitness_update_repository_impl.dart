@@ -4,6 +4,7 @@ import 'package:interactive_workout_app/core/errors/expetions.dart';
 import 'package:interactive_workout_app/core/errors/failures.dart';
 import 'package:interactive_workout_app/core/network/network_info.dart';
 import 'package:interactive_workout_app/features/workout/data/dataSources/fitness_update_remote_data_source.dart';
+import 'package:interactive_workout_app/features/workout/data/models/fitness_update_model.dart';
 import 'package:interactive_workout_app/features/workout/domain/entities/fitness_update.dart';
 import 'package:interactive_workout_app/features/workout/domain/repositories/fitness_update_repository.dart';
 
@@ -26,6 +27,7 @@ class FitnessUpdateRepositoryImpl implements FitnessUpdateRepository {
       }
     } else {
       try {
+        // TODO cache all the most recently fetched fitness updates
         // final localTrivia = await localDataSource.getLastNumberTrivia();
         // return Right(localTrivia);
         print("do something on the local remote source");
@@ -66,6 +68,16 @@ class FitnessUpdateRepositoryImpl implements FitnessUpdateRepository {
   }
 
   @override
-  Future<Either<Failure, FitnessUpdate>> saveFitnessUpdate(
-      FitnessUpdate fitnessUpdate) {}
+  Future<Either<Failure, void>> saveFitnessUpdate(
+      FitnessUpdateModel fitnessUpdateModel) async {
+    if (await networkInfo.isConnected) {
+      try {
+        // TODO configure this with SharedPreferences so that we can cache the
+        // updates for later (possibly offline usage)
+        remoteDataSource.saveFitnessUpdate(fitnessUpdateModel);
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    }
+  }
 }

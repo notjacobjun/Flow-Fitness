@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:interactive_workout_app/features/workout/presentation/provider/fitness_update_provider.dart';
+import 'package:interactive_workout_app/features/workout/presentation/provider/fitness_update_list.dart';
 import 'package:interactive_workout_app/services/authentication_service.dart';
 import 'package:provider/provider.dart';
 
@@ -24,8 +24,6 @@ import 'injection_container.dart' as di;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  // TODO check to see if we have to await this call since we are using the
-  // created dependencies later in the code
   await di.init();
   runApp(MyApp());
 }
@@ -38,9 +36,14 @@ class MyApp extends StatelessWidget {
         Provider<AuthenticationService>(
           create: (_) => AuthenticationService(FirebaseAuth.instance),
         ),
-        // ChangeNotifierProvider<FitnessUpdateList>(
-        //     // getting the FitnessUpdateProvider from injection container
-        //     create: (_) => di.sl<FitnessUpdateList>()),
+        ChangeNotifierProvider<FitnessUpdateModel>(
+          create: (context) => FitnessUpdateModel(
+              caloriesBurned: 0,
+              dateTime: DateTime.now(),
+              id: '',
+              totalWorkoutTime: 0,
+              workoutTitle: ''),
+        ),
         StreamProvider<List<FitnessUpdateModel>>(
           create: (_) => di.sl<FitnessUpdateList>().streamOfFitnessUpdates(),
           initialData: [],
@@ -59,7 +62,6 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<WorkoutCategory>(
           create: (_) => WorkoutCategory(),
         ),
-        // ChangeNotifierProvider<WorkoutCategory>(create: WorkoutCategory()),
       ],
       child: MaterialApp(
         title: 'Flow Fitness',

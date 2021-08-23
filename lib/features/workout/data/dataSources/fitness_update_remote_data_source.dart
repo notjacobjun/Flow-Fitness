@@ -7,6 +7,9 @@ abstract class FitnessUpdateRemoteDataSource {
   /// return the updates in the form of a Stream<List<FitnessUpdateModel>> it
   /// throws ServerError if otherwise
   Stream<List<FitnessUpdateModel>> getAllFitnessUpdates();
+
+  /// This method
+  Future<void> saveFitnessUpdate(FitnessUpdateModel fitnessUpdate);
 }
 
 class FitnessUpdateRemoteDataSourceImpl
@@ -17,15 +20,15 @@ class FitnessUpdateRemoteDataSourceImpl
   @override
   Stream<List<FitnessUpdateModel>> getAllFitnessUpdates() {
     // goes into firestore and retrieves the fitness updates for the current user
-    var ref = FirebaseFirestore.instance
+    var ref = firestore
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser.uid)
         .collection('fitnessUpdates');
     if (ref.snapshots() == null) {
       print("Firestore returned null for user fitness updates");
     }
-    ref.snapshots().forEach((element) {
-      element.docs.forEach((doc) {
+    ref.snapshots().forEach((list) {
+      list.docs.forEach((doc) {
         print("updates from FitnessUpdateRemoteDataSource.dart: " +
             doc.data().toString());
       });
@@ -33,5 +36,19 @@ class FitnessUpdateRemoteDataSourceImpl
     return ref.snapshots().map((list) => list.docs
         .map((doc) => FitnessUpdateModel.fromMap(doc.data(), doc.id))
         .toList());
+  }
+
+  @override
+  Future<void> saveFitnessUpdate(FitnessUpdateModel fitnessUpdateModel) async {
+    final recentUpdate = fitnessUpdateModel.toJson();
+    var ref = await firestore
+        .collection("users")
+        .doc(currentUser.uid)
+        .collection("fitnessUpdates")
+        .add(recentUpdate)
+        .then((value) {
+      print(value.id + " saved successfully into firestore");
+    });
+    return;
   }
 }

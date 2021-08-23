@@ -1,6 +1,6 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:interactive_workout_app/features/workout/data/models/fitness_update_model.dart';
-import 'package:interactive_workout_app/features/workout/domain/entities/fitness_update.dart';
 import 'package:interactive_workout_app/features/workout/domain/repositories/fitness_update_repository.dart';
 import 'package:interactive_workout_app/features/workout/domain/useCases/save_fitness_update.dart';
 import 'package:mockito/mockito.dart';
@@ -10,10 +10,10 @@ class MockFitnessUpdateRepository extends Mock
 
 void main() {
   SaveFitnessUpdate useCase;
-  FitnessUpdateRepository fitnessUpdateRepository;
+  FitnessUpdateRepository mockFitnessUpdateRepository;
   setUp(() {
-    fitnessUpdateRepository = MockFitnessUpdateRepository();
-    useCase = SaveFitnessUpdate(fitnessUpdateRepository);
+    mockFitnessUpdateRepository = MockFitnessUpdateRepository();
+    useCase = SaveFitnessUpdate(mockFitnessUpdateRepository);
   });
 
   // now we are setting up the mock object for the fitness update to be saved
@@ -25,11 +25,16 @@ void main() {
       id: "test fitness update");
 
   group("SaveFitnessUpdates to Firestore", () {
-    test('should convert the fitnessUpdateInto a JSON format', () async {
+    test('should save the fitness update by calling the Firestore API',
+        () async {
       // arrange
-      // TODO see which method we are suppsoed to call when setting this test up
+      when(useCase.call(any)).thenAnswer((_) async => Right(testFitnessUpdate));
       // act
+      final result = useCase(Params(fitnessUpdate: testFitnessUpdate));
       // assert
+      expect(result, Right(testFitnessUpdate));
+      verify(mockFitnessUpdateRepository.saveFitnessUpdate(testFitnessUpdate));
+      verifyNoMoreInteractions(mockFitnessUpdateRepository);
     });
   });
 }

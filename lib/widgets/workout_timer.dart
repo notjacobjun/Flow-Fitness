@@ -1,16 +1,25 @@
 import 'dart:async';
 
+import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:flutter/material.dart';
+import 'package:interactive_workout_app/core/network/network_info.dart';
+import 'package:interactive_workout_app/features/workout/data/dataSources/fitness_update_remote_data_source.dart';
+import 'package:interactive_workout_app/features/workout/data/models/fitness_update_model.dart';
+import 'package:interactive_workout_app/features/workout/data/repositories/fitness_update_repository_impl.dart';
+import 'package:interactive_workout_app/features/workout/domain/entities/fitness_update.dart';
+import 'package:interactive_workout_app/features/workout/domain/useCases/save_fitness_update.dart';
 import 'package:interactive_workout_app/features/workout/presentation/screens/rest_screen.dart';
 import 'package:interactive_workout_app/features/workout/presentation/screens/results_screen.dart';
 import 'package:interactive_workout_app/features/workout/presentation/provider/workout_category.dart';
 import 'package:interactive_workout_app/state_management_helpers/rest_screen_arguments.dart';
 import 'package:interactive_workout_app/state_management_helpers/results_screen_arguments.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:provider/provider.dart';
 import 'package:vibration/vibration.dart';
 
 class WorkoutTimer extends StatefulWidget {
-  static final GlobalKey<_WorkoutTimerState> globalKey = GlobalKey();
+  GlobalKey<_WorkoutTimerState> globalKey =
+      GlobalKey<_WorkoutTimerState>(debugLabel: 'workoutTimerKey');
   final int workoutDuration;
   final int prepDuration;
   var currentWorkoutIndex;
@@ -27,7 +36,7 @@ class WorkoutTimer extends StatefulWidget {
     this.currentWorkoutCategory,
     this.totalWorkoutTime,
     this.totalCaloriesBurned,
-  ) : super(key: globalKey);
+  );
 
   @override
   _WorkoutTimerState createState() => _WorkoutTimerState();
@@ -199,6 +208,26 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
   void handleTimeout() {
     if (widget.currentWorkoutIndex >=
         widget.currentWorkoutCategory.workouts.length - 1) {
+      // save the currentfitnessupdate
+      var totalWorkoutTime = widget.totalWorkoutTime;
+      var calorieSum = widget.totalCaloriesBurned;
+      calorieSum = num.parse(calorieSum.toStringAsPrecision(2)).toDouble();
+      var currentWorkoutCategoryTitle = widget.currentWorkoutCategoryTitle;
+      final DateTime date = DateTime.now();
+      final currentFitnessUpdate =
+          Provider.of<FitnessUpdateModel>(context, listen: false);
+      currentFitnessUpdate.updateFitnessUpdateInfo(FitnessUpdateModel(
+          caloriesBurned: calorieSum,
+          dateTime: date,
+          totalWorkoutTime: totalWorkoutTime,
+          workoutTitle: currentWorkoutCategoryTitle));
+      final saveFitnessUpdateUseCase = SaveFitnessUpdate(
+          FitnessUpdateRepositoryImpl(
+              networkInfo: NetworkInfoImpl(DataConnectionChecker()),
+              remoteDataSource: FitnessUpdateRemoteDataSourceImpl()));
+      saveFitnessUpdateUseCase
+          .call(Params(fitnessUpdate: currentFitnessUpdate));
+
       Navigator.pushReplacementNamed(
         context,
         ResultsScreen.routeName,
@@ -225,6 +254,7 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
         widget.currentWorkoutCategory.workouts.length - 1;
     Size size = MediaQuery.of(context).size;
     return Container(
+      key: widget.globalKey,
       child: Center(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           PrevPauseForwardButtons(context),

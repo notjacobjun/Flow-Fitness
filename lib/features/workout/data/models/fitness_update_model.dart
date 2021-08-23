@@ -4,8 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:interactive_workout_app/features/workout/domain/entities/fitness_update.dart';
 
-// TODO maybe have to configure this to be a ChangeNotifier
-class FitnessUpdateModel extends FitnessUpdate {
+class FitnessUpdateModel extends FitnessUpdate with ChangeNotifier {
   FitnessUpdateModel(
       {@required DateTime dateTime,
       @required double caloriesBurned,
@@ -42,7 +41,7 @@ class FitnessUpdateModel extends FitnessUpdate {
       id: snapshot['id'] ?? "",
       caloriesBurned: snapshot['caloriesBurned'] ?? 0,
       workoutTitle: snapshot['workoutTitle'] ?? "No workout title set",
-      dateTime: DateTime.parse(snapshot['dateTime'].toDate().toString()),
+      dateTime: DateTime.parse(snapshot['dateTime']) ?? DateTime.now(),
       totalWorkoutTime: snapshot['totalWorkoutTime'] ?? 0,
     );
   }
@@ -65,11 +64,22 @@ class FitnessUpdateModel extends FitnessUpdate {
   /// it into a FitnessUpdateModel. The primary function of this method is to
   /// also include the id when transferring from Firestore because by default
   /// Firestore doesn't include the id (this method is deprecated by the fromMap method)
-  factory FitnessUpdateModel.fromFirestore(
-      QueryDocumentSnapshot documentSnapshot) {
+  factory FitnessUpdateModel.fromFirestore(DocumentSnapshot documentSnapshot) {
     FitnessUpdateModel fitnessUpdateModel = FitnessUpdateModel.fromJson(
         json.decode(documentSnapshot.data().toString()));
     fitnessUpdateModel.id = documentSnapshot.id;
     return fitnessUpdateModel;
+  }
+
+  void updateFitnessUpdateInfo(FitnessUpdate info) {
+    // check before because we try to use Firebase to generate the UID for us
+    if (info.id != null) {
+      id = info.id;
+    }
+    dateTime = info.dateTime;
+    caloriesBurned = info.caloriesBurned;
+    workoutTitle = info.workoutTitle;
+    totalWorkoutTime = info.totalWorkoutTime;
+    notifyListeners();
   }
 }

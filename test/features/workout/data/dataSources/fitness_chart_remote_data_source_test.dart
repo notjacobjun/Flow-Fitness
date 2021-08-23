@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:interactive_workout_app/core/errors/expetions.dart';
@@ -66,6 +67,7 @@ void main() {
   }
 
   group("getAllFitnessUpdates", () {
+    // TODO configure this test or decide if this is the right place for this test
     test('should fetch all the fitness updates of the current user', () async {
       // arrange
       // act
@@ -93,6 +95,21 @@ void main() {
       final call = remoteDataSourceImpl.getAllFitnessUpdates;
       // assert
       expect(() => call(), throwsA(TypeMatcher<ServerException>()));
+    });
+  });
+
+  group('SaveFitnessUpdate', () {
+    final testFitnessUpdateModel = FitnessUpdateModel.fromJson(
+        json.decode(fixture('fitness_update.json')));
+
+    test('should call the firestore api when the method is called', () async {
+      // arrange
+      when(remoteDataSourceImpl.saveFitnessUpdate(any))
+          .thenAnswer((_) async => Right(testFitnessUpdateModel));
+      // act
+      remoteDataSourceImpl.saveFitnessUpdate(any);
+      // assert
+      verify(mockFirebaseFireStore.doc(any).collection(any));
     });
   });
 }

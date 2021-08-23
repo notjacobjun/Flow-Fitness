@@ -7,7 +7,7 @@ import 'package:interactive_workout_app/features/workout/domain/repositories/fit
 import 'package:interactive_workout_app/features/workout/domain/useCases/get_all_fitness_updates.dart';
 import 'package:interactive_workout_app/features/workout/domain/useCases/get_recent_fitness_updates.dart';
 import 'package:interactive_workout_app/features/workout/domain/useCases/save_fitness_update.dart';
-import 'package:interactive_workout_app/features/workout/presentation/provider/fitness_update_provider.dart';
+import 'package:interactive_workout_app/features/workout/presentation/provider/fitness_update_list.dart';
 
 import 'core/network/network_info.dart';
 
