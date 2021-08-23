@@ -1,6 +1,6 @@
-# interactive_workout_app
+# Flow Fitness
 
-A new Flutter project.
+An interactive workout app for increasing accountability when working out.
 
 ## Getting Started
 
