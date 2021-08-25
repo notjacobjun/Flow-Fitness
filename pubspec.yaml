@@ -52,6 +52,7 @@ dependencies:
   vibration: ^1.7.3
   syncfusion_flutter_charts: ^19.2.47
   intl: ^0.17.0
+  blobs: ^2.0.0
 
 dev_dependencies:
   flutter_test:
