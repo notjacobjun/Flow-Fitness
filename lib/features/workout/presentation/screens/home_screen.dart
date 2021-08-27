@@ -121,6 +121,60 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
+                  Positioned(
+                    bottom: size.height * 0.03,
+                    left: size.width * 0.05,
+                    child: Container(
+                      height: size.height * 0.12,
+                      width: size.width * 0.9,
+                      padding: EdgeInsets.only(
+                          left: size.width * 0.05,
+                          top: size.height * 0.01,
+                          right: size.width * 0.03),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Column(children: [
+                            Icon(
+                              Icons.local_fire_department_sharp,
+                              size: size.height * 0.04,
+                            ),
+                            Text("total calories "),
+                            Text("calories"),
+                          ]),
+                          SizedBox(
+                            width: size.width * 0.09,
+                          ),
+                          Column(
+                            children: [
+                              Icon(
+                                Icons.timer,
+                                size: size.height * 0.04,
+                              ),
+                              Text("total hours"),
+                              Text("Hours here")
+                            ],
+                          ),
+                          SizedBox(
+                            width: size.width * 0.09,
+                          ),
+                          Column(
+                            children: [
+                              Icon(
+                                Icons.bar_chart,
+                                size: size.height * 0.04,
+                              ),
+                              Text("Level here"),
+                              Text("Level")
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
