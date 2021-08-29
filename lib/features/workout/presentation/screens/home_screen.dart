@@ -1,6 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:interactive_workout_app/features/workout/data/models/fitness_update_model.dart';
-import 'package:interactive_workout_app/services/user_service.dart';
+import 'package:interactive_workout_app/features/workout/data/models/user_model.dart';
 import 'package:interactive_workout_app/widgets/detail_drawer.dart';
 import 'package:interactive_workout_app/widgets/rounded_bottom_navigation_bar.dart';
 import 'package:intl/intl.dart';
@@ -18,15 +19,20 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
 
-  Future<String> getUserName() async {
-    UserService userService = UserService();
-    final String name = await userService.getUserName();
-    return name;
+  String inscribeInitials(String name) {
+    String res = "";
+    name.split(" ");
+    res += name.substring(0, 1);
+    int index = name.indexOf(" ");
+    res += name.substring(index + 1, index + 2);
+    return res;
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    UserModel user = Provider.of<UserModel>(context);
+    String userInitials = "";
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
@@ -34,16 +40,12 @@ class _HomeScreenState extends State<HomeScreen> {
           height: size.height,
           width: size.width,
           child: Column(children: [
-            // SizedBox(
-            //   child: Container(
-            //     color: Color(0xFF966ED5),
-            //   ),
-            //   height: size.height * 0.03,
-            // ),
             Container(
               decoration: BoxDecoration(
+                // color: Color(0xFFF8C8DC),
                 // color: Color(0xFF8ACFff),
-                color: Color(0xFF966ED5),
+                // color: Color(0xFF966ED5),
+                color: Color(0xFFFF8244),
                 // color: Color(0xFFFFCA4B),
                 borderRadius: BorderRadius.only(
                     bottomRight: Radius.circular(40.0),
@@ -51,17 +53,17 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               height: size.height * .35,
               child: Stack(
-                // TODO configure this clip
-                clipBehavior: Clip.hardEdge,
                 children: [
                   Positioned(
                     left: -size.width * 0.30,
                     top: -size.height * 0.21,
                     child: BlobPackage.Blob.fromID(
                       id: ['8-6-59694'],
-                      size: 400,
+                      size: size.height * 0.5,
                       styles: BlobPackage.BlobStyles(
-                        color: Color(0xFFFF8244),
+                        color: Color(0xFF966ED5),
+                        // color: Color(0xFF8ACFff),
+                        // color: Color(0xFFF8C8DC),
                       ),
                     ),
                   ),
@@ -80,52 +82,79 @@ class _HomeScreenState extends State<HomeScreen> {
                   Positioned(
                     top: size.height * 0.12,
                     left: size.width * 0.05,
-                    child: FutureBuilder(
-                        future: getUserName(),
-                        builder: (BuildContext context,
-                            AsyncSnapshot<String> snapshot) {
-                          if (!snapshot.hasData)
-                            return Text(
-                              "Welcome back",
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
-                                color: Theme.of(context).indicatorColor,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                              // style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-                            );
-                          final String userName = snapshot.data;
-                          return Column(
-                            children: [
-                              Text(
-                                "Hello, $userName",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500,
-                                  color: Theme.of(context).indicatorColor,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                                // style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-                              ),
-                            ],
-                          );
-                        }),
+                    child: user.name.isEmpty
+                        ? Text(
+                            "Hello!",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                              color: Theme.of(context).indicatorColor,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                            // style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+                          )
+                        : Text(
+                            "Hello, " + user.name,
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.w700,
+                              color: Theme.of(context).indicatorColor,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
                   ),
                   Positioned(
-                    left: size.width * 0.2,
-                    top: size.height * 0.2,
-                    child: Container(
-                      child: Column(
-                        children: [],
+                    right: size.width * 0.03,
+                    top: size.height * 0.05,
+                    child: InkWell(
+                      onTap: () {
+                        print("profile tapped");
+                      },
+                      child: Container(
+                        height: size.height * 0.07,
+                        width: size.width * 0.15,
+                        child: CircleAvatar(
+                          backgroundColor: Colors.transparent,
+                          child: user.profilePicture.isEmpty
+                              ? Text(
+                                  userInitials,
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.white),
+                                )
+                              : ClipRRect(
+                                  borderRadius: BorderRadius.circular(15),
+                                  child: CachedNetworkImage(
+                                    fit: BoxFit.contain,
+                                    imageUrl: user.profilePicture,
+                                  ),
+                                ),
+                        ),
+                        decoration: BoxDecoration(
+                          color: Color(0xFF966ED5),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
                       ),
                     ),
                   ),
                   Positioned(
-                    bottom: size.height * 0.03,
+                    right: size.width * -0.09,
+                    bottom: size.height * -0.12,
+                    child: Container(
+                      height: size.height * 0.25,
+                      width: size.width * 0.25,
+                      decoration: BoxDecoration(
+                        color: Color(0xFF966ED5),
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: size.height * 0.02,
                     left: size.width * 0.05,
                     child: Container(
-                      height: size.height * 0.12,
+                      height: size.height * 0.13,
                       width: size.width * 0.9,
                       padding: EdgeInsets.only(
                           left: size.width * 0.05,
@@ -138,11 +167,18 @@ class _HomeScreenState extends State<HomeScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Column(children: [
-                            Icon(
-                              Icons.local_fire_department_sharp,
-                              size: size.height * 0.04,
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Container(
+                                color: Color(0xFF966ED5),
+                                child: Icon(
+                                  Icons.local_fire_department_sharp,
+                                  color: Colors.white,
+                                  size: size.height * 0.05,
+                                ),
+                              ),
                             ),
-                            Text("total calories "),
+                            Text(user.caloriesBurned.toStringAsFixed(0)),
                             Text("calories"),
                           ]),
                           SizedBox(
@@ -150,12 +186,19 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           Column(
                             children: [
-                              Icon(
-                                Icons.timer,
-                                size: size.height * 0.04,
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Container(
+                                  color: Color(0xFF966ED5),
+                                  child: Icon(
+                                    Icons.timer_sharp,
+                                    color: Colors.white,
+                                    size: size.height * 0.05,
+                                  ),
+                                ),
                               ),
-                              Text("total hours"),
-                              Text("Hours here")
+                              Text(user.totalWorkoutTime.toStringAsFixed(0)),
+                              Text("Hours")
                             ],
                           ),
                           SizedBox(
@@ -163,11 +206,18 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           Column(
                             children: [
-                              Icon(
-                                Icons.bar_chart,
-                                size: size.height * 0.04,
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Container(
+                                  color: Color(0xFF966ED5),
+                                  child: Icon(
+                                    Icons.timeline_sharp,
+                                    color: Colors.white,
+                                    size: size.height * 0.05,
+                                  ),
+                                ),
                               ),
-                              Text("Level here"),
+                              Text(user.level.toString()),
                               Text("Level")
                             ],
                           ),

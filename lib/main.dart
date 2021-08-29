@@ -2,12 +2,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:interactive_workout_app/features/workout/presentation/provider/fitness_update_list.dart';
+import 'package:interactive_workout_app/injection_container.dart';
 import 'package:interactive_workout_app/services/authentication_service.dart';
+import 'package:interactive_workout_app/services/user_service.dart';
 import 'package:provider/provider.dart';
 
 import 'features/social/presentation/screens/guild_detail_screen.dart';
 import 'features/social/presentation/screens/no_guild_screen.dart';
 import 'features/workout/data/models/fitness_update_model.dart';
+import 'features/workout/data/models/user_model.dart';
 import 'features/workout/presentation/screens/awards_screen.dart';
 import 'features/workout/presentation/screens/home_screen.dart';
 import 'features/workout/presentation/screens/login_screen.dart';
@@ -43,6 +46,16 @@ class MyApp extends StatelessWidget {
               id: '',
               totalWorkoutTime: 0,
               workoutTitle: ''),
+        ),
+        StreamProvider<UserModel>(
+          create: (_) => sl<UserService>().streamOfUser(),
+          initialData: UserModel(),
+          catchError: (_, error) {
+            print(
+                "error in the stream provider of fitness updates from Firestore: " +
+                    error.toString());
+            return UserModel();
+          },
         ),
         StreamProvider<List<FitnessUpdateModel>>(
           create: (_) => di.sl<FitnessUpdateList>().streamOfFitnessUpdates(),

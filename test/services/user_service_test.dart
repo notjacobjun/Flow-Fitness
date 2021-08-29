@@ -65,6 +65,7 @@ void main() {
         'should level up the user to level 4 when a new user burns 51 calories',
         () async {
       double mockCaloriesBurned = 51;
+      double mockTotalWorkoutTime = 100;
       double expectedLevel = 4;
       // arrange
       // return the mock user when the implementation calls for the user data
@@ -76,7 +77,7 @@ void main() {
             .get();
       });
       // act
-      mockUserService.updateUsersDB(mockCaloriesBurned);
+      mockUserService.updateUsersDB(mockCaloriesBurned, mockTotalWorkoutTime);
       final res = await mockFirebaseFireStore.collection('users').get();
       // assert
       verify(mockFirebaseFireStore.collection('users').doc(any).get());

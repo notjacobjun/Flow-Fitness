@@ -59,7 +59,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
               message: "Finish",
               color: Theme.of(context).primaryColor,
               function: () {
-                UserService().updateUsersDB(calorieSum);
+                UserService().updateUsersDB(calorieSum, totalWorkoutTime);
                 showHomeScreen(context, currentWorkoutCategory);
               },
             ),
