@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:interactive_workout_app/components/onboard/welcome/rounded_button.dart';
 import 'package:interactive_workout_app/features/workout/data/models/fitness_update_model.dart';
 import 'package:interactive_workout_app/features/workout/data/models/user_model.dart';
 import 'package:interactive_workout_app/widgets/detail_drawer.dart';
@@ -8,6 +10,8 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 import 'package:blobs/blobs.dart' as BlobPackage;
+
+import 'login_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
@@ -19,20 +23,15 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
 
-  String inscribeInitials(String name) {
-    String res = "";
-    name.split(" ");
-    res += name.substring(0, 1);
-    int index = name.indexOf(" ");
-    res += name.substring(index + 1, index + 2);
-    return res;
+  Future<void> signOut() async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     UserModel user = Provider.of<UserModel>(context);
-    String userInitials = "";
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
@@ -109,6 +108,23 @@ class _HomeScreenState extends State<HomeScreen> {
                     top: size.height * 0.05,
                     child: InkWell(
                       onTap: () {
+                        showModalBottomSheet<void>(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return Container(
+                                height: 200,
+                                color: Colors.white,
+                                child: Column(
+                                  children: [
+                                    RoundedButton(
+                                      message: "Sign out",
+                                      color: Theme.of(context).hintColor,
+                                      function: signOut,
+                                    )
+                                  ],
+                                ),
+                              );
+                            });
                         print("profile tapped");
                       },
                       child: Container(
@@ -118,7 +134,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           backgroundColor: Colors.transparent,
                           child: user.profilePicture.isEmpty
                               ? Text(
-                                  userInitials,
+                                  user.name.substring(0, 1),
                                   style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.w500,

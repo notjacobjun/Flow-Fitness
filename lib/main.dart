@@ -81,6 +81,9 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           scaffoldBackgroundColor: Colors.white,
           primaryColor: Colors.orange.shade900,
+          dividerColor: Color(0xFFFF8244),
+          hintColor: Color(0xFF98506D),
+          shadowColor: Color(0xFFD0605E),
           primaryColorLight: Colors.deepOrangeAccent,
           accentColor: Colors.black,
           indicatorColor: Colors.white,
