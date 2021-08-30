@@ -61,7 +61,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       id: ['8-6-59694'],
                       size: size.height * 0.5,
                       styles: BlobPackage.BlobStyles(
-                        color: Color(0xFF966ED5),
+                        // color: Color(0xFF966ED5),
+                        color: Color(0xFF98506D),
                         // color: Color(0xFF8ACFff),
                         // color: Color(0xFFF8C8DC),
                       ),
@@ -132,7 +133,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                         ),
                         decoration: BoxDecoration(
-                          color: Color(0xFF966ED5),
+                          // color: Color(0xFF966ED5),
+                          color: Color(0xFF98506D),
                           borderRadius: BorderRadius.circular(15),
                         ),
                       ),
@@ -145,7 +147,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: size.height * 0.25,
                       width: size.width * 0.25,
                       decoration: BoxDecoration(
-                        color: Color(0xFF966ED5),
+                        // color: Color(0xFF966ED5),
+                        color: Color(0xFF98506D),
                         shape: BoxShape.circle,
                       ),
                     ),
@@ -170,7 +173,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             ClipRRect(
                               borderRadius: BorderRadius.circular(10),
                               child: Container(
-                                color: Color(0xFF966ED5),
+                                // color: Colors.black,
+                                // color: Color(0xFFFF8244),
+                                color: Color(0xFFD0605E),
+                                // color: Color(0xFF966ED5),
                                 child: Icon(
                                   Icons.local_fire_department_sharp,
                                   color: Colors.white,
@@ -178,8 +184,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                             ),
-                            Text(user.caloriesBurned.toStringAsFixed(0)),
-                            Text("calories"),
+                            Text(
+                              user.caloriesBurned.toStringAsFixed(1),
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.w600),
+                            ),
+                            Text(
+                              "calories",
+                              style: TextStyle(fontSize: 16),
+                            ),
                           ]),
                           SizedBox(
                             width: size.width * 0.09,
@@ -189,7 +202,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
                                 child: Container(
-                                  color: Color(0xFF966ED5),
+                                  // color: Color(0xFF966ED5),
+                                  color: Color(0xFFD0605E),
+                                  // color: Color(0xFF946B45),
+                                  // color: Color(0xFFFF8244),
                                   child: Icon(
                                     Icons.timer_sharp,
                                     color: Colors.white,
@@ -197,8 +213,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                 ),
                               ),
-                              Text(user.totalWorkoutTime.toStringAsFixed(0)),
-                              Text("Hours")
+                              Text(
+                                (user.totalWorkoutTime / 60).toStringAsFixed(2),
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.w600),
+                              ),
+                              Text(
+                                "Hours",
+                                style: TextStyle(fontSize: 16),
+                              )
                             ],
                           ),
                           SizedBox(
@@ -209,7 +232,11 @@ class _HomeScreenState extends State<HomeScreen> {
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
                                 child: Container(
-                                  color: Color(0xFF966ED5),
+                                  // color: Color(0xFF966ED5),
+                                  // color: Colors.black,
+                                  // color: Color(0xFF946B45),
+                                  color: Color(0xFFD0605E),
+                                  // color: Color(0xFFFF8244),
                                   child: Icon(
                                     Icons.timeline_sharp,
                                     color: Colors.white,
@@ -217,8 +244,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                 ),
                               ),
-                              Text(user.level.toString()),
-                              Text("Level")
+                              Text(
+                                user.level.toString(),
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.w600),
+                              ),
+                              Text(
+                                "Level",
+                                style: TextStyle(fontSize: 16),
+                              ),
                             ],
                           ),
                         ],

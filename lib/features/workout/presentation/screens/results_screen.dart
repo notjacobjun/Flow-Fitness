@@ -53,8 +53,9 @@ class _ResultsScreenState extends State<ResultsScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Text(
-                "You exercised for $totalWorkoutTime minutes and burned: $calorieSum calories!"),
+            Text("You exercised for " +
+                totalWorkoutTime.toStringAsFixed(1) +
+                " minutes and burned: $calorieSum calories!"),
             RoundedButton(
               message: "Finish",
               color: Theme.of(context).primaryColor,
