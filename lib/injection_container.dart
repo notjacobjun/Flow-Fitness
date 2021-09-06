@@ -19,7 +19,7 @@ Future<void> init() async {
   //! Features - Number Trivia
 
   // Provider
-  sl.registerFactory(() => FitnessUpdateList(sl()));
+  sl.registerFactory(() => FitnessUpdateList());
   sl.registerFactory(() => UserModel());
   // Use cases
   sl.registerLazySingleton(() => GetAllFitnessUpdates(sl()));

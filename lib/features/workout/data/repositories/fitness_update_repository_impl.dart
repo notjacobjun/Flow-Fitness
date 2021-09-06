@@ -17,6 +17,7 @@ class FitnessUpdateRepositoryImpl implements FitnessUpdateRepository {
 
   @override
   Future<Either<Failure, Stream<List<FitnessUpdate>>>>
+      // ignore: missing_return
       getAllFitnessUpdates() async {
     if (await networkInfo.isConnected) {
       try {
@@ -38,6 +39,7 @@ class FitnessUpdateRepositoryImpl implements FitnessUpdateRepository {
   }
 
   @override
+  // ignore: missing_return
   Future<Either<Failure, List<FitnessUpdate>>> getRecentFitnessUpdates() async {
     if (await networkInfo.isConnected) {
       try {
@@ -68,6 +70,7 @@ class FitnessUpdateRepositoryImpl implements FitnessUpdateRepository {
   }
 
   @override
+  // ignore: missing_return
   Future<Either<Failure, void>> saveFitnessUpdate(
       FitnessUpdateModel fitnessUpdateModel) async {
     if (await networkInfo.isConnected) {

@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:interactive_workout_app/components/onboard/welcome/rounded_button.dart';
 import 'package:interactive_workout_app/features/workout/data/models/fitness_update_model.dart';
 import 'package:interactive_workout_app/features/workout/data/models/user_model.dart';
+import 'package:interactive_workout_app/features/workout/presentation/widgets/fitness_chart.dart';
 import 'package:interactive_workout_app/widgets/detail_drawer.dart';
 import 'package:interactive_workout_app/widgets/rounded_bottom_navigation_bar.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 import 'package:blobs/blobs.dart' as BlobPackage;
 
 import 'login_screen.dart';
@@ -41,11 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(children: [
             Container(
               decoration: BoxDecoration(
-                // color: Color(0xFFF8C8DC),
-                // color: Color(0xFF8ACFff),
-                // color: Color(0xFF966ED5),
                 color: Color(0xFFFF8244),
-                // color: Color(0xFFFFCA4B),
                 borderRadius: BorderRadius.only(
                     bottomRight: Radius.circular(40.0),
                     bottomLeft: Radius.circular(40.0)),
@@ -60,10 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       id: ['8-6-59694'],
                       size: size.height * 0.5,
                       styles: BlobPackage.BlobStyles(
-                        // color: Color(0xFF966ED5),
-                        color: Color(0xFF98506D),
-                        // color: Color(0xFF8ACFff),
-                        // color: Color(0xFFF8C8DC),
+                        color: Theme.of(context).hintColor,
                       ),
                     ),
                   ),
@@ -125,7 +118,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               );
                             });
-                        print("profile tapped");
                       },
                       child: Container(
                         height: size.height * 0.07,
@@ -143,14 +135,14 @@ class _HomeScreenState extends State<HomeScreen> {
                               : ClipRRect(
                                   borderRadius: BorderRadius.circular(15),
                                   child: CachedNetworkImage(
-                                    fit: BoxFit.contain,
+                                    height: size.height * 0.07,
+                                    fit: BoxFit.cover,
                                     imageUrl: user.profilePicture,
                                   ),
                                 ),
                         ),
                         decoration: BoxDecoration(
-                          // color: Color(0xFF966ED5),
-                          color: Color(0xFF98506D),
+                          color: Theme.of(context).hintColor,
                           borderRadius: BorderRadius.circular(15),
                         ),
                       ),
@@ -163,8 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: size.height * 0.25,
                       width: size.width * 0.25,
                       decoration: BoxDecoration(
-                        // color: Color(0xFF966ED5),
-                        color: Color(0xFF98506D),
+                        color: Theme.of(context).hintColor,
                         shape: BoxShape.circle,
                       ),
                     ),
@@ -180,7 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           top: size.height * 0.01,
                           right: size.width * 0.03),
                       decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: Theme.of(context).indicatorColor,
                           borderRadius: BorderRadius.circular(15)),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -189,10 +180,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ClipRRect(
                               borderRadius: BorderRadius.circular(10),
                               child: Container(
-                                // color: Colors.black,
-                                // color: Color(0xFFFF8244),
-                                color: Color(0xFFD0605E),
-                                // color: Color(0xFF966ED5),
+                                color: Theme.of(context).shadowColor,
                                 child: Icon(
                                   Icons.local_fire_department_sharp,
                                   color: Colors.white,
@@ -218,10 +206,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
                                 child: Container(
-                                  // color: Color(0xFF966ED5),
-                                  color: Color(0xFFD0605E),
-                                  // color: Color(0xFF946B45),
-                                  // color: Color(0xFFFF8244),
+                                  color: Theme.of(context).shadowColor,
                                   child: Icon(
                                     Icons.timer_sharp,
                                     color: Colors.white,
@@ -248,14 +233,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
                                 child: Container(
-                                  // color: Color(0xFF966ED5),
-                                  // color: Colors.black,
-                                  // color: Color(0xFF946B45),
-                                  color: Color(0xFFD0605E),
-                                  // color: Color(0xFFFF8244),
+                                  color: Theme.of(context).shadowColor,
                                   child: Icon(
                                     Icons.timeline_sharp,
-                                    color: Colors.white,
+                                    color: Theme.of(context).indicatorColor,
                                     size: size.height * 0.05,
                                   ),
                                 ),
@@ -287,16 +268,8 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Container(
               height: size.height * 0.20,
-              width: size.width * 0.85,
-              child: SfSparkLineChart(
-                axisLineColor: Theme.of(context).accentColor,
-                color: Theme.of(context).primaryColor,
-                data: [2, 3, 0, 5, 6],
-                labelDisplayMode: SparkChartLabelDisplayMode.high,
-                trackball: SparkChartTrackball(
-                    borderColor: Theme.of(context).primaryColor,
-                    borderRadius: BorderRadius.circular(50)),
-              ),
+              width: size.width,
+              child: FitnessChart(),
               alignment: Alignment.center,
             ),
             Align(
@@ -332,12 +305,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                 child: Row(
                                   mainAxisSize: MainAxisSize.max,
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.all(4.0),
+                                      padding:
+                                          const EdgeInsets.only(left: 15.0),
                                       child: CircleAvatar(
-                                        radius: 11,
+                                        radius: 7,
                                         backgroundColor:
                                             updateList[index].caloriesBurned >=
                                                     200
@@ -349,70 +323,72 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     : Colors.green.shade400,
                                       ),
                                     ),
-                                    SizedBox(
-                                      width: size.width * 0.06,
-                                    ),
-                                    Column(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(4.0),
-                                          child: Text(
-                                            updateList[index].workoutTitle,
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w500,
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(right: 8.0),
+                                      child: Column(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(4.0),
+                                            child: Text(
+                                              updateList[index].workoutTitle,
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w500,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(4.0),
-                                              child: Text(
-                                                DateFormat('yyyy-MM-dd').format(
-                                                    updateList[index].dateTime),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(4.0),
+                                                child: Text(
+                                                  DateFormat('yyyy-MM-dd')
+                                                      .format(updateList[index]
+                                                          .dateTime),
+                                                ),
                                               ),
-                                            ),
-                                            Icon(
-                                              Icons.circle,
-                                              size: 7,
-                                              color:
-                                                  Theme.of(context).shadowColor,
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(4.0),
-                                              child: Text(
-                                                updateList[index]
-                                                        .caloriesBurned
-                                                        .toStringAsFixed(1) +
-                                                    " Calories",
+                                              Icon(
+                                                Icons.circle,
+                                                size: 7,
+                                                color: Theme.of(context)
+                                                    .shadowColor,
                                               ),
-                                            ),
-                                            Icon(
-                                              Icons.circle,
-                                              size: 7,
-                                              color:
-                                                  Theme.of(context).shadowColor,
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(4.0),
-                                              child: Text(
-                                                (updateList[index]
-                                                                .totalWorkoutTime /
-                                                            60)
-                                                        .toStringAsFixed(1) +
-                                                    " Minutes",
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(4.0),
+                                                child: Text(
+                                                  updateList[index]
+                                                          .caloriesBurned
+                                                          .toStringAsFixed(1) +
+                                                      " Calories",
+                                                ),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    )
+                                              Icon(
+                                                Icons.circle,
+                                                size: 7,
+                                                color: Theme.of(context)
+                                                    .shadowColor,
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(4.0),
+                                                child: Text(
+                                                  (updateList[index]
+                                                                  .totalWorkoutTime /
+                                                              60)
+                                                          .toStringAsFixed(1) +
+                                                      " Minutes",
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),

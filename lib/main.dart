@@ -58,8 +58,10 @@ class MyApp extends StatelessWidget {
           },
         ),
         StreamProvider<List<FitnessUpdateModel>>(
-          create: (_) => di.sl<FitnessUpdateList>().streamOfFitnessUpdates(),
-          initialData: [],
+          create: (_) {
+            return di.sl<FitnessUpdateList>().streamOfFitnessUpdates();
+          },
+          initialData: di.sl<FitnessUpdateList>().getRecentUpdates(),
           catchError: (_, error) {
             print(
                 "error in the stream provider of fitness updates from Firestore: " +
@@ -82,8 +84,8 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: Colors.white,
           primaryColor: Colors.orange.shade900,
           dividerColor: Color(0xFFFF8244),
-          hintColor: Color(0xFF98506D),
           shadowColor: Color(0xFFD0605E),
+          hintColor: Color(0xFF98506D),
           primaryColorLight: Colors.deepOrangeAccent,
           accentColor: Colors.black,
           indicatorColor: Colors.white,

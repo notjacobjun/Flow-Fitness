@@ -8,7 +8,7 @@ abstract class FitnessUpdateRemoteDataSource {
   /// throws ServerError if otherwise
   Stream<List<FitnessUpdateModel>> getAllFitnessUpdates();
 
-  /// This method
+  /// This method saves the given FitnessUpdate into Firestore
   Future<void> saveFitnessUpdate(FitnessUpdateModel fitnessUpdate);
 }
 
@@ -27,12 +27,12 @@ class FitnessUpdateRemoteDataSourceImpl
     if (ref.snapshots() == null) {
       print("Firestore returned null for user fitness updates");
     }
-    ref.snapshots().forEach((list) {
-      list.docs.forEach((doc) {
-        print("updates from FitnessUpdateRemoteDataSource.dart: " +
-            doc.data().toString());
-      });
-    });
+    // ref.snapshots().forEach((list) {
+    //   list.docs.forEach((doc) {
+    //     print("updates from FitnessUpdateRemoteDataSource.dart: " +
+    //         doc.data().toString());
+    // });
+    // });
     return ref.snapshots().map((list) => list.docs
         .map((doc) => FitnessUpdateModel.fromMap(doc.data(), doc.id))
         .toList());
