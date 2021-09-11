@@ -17,7 +17,6 @@ class FitnessUpdateList extends ChangeNotifier {
   }
 
   void printUpdates() {
-    print("printUpdates called!");
     fitnessUpdates.forEach((element) {
       print("update from fitness update List provider: " + element.toString());
     });
@@ -57,7 +56,6 @@ class FitnessUpdateList extends ChangeNotifier {
         //       element.workoutTitle + " _updates from fitness_update_list.dart");
         // });
       });
-      printUpdates();
     });
     notifyListeners();
   }
