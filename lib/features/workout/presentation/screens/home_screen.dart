@@ -77,12 +77,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     Positioned(
                       top: size.height * 0.12,
                       left: size.width * 0.05,
-                      child: user.name.isEmpty
+                      child: user.name == null
                           ? Text(
                               "Hello!",
                               style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
+                                fontSize: 22,
+                                fontWeight: FontWeight.w700,
                                 color: Theme.of(context).indicatorColor,
                               ),
                               overflow: TextOverflow.ellipsis,
@@ -126,7 +126,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           width: size.width * 0.15,
                           child: CircleAvatar(
                             backgroundColor: Colors.transparent,
-                            child: user.profilePicture.isEmpty
+                            child: user.profilePicture == null &&
+                                    user.name != null
                                 ? Text(
                                     user.name.substring(0, 1),
                                     style: TextStyle(
@@ -134,14 +135,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                         fontWeight: FontWeight.w500,
                                         color: Colors.white),
                                   )
-                                : ClipRRect(
-                                    borderRadius: BorderRadius.circular(15),
-                                    child: CachedNetworkImage(
-                                      height: size.height * 0.07,
-                                      fit: BoxFit.cover,
-                                      imageUrl: user.profilePicture,
-                                    ),
-                                  ),
+                                : user.profilePicture == null
+                                    ? CircularProgressIndicator()
+                                    : ClipRRect(
+                                        borderRadius: BorderRadius.circular(15),
+                                        child: CachedNetworkImage(
+                                          height: size.height * 0.07,
+                                          fit: BoxFit.cover,
+                                          imageUrl: user.profilePicture,
+                                        ),
+                                      ),
                           ),
                           decoration: BoxDecoration(
                             color: Theme.of(context).hintColor,
@@ -191,7 +194,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                               Text(
-                                user.caloriesBurned.toStringAsFixed(1),
+                                user.caloriesBurned == null
+                                    ? "Loading"
+                                    : user.caloriesBurned.toStringAsFixed(1),
                                 style: TextStyle(
                                     fontSize: 18, fontWeight: FontWeight.w600),
                               ),
@@ -217,8 +222,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                 ),
                                 Text(
-                                  (user.totalWorkoutTime / 60)
-                                      .toStringAsFixed(2),
+                                  user.totalWorkoutTime == null
+                                      ? "Loading"
+                                      : (user.totalWorkoutTime / 60)
+                                          .toStringAsFixed(2),
                                   style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.w600),
@@ -246,7 +253,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                 ),
                                 Text(
-                                  user.level.toString(),
+                                  user.level == null
+                                      ? "Loading"
+                                      : user.level.toString(),
                                   style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.w600),
