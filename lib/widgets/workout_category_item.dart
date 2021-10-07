@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:glassmorphism/glassmorphism.dart';
+import 'package:interactive_workout_app/features/workout/presentation/screens/workout_screen.dart';
 import 'package:interactive_workout_app/models/workout.dart';
-import 'package:interactive_workout_app/providers/workout_category.dart';
-import 'package:interactive_workout_app/screens/workout_screen.dart';
+import 'package:interactive_workout_app/features/workout/presentation/provider/workout_category.dart';
 import 'package:interactive_workout_app/state_management_helpers/workout_screen_arguments.dart';
 import 'package:provider/provider.dart';
 
@@ -156,11 +158,105 @@ class _WorkoutCategoryItemState extends State<WorkoutCategoryItem> {
       widget.description = "Enter description";
     }
     Size size = MediaQuery.of(context).size;
-    return Card(
-      color: currentCategory.color,
-      elevation: 10,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15.0),
+    return Container(
+      decoration: BoxDecoration(
+        gradient: currentCategory.category == TargetMuscles.Abdominal
+            ? LinearGradient(
+                colors: [
+                  // currently using Roseanna gradient color
+                  const Color(0xFFffafbd),
+                  const Color(0xFFffc3a0),
+                  // Piglet gradient color
+                  // const Color(0xFFee9ca7),
+                  // const Color(0xFFffdde1),
+                  // a lost memory (kinda customized to be lighter)
+                  // const Color(0xFFff6262),
+                  // const Color(0xFFffb88c),
+                  // Notification from ex
+                  // const Color(0xFFf9acd9),
+                  // const Color(0xFF9e8fb2),
+                  // Juicy Orange
+                  // const Color(0xFFFF8008),
+                  // const Color(0xFFFFC837),
+                ],
+                begin: const FractionalOffset(0.0, 0.0),
+                end: const FractionalOffset(1.0, 0.0),
+                stops: [0.0, 1.0],
+                tileMode: TileMode.clamp,
+              )
+            : currentCategory.category == TargetMuscles.Arm
+                ? LinearGradient(
+                    colors: [
+                      // currently using Roseanna gradient color
+                      // const Color(0xFFffafbd),
+                      // const Color(0xFFffc3a0),
+                      // Piglet gradient color
+                      // const Color(0xFFee9ca7),
+                      // const Color(0xFFffdde1),
+                      // a lost memory (kinda customized to be lighter)
+                      const Color(0xFFff6262),
+                      const Color(0xFFffb88c),
+                      // Notification from ex
+                      // const Color(0xFFf9acd9),
+                      // const Color(0xFF9e8fb2),
+                      // Juicy Orange
+                      // const Color(0xFFFF8008),
+                      // const Color(0xFFFFC837),
+                    ],
+                    begin: const FractionalOffset(0.0, 0.0),
+                    end: const FractionalOffset(1.0, 0.0),
+                    stops: [0.0, 1.0],
+                    tileMode: TileMode.clamp,
+                  )
+                : currentCategory.category == TargetMuscles.Legs
+                    ? LinearGradient(
+                        colors: [
+                          // currently using Roseanna gradient color
+                          // const Color(0xFFffafbd),
+                          // const Color(0xFFffc3a0),
+                          // Piglet gradient color
+                          // const Color(0xFFee9ca7),
+                          // const Color(0xFFffdde1),
+                          // a lost memory (kinda customized to be lighter)
+                          // const Color(0xFFff6262),
+                          // const Color(0xFFffb88c),
+                          // Notification from ex
+                          const Color(0xFFf9acd9),
+                          const Color(0xFF9e8fb2),
+                          // Juicy Orange
+                          // const Color(0xFFFF8008),
+                          // const Color(0xFFFFC837),
+                        ],
+                        begin: const FractionalOffset(0.0, 0.0),
+                        end: const FractionalOffset(1.0, 0.0),
+                        stops: [0.0, 1.0],
+                        tileMode: TileMode.clamp,
+                      )
+                    // Configuration for full-body workouts
+                    : LinearGradient(
+                        colors: [
+                          // currently using Roseanna gradient color
+                          // const Color(0xFFffafbd),
+                          // const Color(0xFFffc3a0),
+                          // Piglet gradient color
+                          // const Color(0xFFee9ca7),
+                          // const Color(0xFFffdde1),
+                          // a lost memory (kinda customized to be lighter)
+                          // const Color(0xFFff6262),
+                          // const Color(0xFFffb88c),
+                          // Notification from ex
+                          // const Color(0xFFf9acd9),
+                          // const Color(0xFF9e8fb2),
+                          // Juicy Orange
+                          const Color(0xFFFF8008),
+                          const Color(0xFFFFC837),
+                        ],
+                        begin: const FractionalOffset(0.0, 0.0),
+                        end: const FractionalOffset(1.0, 0.0),
+                        stops: [0.0, 1.0],
+                        tileMode: TileMode.clamp,
+                      ),
+        borderRadius: BorderRadius.circular(15),
       ),
       child: InkWell(
         onTap: () => selectWorkout(context, currentCategory),
@@ -171,24 +267,52 @@ class _WorkoutCategoryItemState extends State<WorkoutCategoryItem> {
               padding: EdgeInsets.all(5),
             ),
             Text(widget.title,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                style: TextStyle(
+                    fontSize: 18, color: Theme.of(context).accentColor)),
             Text(
               widget.description,
               style: TextStyle(
                 fontSize: 14,
                 fontStyle: FontStyle.italic,
-                fontWeight: FontWeight.bold,
+                color: Theme.of(context).accentColor,
               ),
             ),
             currentCategory.image != null
                 ? ClipRRect(
                     borderRadius: BorderRadius.circular(15),
-                    child: (Image.asset(
-                      currentCategory.image,
-                      height: size.height * 0.25,
-                      width: size.width * 0.38,
-                      fit: BoxFit.contain,
-                    )),
+                    child: GlassmorphicContainer(
+                      borderRadius: 30,
+                      height: size.height * 0.22,
+                      width: size.width * 0.40,
+                      blur: 200,
+                      alignment: Alignment.center,
+                      border: 0.65,
+                      linearGradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            Color(0xFFffffff).withOpacity(0.1),
+                            Color(0xFFFFFFFF).withOpacity(0.05),
+                          ],
+                          stops: [
+                            0.1,
+                            1,
+                          ]),
+                      borderGradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          Color(0xFFffffff).withOpacity(0.5),
+                          Color((0xFFFFFFFF)).withOpacity(0.5),
+                        ],
+                      ),
+                      child: Image.asset(
+                        currentCategory.image,
+                        height: size.height * 0.25,
+                        width: size.width * 0.38,
+                        fit: BoxFit.contain,
+                      ),
+                    ),
                   )
                 : Text("no image"),
           ],

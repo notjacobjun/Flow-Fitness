@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:interactive_workout_app/components/onboard/welcome/rounded_button.dart';
 import 'package:interactive_workout_app/components/onboard/welcome/welcome_background.dart';
-import 'package:interactive_workout_app/screens/login_screen.dart';
-import 'package:interactive_workout_app/screens/registration_screen.dart';
+import 'package:interactive_workout_app/features/workout/presentation/screens/login_screen.dart';
+import 'package:interactive_workout_app/features/workout/presentation/screens/registration_screen.dart';
 
 class WelcomeBody extends StatelessWidget {
   @override
@@ -15,7 +15,6 @@ class WelcomeBody extends StatelessWidget {
             Text(
               "Let's get started!",
               style: TextStyle(
-                fontWeight: FontWeight.bold,
                 color: Theme.of(context).indicatorColor,
                 fontSize: 18,
               ),

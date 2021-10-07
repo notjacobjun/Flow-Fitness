@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:interactive_workout_app/components/onboard/Welcome/rounded_button.dart';
 import 'package:interactive_workout_app/components/onboard/alternate_onboard_option.dart';
 import 'package:interactive_workout_app/components/onboard/login/login_background.dart';
-import 'package:interactive_workout_app/screens/home_screen.dart';
-import 'package:interactive_workout_app/screens/registration_screen.dart';
+import 'package:interactive_workout_app/features/workout/presentation/screens/home_screen.dart';
+import 'package:interactive_workout_app/features/workout/presentation/screens/registration_screen.dart';
 import 'package:interactive_workout_app/services/authentication_service.dart';
 import 'package:interactive_workout_app/widgets/rounded_input_field.dart';
 import 'package:provider/provider.dart';
@@ -73,14 +73,16 @@ class _LoginBodyState extends State<LoginBody> {
               Text(
                 "Flow Fitness",
                 style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).indicatorColor),
+                    fontSize: 24, color: Theme.of(context).indicatorColor),
+              ),
+              SizedBox(
+                height: size.height * 0.05,
               ),
               RoundedInputField(
+                color: Colors.white,
                 child: TextFormField(
-                  style: TextStyle(color: Theme.of(context).indicatorColor),
-                  cursorColor: Theme.of(context).indicatorColor,
+                  style: TextStyle(color: Theme.of(context).accentColor),
+                  cursorColor: Theme.of(context).accentColor,
                   textInputAction: TextInputAction.next,
                   onEditingComplete: () {
                     FocusScope.of(context).requestFocus(_passwordFocusNode);
@@ -99,21 +101,21 @@ class _LoginBodyState extends State<LoginBody> {
                   },
                   onSaved: (input) => _email = input,
                   decoration: InputDecoration(
-                    hintStyle:
-                        TextStyle(color: Theme.of(context).indicatorColor),
+                    hintStyle: TextStyle(color: Theme.of(context).accentColor),
                     border: InputBorder.none,
                     icon: Icon(
                       Icons.person,
-                      color: Theme.of(context).indicatorColor,
+                      color: Theme.of(context).accentColor,
                     ),
                     hintText: "Email*",
                   ),
                 ),
               ),
               RoundedInputField(
+                color: Colors.white,
                 child: TextFormField(
-                  style: TextStyle(color: Theme.of(context).indicatorColor),
-                  cursorColor: Theme.of(context).indicatorColor,
+                  style: TextStyle(color: Theme.of(context).accentColor),
+                  cursorColor: Theme.of(context).accentColor,
                   focusNode: _passwordFocusNode,
                   textInputAction: TextInputAction.done,
                   onEditingComplete: login,
@@ -126,15 +128,14 @@ class _LoginBodyState extends State<LoginBody> {
                     border: InputBorder.none,
                     icon: Icon(
                       Icons.password,
-                      color: Theme.of(context).indicatorColor,
+                      color: Theme.of(context).accentColor,
                     ),
-                    hintStyle:
-                        TextStyle(color: Theme.of(context).indicatorColor),
+                    hintStyle: TextStyle(color: Theme.of(context).accentColor),
                     hintText: "Password*",
                     suffixIcon: IconButton(
                       icon: Icon(
                         Icons.visibility,
-                        color: Theme.of(context).indicatorColor,
+                        color: Theme.of(context).accentColor,
                       ),
                       onPressed: () {
                         setState(() {
@@ -151,7 +152,7 @@ class _LoginBodyState extends State<LoginBody> {
               ),
               RoundedButton(
                 message: "Login",
-                color: Theme.of(context).primaryColor,
+                color: Colors.black,
                 function: login,
               ),
               AlternateOnBoardOption(

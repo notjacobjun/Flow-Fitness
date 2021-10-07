@@ -1,13 +1,25 @@
 import 'dart:async';
 
+import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:flutter/material.dart';
-import 'package:interactive_workout_app/providers/workout_category.dart';
-import 'package:interactive_workout_app/screens/rest_screen.dart';
-import 'package:interactive_workout_app/screens/results_screen.dart';
+import 'package:interactive_workout_app/core/network/network_info.dart';
+import 'package:interactive_workout_app/features/workout/data/dataSources/fitness_update_remote_data_source.dart';
+import 'package:interactive_workout_app/features/workout/data/models/fitness_update_model.dart';
+import 'package:interactive_workout_app/features/workout/data/repositories/fitness_update_repository_impl.dart';
+import 'package:interactive_workout_app/features/workout/domain/entities/fitness_update.dart';
+import 'package:interactive_workout_app/features/workout/domain/useCases/save_fitness_update.dart';
+import 'package:interactive_workout_app/features/workout/presentation/screens/rest_screen.dart';
+import 'package:interactive_workout_app/features/workout/presentation/screens/results_screen.dart';
+import 'package:interactive_workout_app/features/workout/presentation/provider/workout_category.dart';
 import 'package:interactive_workout_app/state_management_helpers/rest_screen_arguments.dart';
 import 'package:interactive_workout_app/state_management_helpers/results_screen_arguments.dart';
+import 'package:audioplayers/audioplayers.dart';
+import 'package:provider/provider.dart';
+import 'package:vibration/vibration.dart';
 
 class WorkoutTimer extends StatefulWidget {
+  GlobalKey<_WorkoutTimerState> globalKey =
+      GlobalKey<_WorkoutTimerState>(debugLabel: 'workoutTimerKey');
   final int workoutDuration;
   final int prepDuration;
   var currentWorkoutIndex;
@@ -44,6 +56,9 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
   Duration workoutDuration;
   Timer _workoutTimer;
   Timer _prepTimer;
+  AudioCache cache = new AudioCache();
+  AudioPlayer countdownTimerAudioPlayer;
+  bool playingCountdownSound = false;
 
   @override
   void initState() {
@@ -68,8 +83,29 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
     super.dispose();
   }
 
-  void pauseWorkoutTimer() {
+  Future<AudioPlayer> playCountdownSound() async {
+    return await cache.play("sounds/countdown.wav",
+        mode: PlayerMode.LOW_LATENCY);
+  }
+
+  Future<AudioPlayer> playStartSound() async {
+    return cache.play("sounds/start.mp3");
+  }
+
+  Future<AudioPlayer> playPauseSound() async {
+    return cache.play("sounds/pause.mp3");
+  }
+
+  Future<void> pauseWorkoutTimer() async {
+    playPauseSound();
     if (_workoutTimer != null) {
+      if (playingCountdownSound) {
+        if (countdownTimerAudioPlayer != null) {
+          int result = await countdownTimerAudioPlayer.pause();
+          print("pausing result: $result");
+          playingCountdownSound = !playingCountdownSound;
+        }
+      }
       setState(() {
         workoutPaused = !workoutPaused;
         _workoutTimer.cancel();
@@ -77,7 +113,15 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
     }
   }
 
-  void unpauseWorkoutTimer() {
+  Future<void> unpauseWorkoutTimer() async {
+    playStartSound();
+    if (!playingCountdownSound) {
+      if (countdownTimerAudioPlayer != null) {
+        int result = await countdownTimerAudioPlayer.resume();
+        print("resume result: $result");
+        playingCountdownSound = true;
+      }
+    }
     setState(() {
       workoutPaused = !workoutPaused;
       startWorkoutTimer();
@@ -85,6 +129,7 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
   }
 
   void pausePrepTimer() {
+    playPauseSound();
     if (_prepTimer != null) {
       setState(() {
         prepPaused = !prepPaused;
@@ -94,6 +139,7 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
   }
 
   void unpausePrepTimer() {
+    playStartSound();
     setState(() {
       prepPaused = !prepPaused;
       startPrepTimer();
@@ -108,9 +154,15 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
   }
 
   void startPrepTimer() {
+    playStartSound();
     const oneSec = const Duration(seconds: 1);
-    _prepTimer = new Timer.periodic(oneSec, (timer) {
+    _prepTimer = new Timer.periodic(oneSec, (timer) async {
       if (_prepTime == 0) {
+        // TODO add condition here to check if the user prefers vibrations off
+        if (await Vibration.hasVibrator()) {
+          Vibration.vibrate(duration: 200);
+        }
+        playStartSound();
         setState(() {
           timer.cancel();
           isPrepTime = false;
@@ -127,12 +179,17 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
 
   void startWorkoutTimer() {
     const oneSec = const Duration(seconds: 1);
-    _workoutTimer = new Timer.periodic(oneSec, (timer) {
+    _workoutTimer = new Timer.periodic(oneSec, (timer) async {
+      if (_workoutTime == 4) {
+        playingCountdownSound = true;
+        countdownTimerAudioPlayer = await playCountdownSound();
+      }
       if (_workoutTime == 0) {
         setState(() {
           timer.cancel();
           handleTimeout();
         });
+        playingCountdownSound = false;
       } else {
         setState(() {
           totalTime++;
@@ -151,6 +208,26 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
   void handleTimeout() {
     if (widget.currentWorkoutIndex >=
         widget.currentWorkoutCategory.workouts.length - 1) {
+      // save the currentfitnessupdate
+      var totalWorkoutTime = widget.totalWorkoutTime;
+      var calorieSum = widget.totalCaloriesBurned;
+      calorieSum = num.parse(calorieSum.toStringAsPrecision(2)).toDouble();
+      var currentWorkoutCategoryTitle = widget.currentWorkoutCategoryTitle;
+      final DateTime date = DateTime.now();
+      final currentFitnessUpdate =
+          Provider.of<FitnessUpdateModel>(context, listen: false);
+      currentFitnessUpdate.updateFitnessUpdateInfo(FitnessUpdateModel(
+          caloriesBurned: calorieSum,
+          dateTime: date,
+          totalWorkoutTime: totalWorkoutTime,
+          workoutTitle: currentWorkoutCategoryTitle));
+      final saveFitnessUpdateUseCase = SaveFitnessUpdate(
+          FitnessUpdateRepositoryImpl(
+              networkInfo: NetworkInfoImpl(DataConnectionChecker()),
+              remoteDataSource: FitnessUpdateRemoteDataSourceImpl()));
+      saveFitnessUpdateUseCase
+          .call(Params(fitnessUpdate: currentFitnessUpdate));
+
       Navigator.pushReplacementNamed(
         context,
         ResultsScreen.routeName,
@@ -177,6 +254,7 @@ class _WorkoutTimerState extends State<WorkoutTimer> {
         widget.currentWorkoutCategory.workouts.length - 1;
     Size size = MediaQuery.of(context).size;
     return Container(
+      key: widget.globalKey,
       child: Center(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           PrevPauseForwardButtons(context),

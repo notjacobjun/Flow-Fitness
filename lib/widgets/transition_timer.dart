@@ -1,8 +1,9 @@
 import 'dart:async';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:interactive_workout_app/providers/workout_category.dart';
-import 'package:interactive_workout_app/screens/workout_screen.dart';
+import 'package:interactive_workout_app/features/workout/presentation/screens/workout_screen.dart';
+import 'package:interactive_workout_app/features/workout/presentation/provider/workout_category.dart';
 import 'package:interactive_workout_app/state_management_helpers/workout_screen_arguments.dart';
 
 class TransitionTimer extends StatefulWidget {
@@ -30,6 +31,7 @@ class _TransitionTimerState extends State<TransitionTimer> {
   int _transitionTime;
   Duration transitionDuration;
   Timer _transitionTimer;
+  final AudioCache cache = AudioCache();
 
   @override
   void initState() {
@@ -47,8 +49,17 @@ class _TransitionTimerState extends State<TransitionTimer> {
     super.dispose();
   }
 
+  Future<AudioPlayer> playPauseSound() async {
+    return cache.play("sounds/pause.mp3");
+  }
+
+  Future<AudioPlayer> playStartSound() async {
+    return cache.play("sounds/start.mp3");
+  }
+
   void pauseTimer() {
     if (_transitionTimer != null) {
+      playPauseSound();
       setState(() {
         paused = !paused;
         _transitionTimer.cancel();
@@ -57,6 +68,7 @@ class _TransitionTimerState extends State<TransitionTimer> {
   }
 
   void unpauseTimer() {
+    playStartSound();
     setState(() {
       paused = !paused;
       startTransitionTimer();
@@ -104,7 +116,10 @@ class _TransitionTimerState extends State<TransitionTimer> {
       child: Center(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           PrevPauseForwardButtons(context),
-          Text("Rest up!"),
+          Text(
+            "Rest up!",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+          ),
           CircleAvatar(
             child: Text(
               transitionDuration == null
