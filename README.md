@@ -1,16 +1,17 @@
 # Flow Fitness
 
-An interactive workout app for increasing accountability when working out.
+### An interactive workout app for increasing accountability when working out.
 
-## Getting Started
+Below are some samples of the application layout and UI
 
-This project is a starting point for a Flutter application.
+## Home Page:
+![Flow Fitness pt  1](https://user-images.githubusercontent.com/67729558/190839532-0f9fa97a-512b-4a6f-9f4f-4e4b8c021c59.png)
 
-A few resources to get you started if this is your first Flutter project:
+## Workout selection page
+![Flow Fitness pt  2](https://user-images.githubusercontent.com/67729558/190839539-d4d79afb-15f3-4a0d-950c-94cf454b45d3.png)
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## Training page
+![Flow Fitness pt  3](https://user-images.githubusercontent.com/67729558/190839541-84d56db4-11e0-45df-81cb-fdbfdaa886f6.png)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Login/register page:
+![Flow Fitness pt  4](https://user-images.githubusercontent.com/67729558/190839565-cda09d18-7833-4b3d-8041-49467efdb7d1.png)
