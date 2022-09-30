@@ -1,6 +1,6 @@
 # Flow Fitness
 
-### An interactive workout app for increasing accountability when working out.
+### An interactive workout app for increasing accountability when working out. Creating using Flutter!!!
 
 Below are some samples of the application layout and UI
 
