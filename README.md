@@ -1,4 +1,5 @@
 # Flow Fitness
+![flow-fitness-logo](https://user-images.githubusercontent.com/67729558/200475565-287e5324-a3e6-4d6d-a01f-df82606be9d2.png)
 
 ### An interactive workout app for increasing accountability when working out. Creating using Flutter!!!
 
